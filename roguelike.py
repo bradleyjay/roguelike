@@ -39,10 +39,15 @@ def handle_keys():
     # movement keys
     global player_x, player_y
     
+    # arrow keys would use... 
+    # if tcod.console_is_key_pressed(tcod.KEY_UP): 
+    #... (and .KEY_DOWN, .KEY_LEFT, .KEY_RIGHT)
+    
+
     if tcod.console_is_key_pressed(tcod.KEY_UP):
         player_y = player_y - 1
  
-    elif tcod.console_is_key_pressed(tcod.KEY_DOWN):
+    elif tcod.console_is_key_pressed(tcod.KEY.DOWN):
         player_y = player_y + 1
  
     elif tcod.console_is_key_pressed(tcod.KEY_LEFT):
@@ -51,7 +56,15 @@ def handle_keys():
     elif tcod.console_is_key_pressed(tcod.KEY_RIGHT):
         player_x = player_x + 1
 
-
+    # works, no motion on screen
+    # if key.vk == tcod.KEY_UP:
+    #     player_y = player_y - 1
+    # elif key.vk == tcod.KEY_DOWN:
+    #     player_y = player_y + 1
+    # elif key.vk == tcod.KEY_LEFT:
+    #     player_x = player_x - 1
+    # elif key.vk == tcod.KEY_RIGHT:
+    #     player_x = player_x + 1
 
 
 # main loop
