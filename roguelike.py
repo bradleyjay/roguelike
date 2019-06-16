@@ -37,8 +37,14 @@ color_light_wall = tcod.Color(130, 110, 50)
 color_dark_ground = tcod.Color(50, 50, 150)
 color_light_ground = tcod.Color(200, 180, 50)
 
+#################################
+## Player / Creature Constants ##
+#################################
+
+MAX_ROOM_MONSTERS = 3
+
 ##################################
-## Foundational Classes / Fcns ###
+## Foundational Classes        ###
 ##################################
 
 class Tile:
@@ -98,6 +104,11 @@ class Object:
         # erase this character that represents this obj
         tcod.console_put_char(con, self.x, self.y, ' ', tcod.BKGND_NONE)
 
+################
+## Functions ###
+################
+
+## Map construction ##
 
 def create_room(room):
     global grid
@@ -193,6 +204,9 @@ def make_grid():
                     create_v_tunnel(prev_y, new_y, prev_x)
                     create_h_tunnel(prev_x, new_x, prev_y)
 
+            #add some contents to this room, such as monsters
+            place_objects(new_room)
+
             # Append new room to the list
             rooms.append(new_room)
             num_rooms += 1
@@ -246,6 +260,26 @@ def render_all():
     tcod.console_blit(con, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0)
     
     # mark this tile "explored"
+
+## Population
+
+def place_objects(room):
+    # choose a random number of monsters
+    num_monsters = tcod.random_get_int(0, 0, MAX_ROOM_MONSTERS)
+
+    for i in range(num_monsters):
+        #choose random spot for this monster
+        x = tcod.random_get_int(0, room.x1, room.x2)
+        y = tcod.random_get_int(0, room.y1, room.y2)
+
+        if tcod.random_get_int(0,0,100) < 80:
+            # 80% chance of orc
+            monster = Object(x, y, 'o', tcod.desaturated_green)
+        else:
+            # otherwise, it's a troll
+            monster = Object(x,y, 'T', tcod.darker_green)
+        objects.append(monster)
+
 
     
 # ######################################################################
@@ -311,11 +345,12 @@ con = tcod.console_new(SCREEN_WIDTH, SCREEN_HEIGHT)
 
 player = Object(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, '@', tcod.white) # why does this take a start position...
 
-# create NPC object
-npc = Object(SCREEN_WIDTH // 2 - 5, SCREEN_HEIGHT // 2, '@', tcod.yellow)
+# # create NPC object [ DEPRECATED ]
+# npc = Object(SCREEN_WIDTH // 2 - 5, SCREEN_HEIGHT // 2, '@', tcod.yellow)
 
 # add those objects to a list with those two
-objects = [npc, player]
+# objects = [npc, player]  # [DEPRECATED NPC}
+objects = [player]
 
 # draw the grid (the map)
 make_grid()
