@@ -82,15 +82,19 @@ class Rect:
 class Object:
     # catch-all object class. Player, monsters, item, everything will be a character on-screen.
 
-    def __init__(self, x, y, char, color):
+    def __init__(self, x, y, char, name, color, blocks=False):
         self.x = x
         self.y = y
+        
         self.char = char
-        self.color = color
+        self.name = name
+
+        self.color = color      
+        self.blocks = blocks
 
     def move(self,dx,dy):
         # move by a delta, unless destination is blocked
-        if not grid[self.x+dx][self.y+dy].blocked:
+        if not is_blocked(self.x + dx, self.y + dy):
             self.x += dx
             self.y += dy
 
@@ -261,8 +265,6 @@ def render_all():
     
     # mark this tile "explored"
 
-## Population
-
 def place_objects(room):
     # choose a random number of monsters
     num_monsters = tcod.random_get_int(0, 0, MAX_ROOM_MONSTERS)
@@ -272,16 +274,29 @@ def place_objects(room):
         x = tcod.random_get_int(0, room.x1, room.x2)
         y = tcod.random_get_int(0, room.y1, room.y2)
 
-        if tcod.random_get_int(0,0,100) < 80:
-            # 80% chance of orc
-            monster = Object(x, y, 'o', tcod.desaturated_green)
-        else:
-            # otherwise, it's a troll
-            monster = Object(x,y, 'T', tcod.darker_green)
-        objects.append(monster)
+        if not is_blocked(x,y):
+            if tcod.random_get_int(0,0,100) < 80:
+                # 80% chance of orc
+                monster = Object(x, y, 'o', 'Orc', tcod.desaturated_green, blocks=True)
+            else:
+                # otherwise, it's a troll
+                monster = Object(x,y, 'T', 'Troll', tcod.darker_green, blocks=True)
+            objects.append(monster)
 
 
     
+def is_blocked(x,y):
+    # test the map tile
+    if grid[x][y].blocked:
+        return True
+
+    # check for blocking objects
+    for object in objects:
+        if object.blocks and object.x == x and object.y == y:
+            return True
+
+    return False
+
 # ######################################################################
 # User Input
 # ######################################################################
@@ -306,22 +321,25 @@ def handle_keys():
         tcod.console_set_fullscreen(not tcod.console_is_fullscreen())
  
     elif key.vk == tcod.KEY_ESCAPE:
-        return True  # exit game
- 
-    # movement keys
-    if tcod.console_is_key_pressed(tcod.KEY_UP):
-        player.move(0,-1)
-        fov_recompute = True
- 
-    elif tcod.console_is_key_pressed(tcod.KEY_DOWN):
-        player.move(0,1)
-        fov_recompute = True
-    elif tcod.console_is_key_pressed(tcod.KEY_LEFT):
-        player.move(-1,0)
-        fov_recompute = True
-    elif tcod.console_is_key_pressed(tcod.KEY_RIGHT):
-        player.move(1,0)
-        fov_recompute = True
+        return 'exit'  # return exit text
+    
+    if game_state == 'playing':
+        # movement keys
+        if tcod.console_is_key_pressed(tcod.KEY_UP):
+            player.move(0,-1)
+            fov_recompute = True
+     
+        elif tcod.console_is_key_pressed(tcod.KEY_DOWN):
+            player.move(0,1)
+            fov_recompute = True
+        elif tcod.console_is_key_pressed(tcod.KEY_LEFT):
+            player.move(-1,0)
+            fov_recompute = True
+        elif tcod.console_is_key_pressed(tcod.KEY_RIGHT):
+            player.move(1,0)
+            fov_recompute = True
+        else:
+            return 'didnt-take-turn'
  
 #############################################
 # Initialization and Main Game Loop #########
@@ -342,19 +360,18 @@ tcod.sys_set_fps(LIMIT_FPS)
 con = tcod.console_new(SCREEN_WIDTH, SCREEN_HEIGHT)
 
 # create object representing player
+player = Object(0, 0, '@', 'player', tcod.white, blocks=True) # 
 
-player = Object(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, '@', tcod.white) # why does this take a start position...
 
-# # create NPC object [ DEPRECATED ]
-# npc = Object(SCREEN_WIDTH // 2 - 5, SCREEN_HEIGHT // 2, '@', tcod.yellow)
 
 # add those objects to a list with those two
-# objects = [npc, player]  # [DEPRECATED NPC}
 objects = [player]
 
 # draw the grid (the map)
 make_grid()
 
+game_state = 'playing'
+player_action = None
 
 # Initialize FOV Module - sightlines and pathing, via tcod's FOV algo
 
@@ -377,8 +394,9 @@ while not tcod.console_is_window_closed():
         object.clear()
 
     #handle keys and exit game if needed
-    exit = handle_keys()
-    if exit:
+    player_action = handle_keys()
+    
+    if player_action == 'exit':
         break
 
  
