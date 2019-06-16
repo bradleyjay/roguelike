@@ -20,14 +20,22 @@ TURN_BASED = False  # turn-based game
 ## MAP ##
 ######### 
 
-
 MAP_WIDTH = 80
 MAP_HEIGHT = 45
 
+ROOM_MAX_SIZE = 10
+ROOM_MIN_SIZE = 6
+MAX_ROOMS = 30
 
+FOV_ALGO = 0  #default FOV algorithm
+FOV_LIGHT_WALLS = True
+TORCH_RADIUS = 10
+
+# colors for illuminated and dark walls and floors
 color_dark_wall = tcod.Color(0, 0, 100)
+color_light_wall = tcod.Color(130, 110, 50)
 color_dark_ground = tcod.Color(50, 50, 150)
-
+color_light_ground = tcod.Color(200, 180, 50)
 
 ##################################
 ## Foundational Classes / Fcns ###
@@ -37,6 +45,7 @@ class Tile:
     # a tile on the map, and its properties
     def __init__(self, blocked, block_sight=None):
         self.blocked = blocked
+        self.explored = False
 
         # by default, if a tile is blocked it also blocks sight
         if block_sight is None:
@@ -80,9 +89,10 @@ class Object:
             self.y += dy
 
     def draw(self):
-        # set color, draw char at this position
-        tcod.console_set_default_foreground(con, self.color)
-        tcod.console_put_char(con, self.x, self.y, self.char, tcod.BKGND_NONE)
+        # set color, draw char at this position (but only if player can see it in FOV)
+        if tcod.map_is_in_fov(fov_grid, self.x, self.y):
+            tcod.console_set_default_foreground(con, self.color)
+            tcod.console_put_char(con, self.x, self.y, self.char, tcod.BKGND_NONE)
 
     def clear(self):
         # erase this character that represents this obj
@@ -120,18 +130,13 @@ def create_v_tunnel(y1,y2,x):
         grid[x][y].block_sight = False
 
 def make_grid():
-    global grid # can't call this map, it's a named function
+    global grid, player # can't call this map, it's a named function
 
     # fill map with "blocked" tiles - rooms will be carved out of rock, more or less
 
     grid = [[Tile(True)
             for y in range(MAP_HEIGHT)]
             for x in range(MAP_WIDTH)]
-
-
-    ROOM_MAX_SIZE = 10
-    ROOM_MIN_SIZE = 6
-    MAX_ROOMS = 30
 
     rooms = []
     num_rooms = 0
@@ -155,7 +160,7 @@ def make_grid():
             if new_room.intersect(other_room):
                 failed = True
                 break
-                # wow this is sloppy - if any room overlaps...what, start over? (does break end the for loop?) I think it just bails on this room and rolls another one, which the repeats until there are max rooms...oh that works well. GOT IT :D
+                # wow this is sloppy - if any room overlaps...what, skip? Yep
 
         if not failed:
             # this means there are on intersections, so this room is valid - time to actually build the room
@@ -194,27 +199,55 @@ def make_grid():
 
 
 def render_all():
-    global color_light_wall
-    global color_light_ground
+    global fov_grid, color_dark_wall, color_light_wall
+    global color_dark_ground, color_light_ground
+    global fov_recompute
 
+    if fov_recompute:
+        # recompute FOV if player moved, tile changed, etc
+        fov_recompute = False
+        tcod.map_compute_fov(fov_grid, player.x, player.y, TORCH_RADIUS, FOV_LIGHT_WALLS, FOV_ALGO)
 
-    # set all tiles' background color
-    for y in range(MAP_HEIGHT):
-        for x in range(MAP_WIDTH):
-            wall = grid[x][y].block_sight
-            if wall:
-                tcod.console_set_char_background(con, x, y,color_dark_wall, tcod.BKGND_SET)
-            else:
-                tcod.console_set_char_background(con, x, y, color_dark_ground, tcod.BKGND_SET)
+        # set all tiles' background color - now, include FOV too
+        for y in range(MAP_HEIGHT):
+            for x in range(MAP_WIDTH):
+                visible = tcod.map_is_in_fov(fov_grid, x, y)
+                wall = grid[x][y].block_sight
 
-    # draw all objects in the list
+                if not visible:
+                    # if it's not visible right now, player can only see it if it's explored
+                    if grid[x][y].explored:
+
+                        # tile is OUT of player's FOV
+                        if wall:
+                            tcod.console_set_char_background(con, x, y,color_dark_wall, tcod.BKGND_SET)
+                        else:
+                            tcod.console_set_char_background(con, x, y, color_dark_ground, tcod.BKGND_SET)
+
+                else:
+                    # tile is IN of player's FOV
+                    if wall:
+                        tcod.console_set_char_background(con, x, y,color_light_wall, tcod.BKGND_SET)
+                    else:
+                        tcod.console_set_char_background(con, x, y, color_light_ground, tcod.BKGND_SET)
+
+                    # I think this makes sense here? See it = Explored it
+                    grid[x][y].explored = True
+
+    # # draw all objects in the list (but now, only if they're in FOV) (might have mucked this up)
+    # if tcod.map_is_in_fov(fov_map, self.x, self.y):
+    #     for object in objects:
+    #         object.draw()
     for object in objects:
         object.draw()
+
 
     #blit the contents of "con" to the root console and present it
     tcod.console_blit(con, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0)
     
+    # mark this tile "explored"
 
+    
 # ######################################################################
 # User Input
 # ######################################################################
@@ -229,7 +262,9 @@ def get_key_event(turn_based=None):
  
  
 def handle_keys():
- 
+    
+    global fov_recompute
+
     key = get_key_event(TURN_BASED)
  
     if key.vk == tcod.KEY_ENTER and key.lalt:
@@ -242,16 +277,17 @@ def handle_keys():
     # movement keys
     if tcod.console_is_key_pressed(tcod.KEY_UP):
         player.move(0,-1)
+        fov_recompute = True
  
     elif tcod.console_is_key_pressed(tcod.KEY_DOWN):
         player.move(0,1)
- 
+        fov_recompute = True
     elif tcod.console_is_key_pressed(tcod.KEY_LEFT):
         player.move(-1,0)
- 
+        fov_recompute = True
     elif tcod.console_is_key_pressed(tcod.KEY_RIGHT):
         player.move(1,0)
- 
+        fov_recompute = True
  
 #############################################
 # Initialization and Main Game Loop #########
@@ -284,13 +320,21 @@ objects = [npc, player]
 # draw the grid (the map)
 make_grid()
 
-player.x = 25
-player.y = 23
+
+# Initialize FOV Module - sightlines and pathing, via tcod's FOV algo
+
+fov_grid = tcod.map_new(MAP_WIDTH, MAP_HEIGHT)
+for y in range(MAP_HEIGHT):
+    for x in range(MAP_WIDTH):
+        tcod.map_set_properties(fov_grid, x, y, not grid[x][y].block_sight, not grid[x][y].blocked)
+
+fov_recompute = True
 
 while not tcod.console_is_window_closed():
     
     # render the screen
     render_all()
+
     tcod.console_flush()
     
     #erase all objects at their old locations, before they move
