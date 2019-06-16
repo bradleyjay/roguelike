@@ -52,6 +52,17 @@ class Rect:
         self.x2 = x + w
         self.y2 = y + h
 
+    def center(self):
+        # get a tuple of the room's center
+        center_x = (self.x1 + self.x2) // 2
+        center_y = (self.y1 + self.y2) // 2
+        return (center_x, center_y)
+
+    def intersect(self, other):
+        # return true if these two rectangles overlap
+
+        return (self.x1 <= other.x2 and self.x2 >= other.x1 and self.y1 <= other.y2 and self.y2 >= other.y1)
+
 
 class Object:
     # catch-all object class. Player, monsters, item, everything will be a character on-screen.
@@ -117,14 +128,71 @@ def make_grid():
             for y in range(MAP_HEIGHT)]
             for x in range(MAP_WIDTH)]
 
-    # Start with two rooms, one tunnel
-    room1 = Rect(20, 15, 10, 15)
-    room2 = Rect(50, 15, 10, 15)
-    create_room(room1)
-    create_room(room2)
-    create_h_tunnel(25, 55, 23)
 
-    # hunh, can't see second room. idk why.
+    ROOM_MAX_SIZE = 10
+    ROOM_MIN_SIZE = 6
+    MAX_ROOMS = 30
+
+    rooms = []
+    num_rooms = 0
+
+    for r in range(MAX_ROOMS):
+        # random width and height
+        # first argument is which "stream" to get number from, ~= seed?
+        w = tcod.random_get_int(0, ROOM_MIN_SIZE, ROOM_MAX_SIZE)
+        h = tcod.random_get_int(0, ROOM_MIN_SIZE, ROOM_MAX_SIZE)
+
+        # random room positions, but within map bonds
+        x = tcod.random_get_int(0,0, MAP_WIDTH - w - 1)
+        y = tcod.random_get_int(0,0, MAP_HEIGHT - h - 1)
+
+        # Rect class makes rectangles easier to work with
+        new_room = Rect(x, y, w, h)
+
+        # run through other rooms and see if they intersect with this one
+        failed = False
+        for other_room in rooms:
+            if new_room.intersect(other_room):
+                failed = True
+                break
+                # wow this is sloppy - if any room overlaps...what, start over? (does break end the for loop?) I think it just bails on this room and rolls another one, which the repeats until there are max rooms...oh that works well. GOT IT :D
+
+        if not failed:
+            # this means there are on intersections, so this room is valid - time to actually build the room
+
+            # "paint" it to the grid's tiles
+            create_room(new_room)
+
+            # center coordinates are handy
+            (new_x, new_y) = new_room.center()
+
+            if num_rooms == 0:
+                # first room! Place the player here
+                player.x = new_x
+                player.y = new_y
+
+            else:
+                 # for all rooms after the first, time to connect the new room to the last one with two tunnels. Generally, will need an h tunnel and v tunnel; this randomly chooses which to start with. AND, if you really only need one, the other tunnel is one tile, nbd.
+
+                 # center coordinates of previous room
+                (prev_x, prev_y) = rooms[num_rooms-1].center()
+
+                 # flip for it - either start with an h tunnel or v tunnel
+
+                if tcod.random_get_int(0, 0, 1) == 1:
+                    # horizontal tunnel first, then vertical
+                    create_h_tunnel(prev_x, new_x, prev_y)
+                    create_v_tunnel(prev_y, new_y, prev_x)
+                else:
+                    # vertical, then horizontal
+                    create_v_tunnel(prev_y, new_y, prev_x)
+                    create_h_tunnel(prev_x, new_x, prev_y)
+
+            # Append new room to the list
+            rooms.append(new_room)
+            num_rooms += 1
+
+
 def render_all():
     global color_light_wall
     global color_light_ground
