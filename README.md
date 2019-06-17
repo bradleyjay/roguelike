@@ -1,3 +1,6 @@
+Roguelike - A Dungeon Crawler Game
+![Spooky Skeletons](skeletonDance.gif)
+
 
 For Python3 Venv install:
 ```
