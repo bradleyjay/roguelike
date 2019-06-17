@@ -190,6 +190,9 @@ class Fighter:
         # a simple formula for attack damage
         damage = self.power - target.fighter.defense
 
+        # lazy random damage
+        # damage = int(self.power * (tcod.random_get_int(0,75,125) / 100)) - target.fighter.defense
+
         if damage > 0:
             if target.name == 'player':
                 text_color = tcod.red
@@ -217,6 +220,57 @@ class BasicMonster:
             elif player.fighter.hp > 0:
                 monster.fighter.attack(player)
 
+class BossMonster:
+    # AI for a heavy hitting boss monster
+    def __init__(self):
+        self.charged = 0
+
+    def take_turn(self):
+        # a basic monster takes its turn. If you can see it, it can see you.
+        monster = self.owner
+        if tcod.map_is_in_fov(fov_grid, monster.x, monster.y):
+
+            # random actions: roll for action
+            action_roll = tcod.random_get_int(0,0,100)
+
+            if action_roll <= 20:
+                message(str(self.owner.name) + ' roars a challenge!', tcod.white)
+
+            else:
+                if action_roll > 70 and self.charged == 0:
+                    message(str(self.owner.name) + ' draws itself up to its full height!', tcod.white)
+                    self.charged = 1
+                    print("DEBUG LOG: DRAGON CHARGED = " + str(self.charged), tcod.white)
+
+                # if it's time, breathe some fire
+                elif monster.distance_to(player) <= 3 and action_roll > 85 and self.charged == 1:
+                        self.boss_action(player)
+                        self.charged = 0
+                # move towards player if far away
+                elif monster.distance_to(player) >= 2:
+                    monster.move_towards(player.x, player.y)
+
+                # close enough - attack time, if player alive!
+                elif player.fighter.hp > 0:
+                        monster.fighter.attack(player) 
+
+    def boss_action(self, target):
+        # boss actions should really live under the fighter class, right? They're boss moves? but the AI logic fits better in the monster AI class...
+
+        # oh, instead of monster attack, they should have their own boss attack method, which has all this logic. that'd keep the AI here and the rest in the attacks.
+
+        # Either way, dragons now rock you. Sweet.
+        if self.owner.name == 'Dragon':
+            message(str(self.owner.name) + ' breathes fire!', tcod.white)
+            # dragons breathe fire. It's bad for ya.
+            damage = self.owner.fighter.power + tcod.random_get_int(0,2,5) - target.fighter.defense
+
+        if damage > 0:
+            text_color = tcod.orange
+
+            # make target take some damage
+            message('** ' + str(self.owner.name.capitalize()) + ' attacks ' + str(target.name) + ' for ' + str(damage) + ' HP! **', text_color)
+            target.fighter.take_damage(damage)
 
 ################
 ## Functions ###
@@ -389,7 +443,17 @@ def render_all():
     # player stats
     render_bar(1, 1, BAR_WIDTH, 'HP', player.fighter.hp, player.fighter.max_hp, tcod.light_red, tcod.darker_red)
 
+    
+    # display name of objects under the mouse
+    tcod.console_set_default_foreground(panel, tcod.light_gray)
+    tcod.console_print_ex(panel, 1, 0, tcod.BKGND_NONE, tcod.LEFT, get_names_under_mouse())
+
+
+    # blit console of panel
     tcod.console_blit(panel, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, PANEL_Y)
+
+
+    
 
 def place_objects(room):
     # choose a random number of monsters
@@ -401,15 +465,22 @@ def place_objects(room):
         y = tcod.random_get_int(0, room.y1, room.y2)
 
         if not is_blocked(x,y):
-            if tcod.random_get_int(0,0,100) < 80:
-                # 80% chance of orc
+            monster_roll = tcod.random_get_int(0,0,100)
+            if monster_roll <= 70:
+                # 70% chance of orc
                 fighter_component = Fighter(hp=10, defense=0,power=3, death_function=monster_death)
                 ai_component = BasicMonster()
 
                 monster = Object(x, y, 'o', 'Orc', tcod.desaturated_green, blocks=True, fighter=fighter_component, ai=ai_component)
 
+            elif monster_roll <= 93:
+                # 7% chance of Dragon, it will rock you
+                fighter_component = Fighter(hp=30, defense=2,power=4, death_function=monster_death)
+                ai_component = BossMonster()
+
+                monster = Object(x, y, 'D', 'Dragon', tcod.red, blocks=True, fighter=fighter_component, ai=ai_component)
             else:
-                # otherwise, it's a troll
+                # 23% chance - otherwise, it's a troll
 
                 fighter_component = Fighter(hp=16, defense=1,power=4, death_function=monster_death)
                 ai_component = BasicMonster()
@@ -511,21 +582,21 @@ def message(new_msg, color = tcod.white):
 # ######################################################################
 # User Input
 # ######################################################################
-def get_key_event(turn_based=None):
-    if turn_based:
-        # Turn-based game play; wait for a key stroke
-        key = tcod.console_wait_for_keypress(True)
-    else:
-        # Real-time game play; don't wait for a player's key stroke
-        key = tcod.console_check_for_keypress()
-    return key
+# def get_key_event(turn_based=None):
+#     if turn_based:
+#         # Turn-based game play; wait for a key stroke
+#         key = tcod.console_wait_for_keypress(True)
+#     # else:
+#         # Real-time game play; don't wait for a player's key stroke
+#         # key = tcod.console_check_for_keypress() # removed for now.... DEPRECATED with mouse look?
+#     return key
  
  
 def handle_keys():
     
-    global fov_recompute
+    global fov_recompute, key
 
-    key = get_key_event(TURN_BASED)
+    # key = get_key_event(TURN_BASED)
  
     if key.vk == tcod.KEY_ENTER and key.lalt:
         # Alt+Enter: toggle fullscreen
@@ -535,23 +606,51 @@ def handle_keys():
         return 'exit'  # return exit text
     
     if game_state == 'playing':
+        # # movement keys - RTS, keeping just in case
+        # if tcod.console_is_key_pressed(tcod.KEY_UP):
+        #     player_move_or_attack(0,-1)
+            
+     
+        # elif tcod.console_is_key_pressed(tcod.KEY_DOWN):
+        #     player_move_or_attack(0,1)
+            
+        # elif tcod.console_is_key_pressed(tcod.KEY_LEFT):
+        #     player_move_or_attack(-1,0)
+            
+        # elif tcod.console_is_key_pressed(tcod.KEY_RIGHT):
+        #     player_move_or_attack(1,0)
+        
+
         # movement keys
-        if tcod.console_is_key_pressed(tcod.KEY_UP):
+        if key.vk == tcod.KEY_UP:
             player_move_or_attack(0,-1)
             
      
-        elif tcod.console_is_key_pressed(tcod.KEY_DOWN):
+        elif key.vk == tcod.KEY_DOWN:
             player_move_or_attack(0,1)
             
-        elif tcod.console_is_key_pressed(tcod.KEY_LEFT):
+        elif key.vk == tcod.KEY_LEFT:
             player_move_or_attack(-1,0)
             
-        elif tcod.console_is_key_pressed(tcod.KEY_RIGHT):
+        elif key.vk == tcod.KEY_RIGHT:
             player_move_or_attack(1,0)
-            
+
         else:
             return 'didnt-take-turn'
- 
+
+def get_names_under_mouse():
+    global mouse
+
+    # return a string with all the names of objects under the mouse
+    (x, y) = (mouse.cx, mouse.cy)
+
+    # create a list of those names, if they're in player's FOV
+    names = [obj.name for obj in objects
+        if obj.x == x and obj.y == y and tcod.map_is_in_fov(fov_grid, obj.x, obj.y)]
+
+    # join list into string, comma separated
+    names = ', '.join(names)
+    return names.capitalize()
 #############################################
 # Initialization and Main Game Loop #########
 #############################################
@@ -599,8 +698,13 @@ player_action = None
 game_msgs = []
 message('Welcome to hell, meatbag! No one has survived before, best of luck kiddo.', tcod.red)
 
+mouse = tcod.Mouse()
+key = tcod.Key()
+
 while not tcod.console_is_window_closed():
     
+    tcod.sys_check_for_event(tcod.EVENT_KEY_PRESS | tcod.EVENT_MOUSE, key, mouse)
+
     # render the screen
     render_all()
 
