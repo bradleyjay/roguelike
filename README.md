@@ -1,4 +1,7 @@
-Roguelike - A Dungeon Crawler Game
+# Roguelike
+
+**(A Dungeon Crawler Game)**
+
 ![Spooky Skeletons](skeletonDance.gif)
 
 
