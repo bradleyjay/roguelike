@@ -22,7 +22,7 @@ TURN_BASED = True  # turn-based game
 ######### 
 
 MAP_WIDTH = 80
-MAP_HEIGHT = 45
+MAP_HEIGHT = 43
 
 ROOM_MAX_SIZE = 10
 ROOM_MIN_SIZE = 6
@@ -32,11 +32,20 @@ FOV_ALGO = 0  #default FOV algorithm
 FOV_LIGHT_WALLS = True # light walls or not
 TORCH_RADIUS = 10
 
+######
+# GUI #
+#######
+
 # colors for illuminated and dark walls and floors
 color_dark_wall = tcod.Color(0, 0, 100)
 color_light_wall = tcod.Color(130, 110, 50)
 color_dark_ground = tcod.Color(50, 50, 150)
 color_light_ground = tcod.Color(200, 180, 50)
+
+# sizes and coordinates relevant for the GUI
+BAR_WIDTH = 20
+PANEL_HEIGHT = 7
+PANEL_Y = SCREEN_HEIGHT - PANEL_HEIGHT
 
 #################################
 ## Player / Creature Constants ##
@@ -344,10 +353,7 @@ def render_all():
                     # I think this makes sense here? See it = Explored it
                     grid[x][y].explored = True
 
-    # # draw all objects in the list (but now, only if they're in FOV) (might have mucked this up)
-    # if tcod.map_is_in_fov(fov_map, self.x, self.y):
-    #     for object in objects:
-    #         object.draw()
+    # # draw all objects in the list
     for object in objects:
         if object != player:
             object.draw()
@@ -357,9 +363,15 @@ def render_all():
     #blit the contents of "con" to the root console and present it
     tcod.console_blit(con, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0)
     
-    # show the player's stats
-    tcod.console_set_default_foreground(con, tcod.white)
-    tcod.console_print_ex(con, 1, SCREEN_HEIGHT - 2, tcod.BKGND_NONE, tcod.LEFT, 'HP: ' + str(player.fighter.hp) + ' / ' + str(player.fighter.max_hp))
+
+    # prepare to render the GUI panel
+    tcod.console_set_default_background(panel, tcod.black)
+    tcod.console_clear(panel)
+
+    # player stats
+    render_bar(1, 1, BAR_WIDTH, 'HP', player.fighter.hp, player.fighter.max_hp, tcod.light_red, tcod.darker_red)
+
+    tcod.console_blit(panel, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, PANEL_Y)
 
 def place_objects(room):
     # choose a random number of monsters
@@ -446,6 +458,26 @@ def monster_death(monster):
     monster.name = 'remains of ' + str(monster.name)
     monster.send_to_back()
 
+
+def render_bar(x, y, total_width, name, value, maximum, bar_color, back_color):
+    # render a bar (hp, xp, etc) at bottom of screen
+    # -> first get width of bar
+    bar_width = int(float(value) / maximum * total_width)
+
+    #render the background first
+    tcod.console_set_default_background(panel, back_color)
+    tcod.console_rect(panel, x, y, total_width, 1, False, tcod.BKGND_SCREEN)
+
+    # now render the bar on top:
+    tcod.console_set_default_background(panel, bar_color)
+    if bar_width > 0:
+        tcod.console_rect(panel, x, y, bar_width, 1, False, tcod.BKGND_SCREEN)
+
+    # centered text with numerical value in bar
+    tcod.console_set_default_foreground(panel, tcod.white)
+    stats = str(name) + ': ' + str(value) + '/' + str(maximum)
+    tcod.console_print_ex(panel, int(x + total_width / 2), y, tcod.BKGND_NONE, tcod.CENTER, stats)
+
 # ######################################################################
 # User Input
 # ######################################################################
@@ -506,9 +538,9 @@ tcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, title, FULLSCREEN)
 tcod.sys_set_fps(LIMIT_FPS)
 
 # buffer console
-con = tcod.console_new(SCREEN_WIDTH, SCREEN_HEIGHT)
+con = tcod.console_new(MAP_WIDTH, MAP_HEIGHT)
 
-
+panel = tcod.console_new(SCREEN_WIDTH, PANEL_HEIGHT)
 
 # create object representing player
 fighter_component = Fighter(hp=30,defense=2,power=5, death_function=player_death)
