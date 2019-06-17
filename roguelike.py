@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 import tcod
 import math
- 
+import textwrap
+
 # ######################################################################
 # Global Game Settings
 # ######################################################################
@@ -46,6 +47,10 @@ color_light_ground = tcod.Color(200, 180, 50)
 BAR_WIDTH = 20
 PANEL_HEIGHT = 7
 PANEL_Y = SCREEN_HEIGHT - PANEL_HEIGHT
+
+MSG_X = BAR_WIDTH + 2
+MSG_WIDTH = SCREEN_WIDTH - BAR_WIDTH - 2
+MSG_HEIGHT = PANEL_HEIGHT - 1
 
 #################################
 ## Player / Creature Constants ##
@@ -186,11 +191,15 @@ class Fighter:
         damage = self.power - target.fighter.defense
 
         if damage > 0:
+            if target.name == 'player':
+                text_color = tcod.red
+            else:
+                text_color = tcod.green
             # make target take some damage
-            print(str(self.owner.name.capitalize()) + ' attacks ' + str(target.name) + ' for ' + str(damage) + ' HP!')
+            message(str(self.owner.name.capitalize()) + ' attacks ' + str(target.name) + ' for ' + str(damage) + ' HP!', text_color)
             target.fighter.take_damage(damage)
         else:
-            print(str(self.owner.name.capitalize()) + 'attacks ' + str(target.name) + ' but it has no effect!')
+            message(str(self.owner.name.capitalize()) + 'attacks ' + str(target.name) + ' but it has no effect!', tcod.white)
 
 class BasicMonster:
     # AI for a basic monster
@@ -368,6 +377,15 @@ def render_all():
     tcod.console_set_default_background(panel, tcod.black)
     tcod.console_clear(panel)
 
+    # render message log
+    # print game messages, one line at a time
+
+    y = 1
+    for (line, color) in game_msgs:
+        tcod.console_set_default_foreground(panel, color)
+        tcod.console_print_ex(panel, MSG_X, y, tcod.BKGND_NONE, tcod.LEFT, line)
+        y += 1
+
     # player stats
     render_bar(1, 1, BAR_WIDTH, 'HP', player.fighter.hp, player.fighter.max_hp, tcod.light_red, tcod.darker_red)
 
@@ -440,7 +458,7 @@ def player_move_or_attack(dx, dy):
 def player_death(player):
     # the game ended!
     global game_state
-    print('You died!')
+    message('You died!', tcod.dark_red)
     game_state = 'dead'
 
     # create player corpse
@@ -449,7 +467,7 @@ def player_death(player):
 
 def monster_death(monster):
     # make a monster corpse - doesn't attack, move, can't be hit
-    print(str(monster.name.capitalize()) + ' is dead!')
+    message(str(monster.name.capitalize()) + ' is dead!', tcod.yellow)
     monster.char = '%'
     monster.color = tcod.dark_red
     monster.blocks = False
@@ -477,6 +495,18 @@ def render_bar(x, y, total_width, name, value, maximum, bar_color, back_color):
     tcod.console_set_default_foreground(panel, tcod.white)
     stats = str(name) + ': ' + str(value) + '/' + str(maximum)
     tcod.console_print_ex(panel, int(x + total_width / 2), y, tcod.BKGND_NONE, tcod.CENTER, stats)
+
+def message(new_msg, color = tcod.white):
+    # split message if necessary to multi-line (wordwrap)
+    new_msg_lines = textwrap.wrap(new_msg, MSG_WIDTH)
+
+    for line in new_msg_lines:
+        # buffer full? Remove first line to make room for next one
+        if len(game_msgs) == MSG_HEIGHT:
+            del game_msgs[0]
+
+        # add the new line as a tuple, with the text and color
+        game_msgs.append( (line, color) )
 
 # ######################################################################
 # User Input
@@ -564,6 +594,10 @@ for y in range(MAP_HEIGHT):
 fov_recompute = True
 game_state = 'playing'
 player_action = None
+
+# message console
+game_msgs = []
+message('Welcome to hell, meatbag! No one has survived before, best of luck kiddo.', tcod.red)
 
 while not tcod.console_is_window_closed():
     
