@@ -29,6 +29,7 @@ ROOM_MAX_SIZE = 10
 ROOM_MIN_SIZE = 6
 MAX_ROOMS = 30
 
+
 FOV_ALGO = 0  #default FOV algorithm
 FOV_LIGHT_WALLS = True # light walls or not
 TORCH_RADIUS = 10
@@ -57,6 +58,7 @@ MSG_HEIGHT = PANEL_HEIGHT - 1
 #################################
 
 MAX_ROOM_MONSTERS = 3
+MAX_ROOM_ITEMS = 2
 
 ##################################
 ## Foundational Classes        ###
@@ -97,7 +99,7 @@ class Rect:
 class Object:
     # catch-all object class. Player, monsters, item, everything will be a character on-screen.
 
-    def __init__(self, x, y, char, name, color, blocks=False, fighter=None, ai=None):
+    def __init__(self, x, y, char, name, color, blocks=False, fighter=None, ai=None, item=None):
         self.x = x
         self.y = y
         
@@ -107,8 +109,10 @@ class Object:
         self.color = color      
         self.blocks = blocks
 
-        # Component allowances...
-        # FIGHTER
+        # Component allowances
+        # So, this is the only place self.____.owner is set. The component is told who owns it by passing 'self' over, so that value IS held on the component. But note, there's no default value on the component. Not the most readable; the 'owner' code only lives here.
+
+        # Fighter
         self.fighter = fighter
         
         if self.fighter: 
@@ -120,6 +124,11 @@ class Object:
         if self.ai:
             # let AI component know who owns it
             self.ai.owner = self
+
+        # Item
+        self.item = item
+        if self.item: # let item component know who owns it
+            self.item.owner = self
 
     def move(self,dx,dy):
         # move by a delta, unless destination is blocked
@@ -165,6 +174,19 @@ class Object:
 #####################
 ### Components   #####
 ######################
+
+
+class Item:
+    # an item that can be picked up and used.
+    def pick_up(self):
+        # add to player inventory, remove from  map.
+        if len(inventory) >= 26:
+            message('Your inventory is full, cannot pick up ' + self.owner.name + '.', tcod.red)
+        else:
+            inventory.append(self.owner)
+            objects.remove(self.owner)
+            message("Picked up a " + self.owner.name + "!", tcod.green)
+
 
 class Fighter:
     # combat related properties and methods (monster, player, NPC)
@@ -461,8 +483,8 @@ def place_objects(room):
 
     for i in range(num_monsters):
         #choose random spot for this monster
-        x = tcod.random_get_int(0, room.x1, room.x2)
-        y = tcod.random_get_int(0, room.y1, room.y2)
+        x = tcod.random_get_int(0, room.x1+1, room.x2-1)
+        y = tcod.random_get_int(0, room.y1+1, room.y2-1)
 
         if not is_blocked(x,y):
             monster_roll = tcod.random_get_int(0,0,100)
@@ -473,7 +495,7 @@ def place_objects(room):
 
                 monster = Object(x, y, 'o', 'Orc', tcod.desaturated_green, blocks=True, fighter=fighter_component, ai=ai_component)
 
-            elif monster_roll <= 93:
+            elif monster_roll >= 97:
                 # 7% chance of Dragon, it will rock you
                 fighter_component = Fighter(hp=30, defense=2,power=4, death_function=monster_death)
                 ai_component = BossMonster()
@@ -489,6 +511,21 @@ def place_objects(room):
 
             objects.append(monster)
 
+    num_items = tcod.random_get_int(0,0, MAX_ROOM_ITEMS)
+
+    for i in range(num_items):
+        # choose item location
+        x = tcod.random_get_int(0, room.x1+1, room.x2-1)
+        y = tcod.random_get_int(0, room.y1+1, room.y2-1)
+
+        # only place if space not blocked
+        if not is_blocked(x,y):
+            # create healing potion
+            item_component = Item()
+            item = Object(x,y, '!', 'healing potion', tcod.violet, item=item_component)
+
+            objects.append(item)
+            item.send_to_back() # items are rendered behind other objects
     
 def is_blocked(x,y):
     # test the map tile
@@ -636,6 +673,17 @@ def handle_keys():
             player_move_or_attack(1,0)
 
         else:
+            # test for other keys
+            key_char = chr(key.c)
+
+            if key_char == 'g':
+                # pick up an item
+                for object in objects: # look for an item in player's tile
+                    if object.x == player.x and object.y == player.y and object.item:
+                        print('Found one!')
+                        object.item.pick_up()
+                        break
+
             return 'didnt-take-turn'
 
 def get_names_under_mouse():
@@ -678,6 +726,10 @@ player = Object(0, 0, '@', 'player', tcod.white, blocks=True, fighter=fighter_co
 
 # add those objects to a list with those two
 objects = [player]
+
+
+# handle inventory
+inventory = []
 
 # draw the grid (the map)
 make_grid()
