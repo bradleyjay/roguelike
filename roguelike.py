@@ -53,12 +53,14 @@ MSG_X = BAR_WIDTH + 2
 MSG_WIDTH = SCREEN_WIDTH - BAR_WIDTH - 2
 MSG_HEIGHT = PANEL_HEIGHT - 1
 
+INVENTORY_WIDTH = 50
 #################################
 ## Player / Creature Constants ##
 #################################
 
 MAX_ROOM_MONSTERS = 3
 MAX_ROOM_ITEMS = 2
+HEAL_AMOUNT = 4
 
 ##################################
 ## Foundational Classes        ###
@@ -178,6 +180,19 @@ class Object:
 
 class Item:
     # an item that can be picked up and used.
+    def __init__(self, use_function=None):
+        self.use_function = use_function
+
+    def use(self):
+        # just call the "use_function" if it is defined
+        if self.use_function is None:
+            message('The ' + self.owner.name + ' cannot be used.')
+        else:
+            if self.use_function() != 'cancelled':
+                inventory.remove(self.owner) # destroy after use, unless cancelled for some reason
+
+
+
     def pick_up(self):
         # add to player inventory, remove from  map.
         if len(inventory) >= 26:
@@ -187,6 +202,15 @@ class Item:
             objects.remove(self.owner)
             message("Picked up a " + self.owner.name + "!", tcod.green)
 
+# NOTE: Does this go here?
+    def cast_heal():
+        #heal the player
+        if player.fighter.hp == player.fighter.max_hp:
+            message('You are already at full health.', libtcod.red)
+            return 'cancelled'
+     
+        message('Your wounds start to feel better!', libtcod.light_violet)
+        player.fighter.heal(HEAL_AMOUNT)
 
 class Fighter:
     # combat related properties and methods (monster, player, NPC)
@@ -225,6 +249,12 @@ class Fighter:
             target.fighter.take_damage(damage)
         else:
             message(str(self.owner.name.capitalize()) + 'attacks ' + str(target.name) + ' but it has no effect!', tcod.white)
+
+    def heal(self, amount):
+        #heal by the given amount, without going over the maximum
+        self.hp += amount
+        if self.hp > self.max_hp:
+            self.hp = self.max_hp
 
 class BasicMonster:
     # AI for a basic monster
@@ -521,7 +551,8 @@ def place_objects(room):
         # only place if space not blocked
         if not is_blocked(x,y):
             # create healing potion
-            item_component = Item()
+            # use_function will determine what the item does
+            item_component = Item(use_function=cast_heal)
             item = Object(x,y, '!', 'healing potion', tcod.violet, item=item_component)
 
             objects.append(item)
@@ -684,6 +715,9 @@ def handle_keys():
                         object.item.pick_up()
                         break
 
+            if key_char == 'i':
+                # show inventory
+                inventory_menu('Press any key next to an item to use it, or any other to cancel. \n')
             return 'didnt-take-turn'
 
 def get_names_under_mouse():
@@ -699,6 +733,57 @@ def get_names_under_mouse():
     # join list into string, comma separated
     names = ', '.join(names)
     return names.capitalize()
+
+def menu(header, options, width):
+    if len(options) > 26: 
+        raise ValueError('Cannot have a menu with more than 26 options.')
+
+    # calculate total height for the header (after auto-wrap) and one line per option:
+    header_height = tcod.console_get_height_rect(con,0,0,width, SCREEN_HEIGHT, header)
+    height = len(options) + header_height
+
+    # create off-screen console that represents the menu's window
+    window = tcod.console_new(width, height)
+
+    # print the header, with auto-wrap
+    tcod.console_set_default_foreground(window, tcod.white)
+    tcod.console_print_rect_ex(window,0,0,width,height,tcod.BKGND_NONE, tcod.LEFT, header)
+
+    # print all menu options
+    y = header_height
+    letter_index = ord('a')
+
+    for option_text in options:
+        text = '(' + chr(letter_index) + ') ' + option_text
+        tcod.console_print_ex(window, 0, y, tcod.BKGND_NONE, tcod.LEFT, text)
+        y += 1
+        letter_index += 1
+
+    # blit contents of "window" to root console
+    # NOTE: Made each of these int's since the code geeked otherwise. However
+    # v low menu screen
+    x = int(SCREEN_WIDTH/2 - width/2)
+    y = int(SCREEN_HEIGHT/2 - height/2)
+    tcod.console_blit(window, 0, 0, width, height, 0, x, y, 1.0, 0.7)
+    # foreground, background transparency are last two params ^. Overlays the 
+    # menu!
+
+    # present the menu, wait for keypress
+    tcod.console_flush()
+    key = tcod.console_wait_for_keypress(True)
+
+
+def inventory_menu(header):
+    # show a menu with each item of the inventory as an option
+    if len(inventory) == 0:
+        options = ['Inventory is empty.']
+    else:
+        options = [item.name for item in inventory]
+
+    index = menu(header, options, INVENTORY_WIDTH)
+
+
+
 #############################################
 # Initialization and Main Game Loop #########
 #############################################
