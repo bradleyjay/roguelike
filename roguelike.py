@@ -15,7 +15,6 @@ SCREEN_HEIGHT = 50  # characters tall
 LIMIT_FPS = 20  # 20 frames-per-second maximum
 # Game Controls
 TURN_BASED = True  # turn-based game
- 
 
 
 #########
@@ -61,7 +60,10 @@ INVENTORY_WIDTH = 50
 MAX_ROOM_MONSTERS = 3
 MAX_ROOM_ITEMS = 2
 HEAL_AMOUNT = 4
-
+LIGHTNING_DAMAGE = 20
+LIGHTNING_RANGE = 5
+CONFUSE_NUM_TURNS = 10
+CONFUSE_RANGE = 8
 ##################################
 ## Foundational Classes        ###
 ##################################
@@ -202,15 +204,6 @@ class Item:
             objects.remove(self.owner)
             message("Picked up a " + self.owner.name + "!", tcod.green)
 
-# NOTE: Does this go here? (should this be aligned all the way left? or nested?)
-def cast_heal():
-    #heal the player
-    if player.fighter.hp == player.fighter.max_hp:
-        message('You are already at full health.', tcod.red)
-        return 'cancelled'
- 
-    message('Your wounds start to feel better!', tcod.light_violet)
-    player.fighter.heal(HEAL_AMOUNT)
 
 class Fighter:
     # combat related properties and methods (monster, player, NPC)
@@ -272,6 +265,22 @@ class BasicMonster:
             elif player.fighter.hp > 0:
                 monster.fighter.attack(player)
 
+class ConfusedMonster:
+    # AI for a confused monster
+
+    def __init__(self, old_ai, num_turns=CONFUSE_NUM_TURNS):
+        self.old_ai = old_ai
+        self.num_turns = num_turns
+
+    def take_turn(self):
+        if self.num_turns > 0: #still confused...
+            #move in a random direction:
+            self.owner.move(tcod.random_get_int(0,-1,1), tcod.random_get_int(0,-1,1))
+            self.num_turns -= 1
+        else: #restore previous AI
+            self.owner.ai = self.old_ai
+            message('The ' + self.owner.name + ' is no longer confused!', tcod.red)
+
 class BossMonster:
     # AI for a heavy hitting boss monster
     def __init__(self):
@@ -323,6 +332,45 @@ class BossMonster:
             # make target take some damage
             message('** ' + str(self.owner.name.capitalize()) + ' attacks ' + str(target.name) + ' for ' + str(damage) + ' HP! **', text_color)
             target.fighter.take_damage(damage)
+
+#########################
+## Spells / Abilities ###
+#########################
+
+def cast_heal():
+    #heal the player
+    if player.fighter.hp == player.fighter.max_hp:
+        message('You are already at full health.', tcod.red)
+        return 'cancelled'
+ 
+    message('Your wounds start to feel better!', tcod.light_violet)
+    player.fighter.heal(HEAL_AMOUNT)
+
+def cast_lightning():
+    # find closest enemy (inside max range) and damage it
+    monster = closest_monster(LIGHTNING_RANGE)
+    if monster is None:
+        message('No enemy is close enough to strike.', tcod.orange)
+        return 'cancelled'
+
+    #zap it!
+    message('Lightning strikes the' + monster.name + 'with a loud thunderclap! Damage:' + str(LIGHTNING_DAMAGE) + 'HP.', tcod.light_blue)
+    monster.fighter.take_damage(LIGHTNING_DAMAGE)
+
+def cast_confuse():
+    # find closest enemy (inside max range) and confuse it
+    monster = closest_monster(CONFUSE_RANGE)
+    if monster is None:
+        message('No enemy is close enough to target.', tcod.orange)
+        return 'cancelled'
+
+    #confuse it!
+    
+    old_ai = monster.ai
+    monster.ai = ConfusedMonster(old_ai)
+    monster.ai.owner = monster # tell the new component who owns it
+    message('Confusion grips the' + monster.name, tcod.light_green)
+
 
 ################
 ## Functions ###
@@ -550,10 +598,22 @@ def place_objects(room):
 
         # only place if space not blocked
         if not is_blocked(x,y):
-            # create healing potion
-            # use_function will determine what the item does
-            item_component = Item(use_function=cast_heal)
-            item = Object(x,y, '!', 'healing potion', tcod.violet, item=item_component)
+            item_roll = tcod.random_get_int(0,0,100)
+            if item_roll < 70:
+
+                # create healing potion
+                # use_function will determine what the item does
+                item_component = Item(use_function=cast_heal)
+                item = Object(x,y, '!', 'healing potion', tcod.violet, item=item_component)
+            elif item_roll > 70 and item_roll <= 85:
+                # create lightning scroll
+                item_component = Item(use_function=cast_lightning)
+                item = Object(x,y, '#', 'scroll of lightning bolt', tcod.light_yellow, item=item_component)
+
+            else:
+                # Confuse Scroll:
+                item_component = Item(use_function=cast_confuse)
+                item = Object(x,y, '#', 'scroll of Confuse', tcod.light_yellow, item=item_component)
 
             objects.append(item)
             item.send_to_back() # items are rendered behind other objects
@@ -614,6 +674,21 @@ def monster_death(monster):
     monster.ai = None
     monster.name = 'remains of ' + str(monster.name)
     monster.send_to_back()
+
+
+def closest_monster(max_range):
+    # find closest enemy, up to a maximum range, and in player's FOV
+    closest_enemy = None
+    closest_dist = max_range + 1 # start with slightly more than maximum range
+
+    for obj in objects:
+        if obj.fighter and not obj == player and tcod.map_is_in_fov(fov_grid, obj.x, obj.y):
+            # calculate distance between this object and the player
+            dist = player.distance_to(obj)
+            if dist < closest_dist: # it's closer, remember it
+                closest_enemy = obj
+                closest_dist = dist
+    return closest_enemy
 
 
 def render_bar(x, y, total_width, name, value, maximum, bar_color, back_color):
