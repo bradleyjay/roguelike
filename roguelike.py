@@ -202,15 +202,15 @@ class Item:
             objects.remove(self.owner)
             message("Picked up a " + self.owner.name + "!", tcod.green)
 
-# NOTE: Does this go here?
-    def cast_heal():
-        #heal the player
-        if player.fighter.hp == player.fighter.max_hp:
-            message('You are already at full health.', libtcod.red)
-            return 'cancelled'
-     
-        message('Your wounds start to feel better!', libtcod.light_violet)
-        player.fighter.heal(HEAL_AMOUNT)
+# NOTE: Does this go here? (should this be aligned all the way left? or nested?)
+def cast_heal():
+    #heal the player
+    if player.fighter.hp == player.fighter.max_hp:
+        message('You are already at full health.', tcod.red)
+        return 'cancelled'
+ 
+    message('Your wounds start to feel better!', tcod.light_violet)
+    player.fighter.heal(HEAL_AMOUNT)
 
 class Fighter:
     # combat related properties and methods (monster, player, NPC)
@@ -717,7 +717,12 @@ def handle_keys():
 
             if key_char == 'i':
                 # show inventory
-                inventory_menu('Press any key next to an item to use it, or any other to cancel. \n')
+                chosen_item = inventory_menu('Press any key next to an item to use it, or any other to cancel. \n')
+                # print(str(chosen_item))
+                if chosen_item is not None:
+                    # print('Debug: Using item named' + str(chosen_item))
+                    chosen_item.use()
+
             return 'didnt-take-turn'
 
 def get_names_under_mouse():
@@ -772,6 +777,14 @@ def menu(header, options, width):
     tcod.console_flush()
     key = tcod.console_wait_for_keypress(True)
 
+    # convert ASCII Code to an index, if it matches an option return it
+    index = key.c - ord('a')
+    print('Debug: Index =' + str(index))
+    if index >= 0 and index < len(options):
+        print('Returning index')
+        return index
+    return None
+
 
 def inventory_menu(header):
     # show a menu with each item of the inventory as an option
@@ -782,6 +795,10 @@ def inventory_menu(header):
 
     index = menu(header, options, INVENTORY_WIDTH)
 
+    # if an item was chosen, return it
+    if index is None or len(inventory) == 0: 
+        return None
+    return inventory[index].item
 
 
 #############################################
