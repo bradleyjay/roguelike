@@ -15,12 +15,12 @@ SCREEN_HEIGHT = 50  # characters tall
 LIMIT_FPS = 20  # 20 frames-per-second maximum
 # Game Controls
 TURN_BASED = True  # turn-based game
- 
+
 
 
 #########
 ## MAP ##
-######### 
+#########
 
 MAP_WIDTH = 80
 MAP_HEIGHT = 43
@@ -59,6 +59,12 @@ MSG_HEIGHT = PANEL_HEIGHT - 1
 
 MAX_ROOM_MONSTERS = 3
 MAX_ROOM_ITEMS = 2
+
+INVENTORY_WIDTH = 50
+HEAL_AMOUNT = 4
+
+LIGHTNING_DAMAGE = 20
+LIGHTNING_RANGE = 5
 
 ##################################
 ## Foundational Classes        ###
@@ -102,11 +108,11 @@ class Object:
     def __init__(self, x, y, char, name, color, blocks=False, fighter=None, ai=None, item=None):
         self.x = x
         self.y = y
-        
+
         self.char = char
         self.name = name
 
-        self.color = color      
+        self.color = color
         self.blocks = blocks
 
         # Component allowances
@@ -114,8 +120,8 @@ class Object:
 
         # Fighter
         self.fighter = fighter
-        
-        if self.fighter: 
+
+        if self.fighter:
             # let fighter component know who owns it
             self.fighter.owner = self
 
@@ -178,6 +184,19 @@ class Object:
 
 class Item:
     # an item that can be picked up and used.
+
+    def __init__(self, use_function=None):
+        self.use_function = use_function
+
+    def use(self):
+        # just call "use_function" if defined
+        if self.use_function is None:
+            message('The ' + self.owner.name + ' cannot be used.')
+        elif self.use_function() != 'cancelled':
+            inventory.remove(self.owner) #destroy item after use, unless cancelled
+        # else:
+        #     message('Item used...ish')
+
     def pick_up(self):
         # add to player inventory, remove from  map.
         if len(inventory) >= 26:
@@ -226,6 +245,12 @@ class Fighter:
         else:
             message(str(self.owner.name.capitalize()) + 'attacks ' + str(target.name) + ' but it has no effect!', tcod.white)
 
+
+    def heal(self, amount):
+        # heal by given amount, don't go over max
+        self.hp += amount
+        if self.hp > self.max_hp:
+            self.hp = self.max_hp
 class BasicMonster:
     # AI for a basic monster
     def take_turn(self):
@@ -274,7 +299,7 @@ class BossMonster:
 
                 # close enough - attack time, if player alive!
                 elif player.fighter.hp > 0:
-                        monster.fighter.attack(player) 
+                        monster.fighter.attack(player)
 
     def boss_action(self, target):
         # boss actions should really live under the fighter class, right? They're boss moves? but the AI logic fits better in the monster AI class...
@@ -447,7 +472,7 @@ def render_all():
 
     #blit the contents of "con" to the root console and present it
     tcod.console_blit(con, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0)
-    
+
 
     # prepare to render the GUI panel
     tcod.console_set_default_background(panel, tcod.black)
@@ -465,7 +490,7 @@ def render_all():
     # player stats
     render_bar(1, 1, BAR_WIDTH, 'HP', player.fighter.hp, player.fighter.max_hp, tcod.light_red, tcod.darker_red)
 
-    
+
     # display name of objects under the mouse
     tcod.console_set_default_foreground(panel, tcod.light_gray)
     tcod.console_print_ex(panel, 1, 0, tcod.BKGND_NONE, tcod.LEFT, get_names_under_mouse())
@@ -475,7 +500,7 @@ def render_all():
     tcod.console_blit(panel, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, PANEL_Y)
 
 
-    
+
 
 def place_objects(room):
     # choose a random number of monsters
@@ -520,13 +545,20 @@ def place_objects(room):
 
         # only place if space not blocked
         if not is_blocked(x,y):
-            # create healing potion
-            item_component = Item()
-            item = Object(x,y, '!', 'healing potion', tcod.violet, item=item_component)
+
+            item_roll = tcod.random_get_int(0,0,100)
+            if item_roll < 70:
+                # create healing potion
+                item_component = Item(use_function=cast_heal)
+                item = Object(x,y, '!', 'healing potion', tcod.violet, item=item_component)
+            else:
+                # create lightning scroll
+                item_component = Item(use_function=cast_lightning)
+                item = Object(x,y, '#', 'lightning scroll', tcod.light_yellow, item=item_component)
 
             objects.append(item)
             item.send_to_back() # items are rendered behind other objects
-    
+
 def is_blocked(x,y):
     # test the map tile
     if grid[x][y].blocked:
@@ -539,6 +571,21 @@ def is_blocked(x,y):
 
     return False
 
+
+def closest_monster(max_range):
+    # find closest enemy, up to a maximum range in player's POV
+    closest_enemy = None
+    closest_dist = max_range + 1 # start with slightly more than max range
+
+    for object in objects:
+        if object.fighter and not object == player and tcod.map_is_in_fov(fov_grid, object.x, object. y):
+            # calculate distance between object, player
+            dist = player.distance_to(object)
+            if dist < closest_dist: # remember closest
+                closest_enemy = object
+    return closest_enemy
+
+
 #### Player Actions
 
 def player_move_or_attack(dx, dy):
@@ -550,7 +597,7 @@ def player_move_or_attack(dx, dy):
 
     # OBJECT might be an illegal name
     # test for target at new location
-    target = None 
+    target = None
     for object in objects:
         if object.fighter and object.x == x and object.y == y:
             target = object
@@ -616,6 +663,29 @@ def message(new_msg, color = tcod.white):
         # add the new line as a tuple, with the text and color
         game_msgs.append( (line, color) )
 
+def cast_heal():
+    # heal the player
+    if player.fighter.hp == player.fighter.max_hp:
+        message('You are already at full health.', tcod.red)
+        return 'cancelled'
+
+    message('Your wounds start to feel better!', tcod.light_violet)
+    player.fighter.heal(HEAL_AMOUNT)
+
+
+
+
+
+def cast_lightning():
+    # find closest enemy inside maximum range, damage it
+    monster = closest_monster(LIGHTNING_RANGE)
+    if monster is None:
+        message('No enemy within range.', tcod.red)
+        return 'cancelled'
+
+    # nuke it:
+    message('Lightning arcs to strike the ' + monster.name + ' with a deafening crash! The ' + monster.name + ' takes ' + str(LIGHTNING_DAMAGE) + ' damage.', tcod.light_blue)
+    monster.fighter.take_damage(LIGHTNING_DAMAGE)
 # ######################################################################
 # User Input
 # ######################################################################
@@ -627,48 +697,99 @@ def message(new_msg, color = tcod.white):
 #         # Real-time game play; don't wait for a player's key stroke
 #         # key = tcod.console_check_for_keypress() # removed for now.... DEPRECATED with mouse look?
 #     return key
- 
- 
+
+def menu(header, options, width):
+    # create general menu!
+    if len(options) > 26:
+        raise ValueError('Cannot have a menu with more than 26 options, cuz its 1991 right now.')
+
+    # calculate total height for the header (after auto-wrap), and one line per option
+    header_height = tcod.console_get_height_rect(con, 0, 0, width, SCREEN_HEIGHT, header)
+    height = len(options) + header_height
+
+    # create an offscreen where menu's window is drawn first
+    window = tcod.console_new(width, height)
+
+    # print header, with auto-wrap
+    tcod.console_set_default_foreground(window, tcod.white)
+    tcod.console_print_rect_ex(window, 0, 0, width, height, tcod.BKGND_NONE, tcod.LEFT, header)
+
+
+    # print all the options
+    y = header_height
+    letter_index = ord('a')
+    for option_text in options:
+        text = '(' + chr(letter_index) + ')' + option_text
+        tcod.console_print_ex(window, 0, y, tcod.BKGND_NONE, tcod.LEFT, text)
+        y+=1
+        letter_index += 1
+
+    # blit contents of 'window' to root console
+    x = SCREEN_WIDTH//2 - width//2
+    y = SCREEN_HEIGHT//2 - height//2
+    tcod.console_blit(window, 0, 0, width, height, 0, x, y, 1.0, 0.7) # last two params - foreground and background  transparency
+
+    # present the root console to player, wait for key-pres
+    tcod.console_flush()
+    key = tcod.console_wait_for_keypress(True)
+
+    index = key.c - ord('a')
+    if index >= 0 and index < len(options):
+        return index
+    return None
+
+def inventory_menu(header):
+    # show a menu with each item of inventory as an option:
+    if len(inventory) == 0:
+        options = ['Inventory is empty!']
+    else:
+        options = [item.name for item in inventory]
+
+    index = menu(header, options, INVENTORY_WIDTH)
+    if index is None or len(inventory) == 0:
+        return None
+    return inventory[index].item
+
 def handle_keys():
-    
+
     global fov_recompute, key
 
     # key = get_key_event(TURN_BASED)
- 
+
     if key.vk == tcod.KEY_ENTER and key.lalt:
         # Alt+Enter: toggle fullscreen
         tcod.console_set_fullscreen(not tcod.console_is_fullscreen())
- 
+
     elif key.vk == tcod.KEY_ESCAPE:
         return 'exit'  # return exit text
-    
+
     if game_state == 'playing':
         # # movement keys - RTS, keeping just in case
         # if tcod.console_is_key_pressed(tcod.KEY_UP):
         #     player_move_or_attack(0,-1)
-            
-     
+
+
         # elif tcod.console_is_key_pressed(tcod.KEY_DOWN):
         #     player_move_or_attack(0,1)
-            
+
         # elif tcod.console_is_key_pressed(tcod.KEY_LEFT):
         #     player_move_or_attack(-1,0)
-            
+
         # elif tcod.console_is_key_pressed(tcod.KEY_RIGHT):
         #     player_move_or_attack(1,0)
-        
+
 
         # movement keys
         if key.vk == tcod.KEY_UP:
             player_move_or_attack(0,-1)
-            
-     
+
+
         elif key.vk == tcod.KEY_DOWN:
             player_move_or_attack(0,1)
-            
+
         elif key.vk == tcod.KEY_LEFT:
             player_move_or_attack(-1,0)
-            
+
         elif key.vk == tcod.KEY_RIGHT:
             player_move_or_attack(1,0)
 
@@ -683,6 +804,13 @@ def handle_keys():
                         print('Found one!')
                         object.item.pick_up()
                         break
+
+            elif key_char == 'i':
+                # show inventory
+                chosen_item = inventory_menu('Press key next to item to use, or any other to cancel.')
+                if chosen_item is not None:
+                    chosen_item.use()
+
 
             return 'didnt-take-turn'
 
@@ -702,7 +830,7 @@ def get_names_under_mouse():
 #############################################
 # Initialization and Main Game Loop #########
 #############################################
- 
+
 # Setup Font
 font_filename = 'arial10x10.png'
 tcod.console_set_custom_font(font_filename, tcod.FONT_TYPE_GREYSCALE | tcod.FONT_LAYOUT_TCOD)
@@ -754,14 +882,14 @@ mouse = tcod.Mouse()
 key = tcod.Key()
 
 while not tcod.console_is_window_closed():
-    
+
     tcod.sys_check_for_event(tcod.EVENT_KEY_PRESS | tcod.EVENT_MOUSE, key, mouse)
 
     # render the screen
     render_all()
 
     tcod.console_flush()
-    
+
     #erase all objects at their old locations, before they move
     for object in objects:
         object.clear()

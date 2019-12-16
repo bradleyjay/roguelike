@@ -15,5 +15,5 @@ pip install -r requirements.txt
 Following this guide:
 http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod
 
-Currently just beginning Part 8 - Items:
+12/16/2019 - Starting "Using Items" (inventory works, can't use the items themselves yet)
 http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8
