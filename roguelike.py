@@ -60,6 +60,9 @@ MSG_HEIGHT = PANEL_HEIGHT - 1
 MAX_ROOM_MONSTERS = 3
 MAX_ROOM_ITEMS = 2
 
+LEVEL_UP_BASE = 200
+LEVEL_UP_FACTOR = 150
+
 INVENTORY_WIDTH = 50
 HEAL_AMOUNT = 4
 
@@ -111,7 +114,9 @@ class Rect:
 class Object:
     # catch-all object class. Player, monsters, item, everything will be a character on-screen.
 
-    def __init__(self, x, y, char, name, color, blocks=False, fighter=None, ai=None, item=None):
+    def __init__(self, x, y, char, name, color, blocks=False, always_visible=False, fighter=None, ai=None, item=None):
+        self.always_visible = always_visible
+
         self.x = x
         self.y = y
 
@@ -150,7 +155,7 @@ class Object:
 
     def draw(self):
         # set color, draw char at this position (but only if player can see it in FOV)
-        if tcod.map_is_in_fov(fov_grid, self.x, self.y):
+        if tcod.map_is_in_fov(fov_grid, self.x, self.y) or (self.always_visible and grid[self.x][self.y].explored):
             tcod.console_set_default_foreground(con, self.color)
             tcod.console_put_char(con, self.x, self.y, self.char, tcod.BKGND_NONE)
 
@@ -227,11 +232,12 @@ class Item:
 
 class Fighter:
     # combat related properties and methods (monster, player, NPC)
-    def __init__(self, hp, defense, power, death_function=None):
+    def __init__(self, hp, defense, power, xp, death_function=None):
         self.max_hp = hp
         self.hp = hp
         self.defense = defense
         self.power = power
+        self.xp = xp
         self.death_function = death_function
 
     def take_damage(self, damage):
@@ -244,6 +250,8 @@ class Fighter:
                 df = self.death_function
                 if df is not None:
                     df(self.owner)
+                if self.owner != player:
+                    player.fighter.xp += self.xp
 
     def attack(self, target):
         # a simple formula for attack damage
@@ -389,8 +397,9 @@ def create_v_tunnel(y1,y2,x):
         grid[x][y].block_sight = False
 
 def make_grid():
-    global grid, player # can't call this map, it's a named function
+    global grid, objects, stairs # can't call this map, it's a named function
 
+    objects = [player]
     # fill map with "blocked" tiles - rooms will be carved out of rock, more or less
 
     grid = [[Tile(True)
@@ -459,6 +468,10 @@ def make_grid():
             rooms.append(new_room)
             num_rooms += 1
 
+    # create stairs at center of last room
+    stairs = Object(new_x, new_y, '<', 'stairs', tcod.white, always_visible=True)
+    objects.append(stairs)
+    stairs.send_to_back() # draw below monsters
 
 def render_all():
     global fov_grid, color_dark_wall, color_light_wall
@@ -524,6 +537,10 @@ def render_all():
     render_bar(1, 1, BAR_WIDTH, 'HP', player.fighter.hp, player.fighter.max_hp, tcod.light_red, tcod.darker_red)
 
 
+    # show dungeon level
+    tcod.console_print_ex(panel, 1, 3, tcod.BKGND_NONE, tcod.LEFT, 'Dungeon Level ' + str(dungeon_level))
+
+
     # display name of objects under the mouse
     tcod.console_set_default_foreground(panel, tcod.light_gray)
     tcod.console_print_ex(panel, 1, 0, tcod.BKGND_NONE, tcod.LEFT, get_names_under_mouse())
@@ -548,21 +565,21 @@ def place_objects(room):
             monster_roll = tcod.random_get_int(0,0,100)
             if monster_roll <= 70:
                 # 70% chance of orc
-                fighter_component = Fighter(hp=10, defense=0,power=3, death_function=monster_death)
+                fighter_component = Fighter(hp=10, defense=0,power=3, xp=35, death_function=monster_death)
                 ai_component = BasicMonster()
 
                 monster = Object(x, y, 'o', 'Orc', tcod.desaturated_green, blocks=True, fighter=fighter_component, ai=ai_component)
 
             elif monster_roll >= 97:
                 # 7% chance of Dragon, it will rock you
-                fighter_component = Fighter(hp=30, defense=2,power=4, death_function=monster_death)
+                fighter_component = Fighter(hp=30, defense=2,power=4,, xp=500, death_function=monster_death)
                 ai_component = BossMonster()
 
                 monster = Object(x, y, 'D', 'Dragon', tcod.red, blocks=True, fighter=fighter_component, ai=ai_component)
             else:
                 # 23% chance - otherwise, it's a troll
 
-                fighter_component = Fighter(hp=16, defense=1,power=4, death_function=monster_death)
+                fighter_component = Fighter(hp=16, defense=1,power=4, xp = 120, death_function=monster_death)
                 ai_component = BasicMonster()
 
                 monster = Object(x,y, 'T', 'Troll', tcod.darker_green, blocks=True, fighter=fighter_component, ai=ai_component)
@@ -583,24 +600,24 @@ def place_objects(room):
             if item_roll < 70: # potions
                 # create healing potion
                 item_component = Item(use_function=cast_heal)
-                item = Object(x,y, '!', 'healing potion', tcod.violet, item=item_component)
+                item = Object(x,y, '!', 'healing potion', tcod.violet, item=item_component, always_visible=True)
 
             else: # scrolls
 
                 # lightning
                 if item_roll < 70 + 10: # 10% chance
                     item_component = Item(use_function=cast_lightning)
-                    item = Object(x,y, '#', 'lightning scroll', tcod.light_yellow, item=item_component)
+                    item = Object(x,y, '#', 'lightning scroll', tcod.light_yellow, item=item_component, always_visible=True)
 
                 # fireball
                 elif item_roll < 70 + 10 + 10: # 10% chance
                     item_component = Item(use_function = cast_fireball)
-                    item = Object(x,y, '#', 'fireball scroll', tcod.light_yellow, item=item_component)
+                    item = Object(x,y, '#', 'fireball scroll', tcod.light_yellow, item=item_component, always_visible=True)
 
                 # confuse
                 else: # 10%
                     item_component = Item(use_function=cast_confuse)
-                    item = Object(x,y, '#', 'confuse scroll', tcod.light_yellow, item=item_component)
+                    item = Object(x,y, '#', 'confuse scroll', tcod.light_yellow, item=item_component, always_visible=True)
 
             objects.append(item)
             item.send_to_back() # items are rendered behind other objects
@@ -663,6 +680,33 @@ def target_monster(max_range=None):
             if obj.x == x and obj.y == y and obj.fighter and obj != player:
                 return obj
 
+def next_level():
+    global dungeon_level
+    # advance to next level
+    message('You take a moment to rest, recovering your strength.', tcod.light_violet)
+    player.fighter.heal(player.fighter.max_hp/2)
+
+    message('After a rare moment of peace, you decend deeper into the heart of the dungon...', tcod.red)
+
+    # new level time
+    dungeon_level += 1
+    make_grid()
+    initialize_fov()
+
+
+
+def check_level_up():
+    # see if player's xp is enough to level up
+    level_up_xp = LEVEL_UP_BASE + player.level * LEVEL_UP_FACTOR
+    if player.fighter.xp >= level_up_xp:
+        # it is, level
+        player.level += 1
+        player.fighter.xp -= level_up_xp
+        message('Your battle skills grow stronger! You reached level ' + str(player.level) + '!', tcod.yellow)
+
+        choice = None
+        while choice ==None:
+            # player picks benefit
 
 #### Player Actions
 
@@ -815,6 +859,10 @@ def menu(header, options, width):
 
     # calculate total height for the header (after auto-wrap), and one line per option
     header_height = tcod.console_get_height_rect(con, 0, 0, width, SCREEN_HEIGHT, header)
+
+    if header == '':
+        header_height = 0
+
     height = len(options) + header_height
 
     # create an offscreen where menu's window is drawn first
@@ -842,6 +890,9 @@ def menu(header, options, width):
     # present the root console to player, wait for key-pres
     tcod.console_flush()
     key = tcod.console_wait_for_keypress(True)
+
+    if key.vk == tcod.KEY_ENTER and key.lalt:
+        tcod.console_set_fullscreen(not tcod.console_is_fullscreen())
 
     index = key.c - ord('a')
     if index >= 0 and index < len(options):
@@ -927,6 +978,11 @@ def handle_keys():
                 if chosen_item is not None:
                     chosen_item.drop()
 
+            elif key_char == ',':
+                # go down stairs, if player is on them
+                if stairs.x == player.x and stairs.y == player.y:
+                    next_level()
+
             return 'didnt-take-turn'
 
 def get_names_under_mouse():
@@ -962,61 +1018,113 @@ con = tcod.console_new(MAP_WIDTH, MAP_HEIGHT)
 
 panel = tcod.console_new(SCREEN_WIDTH, PANEL_HEIGHT)
 
-# create object representing player
-fighter_component = Fighter(hp=30,defense=2,power=5, death_function=player_death)
-player = Object(0, 0, '@', 'player', tcod.white, blocks=True, fighter=fighter_component)
 
 
-# add those objects to a list with those two
-objects = [player]
+def new_game():
+    global player, inventory, game_msgs, game_state, dungeon_level
 
+    # create object representing player
+    fighter_component = Fighter(hp=30,defense=2,power=5, xp=0, death_function=player_death)
+    player = Object(0, 0, '@', 'player', tcod.white, blocks=True, fighter=fighter_component)
 
-# handle inventory
-inventory = []
+    player.level = 1
 
-# draw the grid (the map)
-make_grid()
+    # draw the grid (the map)
+    dungeon_level = 1
+    make_grid()
 
+    initialize_fov()
+    game_state = 'playing'
 
-# Initialize FOV Module - sightlines and pathing, via tcod's FOV algo
+    # handle inventory
+    inventory = []
 
-fov_grid = tcod.map_new(MAP_WIDTH, MAP_HEIGHT)
-for y in range(MAP_HEIGHT):
-    for x in range(MAP_WIDTH):
-        tcod.map_set_properties(fov_grid, x, y, not grid[x][y].block_sight, not grid[x][y].blocked)
+    # message console
+    game_msgs = []
+    message('Welcome to hell, meatbag! No one has survived before, best of luck kiddo.', tcod.red)
 
-fov_recompute = True
-game_state = 'playing'
-player_action = None
+def initialize_fov():
+    global fov_recompute, fov_grid
 
-# message console
-game_msgs = []
-message('Welcome to hell, meatbag! No one has survived before, best of luck kiddo.', tcod.red)
+    fov_recompute = True
 
-mouse = tcod.Mouse()
-key = tcod.Key()
+    # Initialize FOV Module - sightlines and pathing, via tcod's FOV algo
 
-while not tcod.console_is_window_closed():
+    tcod.console_clear(con)  #unexplored areas start black (which is the default background color)
 
-    tcod.sys_check_for_event(tcod.EVENT_KEY_PRESS | tcod.EVENT_MOUSE, key, mouse)
+    fov_grid = tcod.map_new(MAP_WIDTH, MAP_HEIGHT)
+    for y in range(MAP_HEIGHT):
+        for x in range(MAP_WIDTH):
+            tcod.map_set_properties(fov_grid, x, y, not grid[x][y].block_sight, not grid[x][y].blocked)
 
-    # render the screen
-    render_all()
+def play_game():
 
-    tcod.console_flush()
+    global key, mouse
+    player_action = None
+    mouse = tcod.Mouse()
+    key = tcod.Key()
 
-    #erase all objects at their old locations, before they move
-    for object in objects:
-        object.clear()
+    while not tcod.console_is_window_closed():
 
-    #player turn: handle keys and exit game if needed
-    player_action = handle_keys()
+        tcod.sys_check_for_event(tcod.EVENT_KEY_PRESS | tcod.EVENT_MOUSE, key, mouse)
 
-    if player_action == 'exit':
-        break
+        # render the screen
+        render_all()
 
-    # monster turns
-    if game_state == 'playing' and player_action != 'didnt-take-turn':
+        tcod.console_flush()
+
+        #erase all objects at their old locations, before they move
         for object in objects:
-            if object.ai:
-                object.ai.take_turn()
+            object.clear()
+
+        #player turn: handle keys and exit game if needed
+        player_action = handle_keys()
+
+        if player_action == 'exit':
+            break
+
+        # monster turns
+        if game_state == 'playing' and player_action != 'didnt-take-turn':
+            for object in objects:
+                if object.ai:
+                    object.ai.take_turn()
+
+
+def main_menu():
+    img = tcod.image_load('skeletonSplash2.png')
+
+
+
+    while not tcod.console_is_window_closed():
+
+        #show image at double console res
+        tcod.image_blit_2x(img, 0, 0, 0)
+
+        #show the game's title, and some credits!
+        tcod.console_set_default_foreground(0, tcod.red)
+        tcod.console_print_ex(0, SCREEN_WIDTH//2, SCREEN_HEIGHT//2-4, tcod.BKGND_NONE, tcod.CENTER,
+            'Spooky Spooky Skellies')
+        tcod.console_print_ex(0, SCREEN_WIDTH//2, SCREEN_HEIGHT-2, tcod.BKGND_NONE, tcod.CENTER,
+            'By Boo Radley Productions')
+
+        #show options and wait on player's choice
+        choice = menu('', ['Play a new game', 'Continue last game', 'Quit'], 24)
+
+        if choice == 0:
+            new_game()
+            play_game()
+
+        elif choice == 2:
+            break
+
+
+main_menu()
+
+
+
+
+
+
+
+
+
