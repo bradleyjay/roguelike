@@ -66,6 +66,12 @@ HEAL_AMOUNT = 4
 LIGHTNING_DAMAGE = 20
 LIGHTNING_RANGE = 5
 
+FIREBALL_RADIUS = 3
+FIREBALL_DAMAGE = 12
+
+CONFUSE_NUM_TURNS = 10
+CONFUSE_RANGE = 8
+
 ##################################
 ## Foundational Classes        ###
 ##################################
@@ -171,6 +177,10 @@ class Object:
         dy = other.y - self.y
         return math.sqrt(dx **2 + dy ** 2)
 
+    def distance(self, x, y):
+        # return distance to any coordinates
+        return math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2)
+
     def send_to_back(self):
         # make this object be drawn first, so that others appear above it if on same tile
         global objects
@@ -205,6 +215,14 @@ class Item:
             inventory.append(self.owner)
             objects.remove(self.owner)
             message("Picked up a " + self.owner.name + "!", tcod.green)
+
+    def drop(self):
+        # add to map, remove from inventory
+        objects.append(self.owner)
+        inventory.remove(self.owner)
+        self.owner.x = player.x
+        self.owner.y = player.y
+        message('You dropped a ' + self.owner.name + '.', tcod.yellow)
 
 
 class Fighter:
@@ -318,6 +336,21 @@ class BossMonster:
             # make target take some damage
             message('** ' + str(self.owner.name.capitalize()) + ' attacks ' + str(target.name) + ' for ' + str(damage) + ' HP! **', text_color)
             target.fighter.take_damage(damage)
+
+class ConfusedMonster:
+    # AI for temporarily confused monster
+    def __init__(self, old_ai, num_turns=CONFUSE_NUM_TURNS):
+        self.old_ai = old_ai
+        self.num_turns = num_turns
+
+    def take_turn(self):
+        if self.num_turns > 0: # still confused
+            # move in random direction, decrement turns left
+            self.owner.move(tcod.random_get_int(0, -1, 1), tcod.random_get_int(0,-1,1))
+            self.num_turns -= 1
+        else: #restore previous AI
+            self.owner.ai = self.old_ai
+            message('The ' + self.owner.name + ' is no longer confused!', tcod.red)
 
 ################
 ## Functions ###
@@ -547,14 +580,27 @@ def place_objects(room):
         if not is_blocked(x,y):
 
             item_roll = tcod.random_get_int(0,0,100)
-            if item_roll < 70:
+            if item_roll < 70: # potions
                 # create healing potion
                 item_component = Item(use_function=cast_heal)
                 item = Object(x,y, '!', 'healing potion', tcod.violet, item=item_component)
-            else:
-                # create lightning scroll
-                item_component = Item(use_function=cast_lightning)
-                item = Object(x,y, '#', 'lightning scroll', tcod.light_yellow, item=item_component)
+
+            else: # scrolls
+
+                # lightning
+                if item_roll < 70 + 10: # 10% chance
+                    item_component = Item(use_function=cast_lightning)
+                    item = Object(x,y, '#', 'lightning scroll', tcod.light_yellow, item=item_component)
+
+                # fireball
+                elif item_roll < 70 + 10 + 10: # 10% chance
+                    item_component = Item(use_function = cast_fireball)
+                    item = Object(x,y, '#', 'fireball scroll', tcod.light_yellow, item=item_component)
+
+                # confuse
+                else: # 10%
+                    item_component = Item(use_function=cast_confuse)
+                    item = Object(x,y, '#', 'confuse scroll', tcod.light_yellow, item=item_component)
 
             objects.append(item)
             item.send_to_back() # items are rendered behind other objects
@@ -584,6 +630,38 @@ def closest_monster(max_range):
             if dist < closest_dist: # remember closest
                 closest_enemy = object
     return closest_enemy
+
+def target_tile(max_range=None):
+    # return position of a tile left-clicked by the player in FOV,
+    # or(None, None if right-clicked)
+    global key, mouse
+    while True:
+        # render screen, that'll erase the menu and show names of objects under the mouse.
+        tcod.console_flush()
+        tcod.sys_check_for_event(tcod.EVENT_KEY_PRESS|tcod.EVENT_MOUSE,key,mouse)
+        render_all()
+
+        (x, y) = (mouse.cx, mouse.cy)
+
+        if mouse.lbutton_pressed and tcod.map_is_in_fov(fov_grid, x, y) and (max_range is None or player.distance(x,y) <= max_range):
+            return (x,y)
+
+        if mouse.rbutton_pressed or key.vk == tcod.KEY_ESCAPE:
+            return (None, None) # cancel!
+
+
+def target_monster(max_range=None):
+    # returns a clicked monster in FOV up to a range, or None if right clicked
+
+    while True:
+        (x, y) = target_tile(max_range)
+        if x is None: # player cancelled
+            return None
+
+        # return the first-clicked monster, otherwise, keep looping
+        for obj in objects:
+            if obj.x == x and obj.y == y and obj.fighter and obj != player:
+                return obj
 
 
 #### Player Actions
@@ -686,6 +764,38 @@ def cast_lightning():
     # nuke it:
     message('Lightning arcs to strike the ' + monster.name + ' with a deafening crash! The ' + monster.name + ' takes ' + str(LIGHTNING_DAMAGE) + ' damage.', tcod.light_blue)
     monster.fighter.take_damage(LIGHTNING_DAMAGE)
+
+
+def cast_confuse():
+
+    message('Left-click a monster to confuse it, right-click to cancel.')
+    monster = target_monster(CONFUSE_RANGE)
+
+    if monster is None:
+        message ('No enemy close enough to target Confuse spell.')
+        return 'cancelled'
+
+    # swap AI
+    old_ai = monster.ai
+    monster.ai = ConfusedMonster(old_ai)
+    monster.ai.owner = monster # don't forget, tell new component who owns it
+    message('The eyes of the ' + monster.name + ' glaze over. It starts to stumble around!', tcod.light_green)
+
+def cast_fireball():
+    # ask player where to send the fireball
+    message('Left click a taget tile for fireball, ESC key or right-click to cancel.', tcod.cyan)
+    (x, y) = target_tile()
+    if x is None:
+        return 'cancelled'
+
+    message('The fireball explodes, burning everything within ' + str(FIREBALL_RADIUS) + ' tiles!', tcod.orange)
+
+    for obj in objects: # damage every fighter in range
+        if obj.distance(x, y) <= FIREBALL_RADIUS and obj.fighter:
+            message('The ' + obj.name + 'was burned for ' + str(FIREBALL_DAMAGE) + ' HP.', tcod.orange)
+            obj.fighter.take_damage(FIREBALL_DAMAGE)
+
+
 # ######################################################################
 # User Input
 # ######################################################################
@@ -811,6 +921,11 @@ def handle_keys():
                 if chosen_item is not None:
                     chosen_item.use()
 
+            elif key_char == 'd':
+                # show inventory, but for dropping:
+                chosen_item = inventory_menu('Press key next to any item to DROP that item, or any other to cancel.')
+                if chosen_item is not None:
+                    chosen_item.drop()
 
             return 'didnt-take-turn'
 
