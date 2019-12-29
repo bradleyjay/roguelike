@@ -180,6 +180,23 @@ class Object:
         dy = int(round(dy / distance))
         self.move(dx,dy)
 
+    def evade_vector(self, target_x, target_y):
+        # vector from this object to the target, and distance
+        dx = target_x - self.x
+        dy = target_y - self.y
+
+        distance = math.sqrt(dx ** 2 + dy ** 2)
+
+        # normalize to length 1, preserve direction. Round it, convert to integer so answer is in grid units
+
+        dx = -int(round(dx / distance))
+        dy = -int(round(dy / distance))
+
+        if is_blocked(self.x + dx, self.y + dy):
+            return False
+        else:
+            return (dx,dy)
+
     def distance_to(self, other):
         # return distance to another object
         dx = other.x - self.x
@@ -298,10 +315,12 @@ class BasicMonster:
 
 class RangedMonster:
     # AI for ranged (reloading / charging) monster
-    def __init__(self, spacing=(2,4), ammo=0):
-        self.spacing = spacing # always a tuple of preferred range
-        self.spacing_avg = (spacing[0] + spacing[1]) // 2
-        self.ammo = 1 # arrow / shot nocked?
+    def __init__(self, attack_range=(2,4), ammo=0):
+        self.attack_range = attack_range # always a tuple of preferred range
+        self.attack_range_avg = (attack_range[0] + attack_range[1]) // 2
+        self.ammo_max = ammo # ammo req'd to shoot. 0 means continuous
+        self.ammo = ammo
+
 
     def take_turn(self):
 
@@ -310,15 +329,39 @@ class RangedMonster:
 
         if tcod.map_is_in_fov(fov_grid, monster.x, monster.y):
             # if in FoV
-            # move towards player if far away
 
-            if monster.distance_to(player) >= spacing_avg and self.loaded:
+            # player far enough away? not maxed on ammo? reload
+            if monster.distance_to(player) >= self.attack_range_avg and self.ammo < self.ammo_max:
+                self.stockpile()
+
+            # player out of range, got ammo? advance
+            if monster.distance_to(player) > self.attack_range[1] and self.ammo >= self.ammo_max:
                 monster.move_towards(player.x, player.y)
 
-            # close enough - attack time, if player alive!
-            elif player.fighter.hp > 0:
-                monster.fighter.attack(player)
+            # player far enough away, got ammo? Fire
+            elif monster.distance_to(player) >= self.attack_range[0] and monster.distance_to(player) <= self.attack_range[1] and self.ammo == self.ammo_max and player.fighter.hp > 0:
+                self.ranged_attack()
 
+
+            # too close - back up or fire if cornered!
+            elif monster.distance_to(player) < self.attack_range[0] and player.fighter.hp > 0:
+                evade = monster.evade_vector(player.x, player.y)
+
+                if not evade:
+                    if self.ammo < self.ammo_max:
+                        self.stockpile()
+                    else:
+                        self.ranged_attack()
+                else:
+                    monster.move(evade[0],evade[1])
+
+    def stockpile(self):
+        self.ammo += 1
+        message('The ' + self.owner.name + ' is loads its weapon!', tcod.red)
+
+    def ranged_attack(self):
+        self.owner.fighter.attack(player)
+        self.ammo -= 1
 
 class ConfusedMonster:
     # AI for a confused monster
@@ -636,15 +679,15 @@ def place_objects(room):
     # choose a random number of monsters
 
     MAX_ROOM_MONSTERS = dungeon_level // 3 + 2
-    MAX_ROOM_ITEMS = dungeon_level // 3 + 2
-    MAX_ODDS = min(dungeon_level * 5 + 60, 100)
+    MAX_ROOM_ITEMS = dungeon_level // 4 + 1
+    MAX_ODDS = min(dungeon_level * 5 + 40, 100)
 
 
     ## Monsters
 
     num_monsters = tcod.random_get_int(0, 0, MAX_ROOM_MONSTERS)
 
-    monster_chances = {'orc': 40, 'troll': 30, 'dragon': 15, 'maw': 8, 'lich': 7}
+    monster_chances = {'orc': 35, 'archer': 10, 'troll': 20, 'dragon': 15, 'maw': 8, 'lich': 7, 'titan': 5}
     item_chances = {'heal': 45, 'confuse': 20, 'fireball': 20, 'lightning': 20}
 
     for i in range(num_monsters):
@@ -663,10 +706,10 @@ def place_objects(room):
 
                 monster = Object(x, y, 'o', 'Orc', tcod.desaturated_green, blocks=True, fighter=fighter_component, ai=ai_component)
 
-            elif choice = 'archer':
+            elif choice == 'archer':
 
                 fighter_component = Fighter(hp=8, defense=0, power=3, xp = 35, death_function=monster_death)
-                ai_component = RangedMonster(spacing=(2,4),ammo=1)
+                ai_component = RangedMonster(attack_range=(2,4),ammo=1)
 
                 monster = Object(x,y, 'a', 'Goblin Archer', tcod.darker_green, blocks=True, fighter=fighter_component, ai=ai_component)
 
@@ -701,6 +744,14 @@ def place_objects(room):
                 ai_component = BasicMonster()
 
                 monster = Object(x, y, 'L', 'Lich', tcod.black, blocks=True, fighter=fighter_component, ai=ai_component)
+
+            elif choice == 'titan':
+                # will have spells that summon badguys - lich can be fragile-ish
+                # should have debuffs, evasive AI
+                fighter_component = Fighter(hp=300, defense=10, power=25, xp=10000, death_function=monster_death)
+                ai_component = BasicMonster()
+
+                monster = Object(x, y, 'T', 'Titan', tcod.white, blocks=True, fighter=fighter_component, ai=ai_component)
 
             objects.append(monster)
 
@@ -802,7 +853,7 @@ def next_level():
     global dungeon_level
     # advance to next level
     message('You take a moment to rest, recovering your strength.', tcod.light_violet)
-    player.fighter.heal(player.fighter.max_hp/2)
+    player.fighter.heal(player.fighter.max_hp//2)
 
     message('After a rare moment of peace, you decend deeper into the heart of the dungeon...', tcod.red)
 
@@ -1197,6 +1248,11 @@ def handle_keys():
                     for x in range(MAP_WIDTH):
                         grid[x][y].explored = True
 
+            # elif key_char == 'a':
+            #     chosen_ability = ability_menu('Press key next to any ability to use it, or any other to cancel.')
+            #     if chosen_ability is not None:
+            #         chosen_ability.use()
+
             return 'didnt-take-turn'
 
 
@@ -1302,7 +1358,7 @@ def new_game():
     global player, inventory, game_msgs, game_state, dungeon_level
 
     # create object representing player
-    fighter_component = Fighter(hp=30,defense=2,power=5, xp=0, death_function=player_death)
+    fighter_component = Fighter(hp=30,defense=1,power=5, xp=0, death_function=player_death)
     player = Object(0, 0, '@', 'player', tcod.white, blocks=True, fighter=fighter_component)
 
     player.level = 1
