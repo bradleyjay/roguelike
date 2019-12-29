@@ -30,7 +30,7 @@ MAP_HEIGHT = 43
 
 ROOM_MAX_SIZE = 10
 ROOM_MIN_SIZE = 6
-MAX_ROOMS = 30
+# MAX_ROOMS = 30 # math'd out in place rooms
 
 
 FOV_ALGO = 0  #default FOV algorithm
@@ -393,7 +393,7 @@ def create_room(room):
     # likewise, start from x1 + 1 to have a near wall too
 
     for x in range(room.x1 + 1, room.x2):
-        for y in range(room.x1 + 1, room.y2):
+        for y in range(room.y1 + 1, room.y2):
             grid[x][y].blocked = False
             grid[x][y].block_sight = False
 
@@ -418,6 +418,10 @@ def create_v_tunnel(y1,y2,x):
 def make_grid():
     print("\n Attempting Grid generation.\n")
     grid_success = False
+
+    MAX_ROOMS = min( dungeon_level * 3 + 3 , 30)
+    # MAX_ROOMS = 2
+
     while not grid_success:
         global grid, objects, stairs # can't call this map, it's a named function
 
@@ -432,14 +436,15 @@ def make_grid():
         num_rooms = 0
 
         for r in range(MAX_ROOMS):
+
             # random width and height
             # first argument is which "stream" to get number from, ~= seed?
-            w = tcod.random_get_int(0, ROOM_MIN_SIZE, ROOM_MAX_SIZE)
-            h = tcod.random_get_int(0, ROOM_MIN_SIZE, ROOM_MAX_SIZE)
+            w = random.randint(ROOM_MIN_SIZE, ROOM_MAX_SIZE)
+            h = random.randint(ROOM_MIN_SIZE, ROOM_MAX_SIZE)
 
             # random room positions, but within map bonds
-            x = tcod.random_get_int(0,0, MAP_WIDTH - w - 1)
-            y = tcod.random_get_int(0,0, MAP_HEIGHT - h - 1)
+            x = random.randint(0, MAP_WIDTH - w - 1)
+            y = random.randint(0, MAP_HEIGHT - h - 1)
 
             # Rect class makes rectangles easier to work with
             new_room = Rect(x, y, w, h)
@@ -449,17 +454,22 @@ def make_grid():
             for other_room in rooms:
                 if new_room.intersect(other_room):
                     failed = True
+                    print("\n\nBlocked.\n\n")
                     break
                     # wow this is sloppy - if any room overlaps...what, skip? Yep
 
             if not failed:
-                # this means there are on intersections, so this room is valid - time to actually build the room
+                # this means there are no intersections, so this room is valid - time to actually build the room
 
                 # "paint" it to the grid's tiles
                 create_room(new_room)
 
                 # center coordinates are handy
                 (new_x, new_y) = new_room.center()
+                print((new_x, new_y))
+                print(x, y, w, h)
+                print(rooms)
+                print('\n\n')
 
                 if num_rooms == 0:
                     # first room! Place the player here
@@ -470,18 +480,21 @@ def make_grid():
                     # for all rooms after the first, time to connect the new room to the last one with two tunnels. Generally, will need an h tunnel and v tunnel; this randomly chooses which to start with. AND, if you really only need one, the other tunnel is one tile, nbd.
 
                     # center coordinates of previous room
-                    (prev_x, prev_y) = rooms[num_rooms-1].center()
+                    # (prev_x, prev_y) = rooms[num_rooms-1].center()
+                    (prev_x, prev_y) = rooms[-1].center()
 
                     # flip for it - either start with an h tunnel or v tunnel
 
                     if random.randint(0, 1) == 1:
                         # horizontal tunnel first, then vertical
                         create_h_tunnel(prev_x, new_x, prev_y)
-                        create_v_tunnel(prev_y, new_y, prev_x)
+                        # create_v_tunnel(prev_y, new_y, prev_x)
+                        create_v_tunnel(prev_y, new_y, new_x)
                     else:
                         # vertical, then horizontal
                         create_v_tunnel(prev_y, new_y, prev_x)
-                        create_h_tunnel(prev_x, new_x, prev_y)
+                        # create_h_tunnel(prev_x, new_x, prev_y)
+                        create_h_tunnel(prev_x, new_x, new_y)
 
                 #add some contents to this room, such as monsters
                 place_objects(new_room)
