@@ -21,7 +21,6 @@ LIMIT_FPS = 20  # 20 frames-per-second maximum
 TURN_BASED = True  # turn-based game
 
 
-
 #########
 ## MAP ##
 #########
@@ -57,6 +56,7 @@ MSG_X = BAR_WIDTH + 2
 MSG_WIDTH = SCREEN_WIDTH - BAR_WIDTH - 2
 MSG_HEIGHT = PANEL_HEIGHT - 1
 
+INVENTORY_WIDTH = 50
 #################################
 ## Player / Creature Constants ##
 #################################
@@ -203,7 +203,6 @@ class Object:
 
 class Item:
     # an item that can be picked up and used.
-
     def __init__(self, use_function=None):
         self.use_function = use_function
 
@@ -296,6 +295,22 @@ class BasicMonster:
             # close enough - attack time, if player alive!
             elif player.fighter.hp > 0:
                 monster.fighter.attack(player)
+
+class ConfusedMonster:
+    # AI for a confused monster
+
+    def __init__(self, old_ai, num_turns=CONFUSE_NUM_TURNS):
+        self.old_ai = old_ai
+        self.num_turns = num_turns
+
+    def take_turn(self):
+        if self.num_turns > 0: #still confused...
+            #move in a random direction:
+            self.owner.move(tcod.random_get_int(0,-1,1), tcod.random_get_int(0,-1,1))
+            self.num_turns -= 1
+        else: #restore previous AI
+            self.owner.ai = self.old_ai
+            message('The ' + self.owner.name + ' is no longer confused!', tcod.red)
 
 class BossMonster:
     # AI for a heavy hitting boss monster
@@ -887,6 +902,21 @@ def monster_death(monster):
     monster.send_to_back()
 
 
+def closest_monster(max_range):
+    # find closest enemy, up to a maximum range, and in player's FOV
+    closest_enemy = None
+    closest_dist = max_range + 1 # start with slightly more than maximum range
+
+    for obj in objects:
+        if obj.fighter and not obj == player and tcod.map_is_in_fov(fov_grid, obj.x, obj.y):
+            # calculate distance between this object and the player
+            dist = player.distance_to(obj)
+            if dist < closest_dist: # it's closer, remember it
+                closest_enemy = obj
+                closest_dist = dist
+    return closest_enemy
+
+
 def render_bar(x, y, total_width, name, value, maximum, bar_color, back_color):
     # render a bar (hp, xp, etc) at bottom of screen
     # -> first get width of bar
@@ -1138,6 +1168,69 @@ def get_names_under_mouse():
     # join list into string, comma separated
     names = ', '.join(names)
     return names.capitalize()
+
+def menu(header, options, width):
+    if len(options) > 26:
+        raise ValueError('Cannot have a menu with more than 26 options.')
+
+    # calculate total height for the header (after auto-wrap) and one line per option:
+    header_height = tcod.console_get_height_rect(con,0,0,width, SCREEN_HEIGHT, header)
+    height = len(options) + header_height
+
+    # create off-screen console that represents the menu's window
+    window = tcod.console_new(width, height)
+
+    # print the header, with auto-wrap
+    tcod.console_set_default_foreground(window, tcod.white)
+    tcod.console_print_rect_ex(window,0,0,width,height,tcod.BKGND_NONE, tcod.LEFT, header)
+
+    # print all menu options
+    y = header_height
+    letter_index = ord('a')
+
+    for option_text in options:
+        text = '(' + chr(letter_index) + ') ' + option_text
+        tcod.console_print_ex(window, 0, y, tcod.BKGND_NONE, tcod.LEFT, text)
+        y += 1
+        letter_index += 1
+
+    # blit contents of "window" to root console
+    # NOTE: Made each of these int's since the code geeked otherwise. However
+    # v low menu screen
+    x = int(SCREEN_WIDTH/2 - width/2)
+    y = int(SCREEN_HEIGHT/2 - height/2)
+    tcod.console_blit(window, 0, 0, width, height, 0, x, y, 1.0, 0.7)
+    # foreground, background transparency are last two params ^. Overlays the
+    # menu!
+
+    # present the menu, wait for keypress
+    tcod.console_flush()
+    key = tcod.console_wait_for_keypress(True)
+
+    # convert ASCII Code to an index, if it matches an option return it
+    index = key.c - ord('a')
+    print('Debug: Index =' + str(index))
+    if index >= 0 and index < len(options):
+        print('Returning index')
+        return index
+    return None
+
+
+def inventory_menu(header):
+    # show a menu with each item of the inventory as an option
+    if len(inventory) == 0:
+        options = ['Inventory is empty.']
+    else:
+        options = [item.name for item in inventory]
+
+    index = menu(header, options, INVENTORY_WIDTH)
+
+    # if an item was chosen, return it
+    if index is None or len(inventory) == 0:
+        return None
+    return inventory[index].item
+
+
 #############################################
 # Initialization and Main Game Loop #########
 #############################################
