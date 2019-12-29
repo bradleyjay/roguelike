@@ -118,7 +118,7 @@ class Rect:
 class Object:
     # catch-all object class. Player, monsters, item, everything will be a character on-screen.
 
-    def __init__(self, x, y, char, name, color, blocks=False, always_visible=False, fighter=None, ai=None, item=None):
+    def __init__(self, x, y, char, name, color, blocks=False, always_visible=False, fighter=None, ai=None, item=None): #, ability=None):
         self.always_visible = always_visible
 
         self.x = x
@@ -150,6 +150,11 @@ class Object:
         self.item = item
         if self.item: # let item component know who owns it
             self.item.owner = self
+
+        # Ability
+        # self.ability = ability
+        # if self.ability:
+        #     self.ability.owner = self
 
     def move(self,dx,dy):
         # move by a delta, unless destination is blocked
@@ -249,6 +254,20 @@ class Item:
         self.owner.y = player.y
         message('You dropped a ' + self.owner.name + '.', tcod.yellow)
 
+class Ability:
+    # an item that can be picked up and used.
+    def __init__(self, use_function=None):
+        self.use_function = use_function
+
+    def use(self):
+        # just call "use_function" if defined
+        if self.use_function is None:
+            message('The ' + self.owner.name + ' cannot be used.')
+        elif self.use_function() != 'cancelled':
+            # self.put_on_cooldown(self.owner) # put on cooldown, unless cancelled - PLACEHOLDER
+            pass
+        # else:
+        #     message('Item used...ish')
 
 class Fighter:
     # combat related properties and methods (monster, player, NPC)
@@ -1096,6 +1115,13 @@ def cast_fireball():
             message('The ' + obj.name + 'was burned for ' + str(FIREBALL_DAMAGE) + ' HP.', tcod.orange)
             obj.fighter.take_damage(FIREBALL_DAMAGE)
 
+
+def cast_gaurd():
+    # shield gaurd
+    message('You raise your shield.', tcod.blue)
+    player.fighter.bonus['dodge'] += 50
+    player.fighter.bonus['defense'] += 1
+
 # ######################################################################
 # User Input
 # ######################################################################
@@ -1253,6 +1279,9 @@ def handle_keys():
                 if chosen_ability is not None:
                     chosen_ability.use()
 
+            elif key_char == 'g':
+                cast_gaurd()
+
             return 'didnt-take-turn'
 
 
@@ -1331,6 +1360,19 @@ def inventory_menu(header):
         return None
     return inventory[index].item
 
+def ability_menu(header):
+    # show a menu with each ability of the ability list as an option
+    if len(ability_list) == 0:
+        options = ['Ability list is empty.']
+    else:
+        options = [str(ability.name) + '  ' + str(ability.status) for ability in ability_list]
+
+    index = menu(header, options, INVENTORY_WIDTH)
+
+    # if an item was chosen, return it
+    if index is None or len(ability_list) == 0:
+        return None
+    return ability_list[index].ability
 
 #############################################
 # Initialization and Main Game Loop #########
@@ -1355,7 +1397,7 @@ panel = tcod.console_new(SCREEN_WIDTH, PANEL_HEIGHT)
 
 
 def new_game():
-    global player, inventory, game_msgs, game_state, dungeon_level
+    global player, inventory, game_msgs, game_state, dungeon_level, ability_list
 
     # create object representing player
     fighter_component = Fighter(hp=30,defense=1,power=5, xp=0, death_function=player_death)
@@ -1372,6 +1414,11 @@ def new_game():
 
     # handle inventory
     inventory = []
+    # ability_list = []
+
+    # ability_component = Ability(use_function=cast_gaurd)
+    # ability = Object(x,y, '!', 'cast_gaurd', tcod.blue, ability=ability_component, always_visible=True)
+    ability_list.append(ability)
 
     # message console
     game_msgs = []
