@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<!-- saved from url=(0103)http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11 -->
+<html lang="en" dir="ltr" class="client-js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Complete Roguelike Tutorial, using python3+libtcod, part 11 - RogueBasin</title>
+
+<meta name="generator" content="MediaWiki 1.19.9">
+<link rel="shortcut icon" href="http://www.roguebasin.com/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="http://www.roguebasin.com/opensearch_desc.php" title="RogueBasin (en)">
+<link rel="EditURI" type="application/rsd+xml" href="http://www.roguebasin.com/api.php?action=rsd">
+<link rel="alternate" type="application/atom+xml" title="RogueBasin Atom feed" href="http://www.roguebasin.com/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="stylesheet" href="./Complete Roguelike Tutorial, using python3+libtcod, part 11 - RogueBasin_files/load.php">
+<!--[if IE 6]><link rel="stylesheet" href="/skins/monobook/IE60Fixes.css?303" media="screen" /><![endif]-->
+<!--[if IE 7]><link rel="stylesheet" href="/skins/monobook/IE70Fixes.css?303" media="screen" /><![endif]--><style type="text/css" media="all">.js-messagebox{margin:1em 5%;padding:0.5em 2.5%;border:1px solid #ccc;background-color:#fcfcfc;font-size:0.8em}.js-messagebox .js-messagebox-group{margin:1px;padding:0.5em 2.5%;border-bottom:1px solid #ddd}.js-messagebox .js-messagebox-group:last-child{border-bottom:thin none transparent}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:8b08bdc91c52a9ffba396dccfb5b473c */
+
+
+.mw-collapsible-toggle{float:right} li .mw-collapsible-toggle{float:none} .mw-collapsible-toggle-li{list-style:none}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:4250852ed2349a0d4d0fc6509a3e7d4c */
+</style><meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="./Complete Roguelike Tutorial, using python3+libtcod, part 11 - RogueBasin_files/load(1).php">
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:c88e2bcd56513749bec09a7e29cb3ffa */
+</style>
+
+<script src="./Complete Roguelike Tutorial, using python3+libtcod, part 11 - RogueBasin_files/load(2).php"></script><script src="./Complete Roguelike Tutorial, using python3+libtcod, part 11 - RogueBasin_files/load(3).php"></script>
+<script>if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Complete_Roguelike_Tutorial,_using_python3+libtcod,_part_11","wgTitle":"Complete Roguelike Tutorial, using python3+libtcod, part 11","wgCurRevisionId":47042,"wgArticleId":8305,"wgIsArticle":true,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Developing"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgRelevantPageName":"Complete_Roguelike_Tutorial,_using_python3+libtcod,_part_11","wgRestrictionEdit":[],"wgRestrictionMove":[]});
+}</script><script>if(window.mw){
+mw.loader.implement("user.options",function($){mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"monobook","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":
+0,"watchlistdays":3,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false});;},{},{});mw.loader.implement("user.tokens",function($){mw.user.tokens.set({"editToken":"+\\","watchToken":false});;},{},{});
+
+/* cache key: 133099-basin:resourceloader:filter:minify-js:7:74a832f2292f1f4d40d425d223444e78 */
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax"]);
+}</script><script type="text/javascript" src="./Complete Roguelike Tutorial, using python3+libtcod, part 11 - RogueBasin_files/load(4).php"></script>
+<style type="text/css">/*<![CDATA[*/
+.source-python {line-height: normal;}
+.source-python li, .source-python pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for python
+ * CSS class: source-python, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.python.source-python .de1, .python.source-python .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.python.source-python  {font-family:monospace;}
+.python.source-python .imp {font-weight: bold; color: red;}
+.python.source-python li, .python.source-python .li1 {font-weight: normal; vertical-align:top;}
+.python.source-python .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.python.source-python .li2 {font-weight: bold; vertical-align:top;}
+.python.source-python .kw1 {color: #ff7700;font-weight:bold;}
+.python.source-python .kw2 {color: #008000;}
+.python.source-python .kw3 {color: #dc143c;}
+.python.source-python .kw4 {color: #0000cd;}
+.python.source-python .co1 {color: #808080; font-style: italic;}
+.python.source-python .coMULTI {color: #808080; font-style: italic;}
+.python.source-python .es0 {color: #000099; font-weight: bold;}
+.python.source-python .br0 {color: black;}
+.python.source-python .sy0 {color: #66cc66;}
+.python.source-python .st0 {color: #483d8b;}
+.python.source-python .nu0 {color: #ff4500;}
+.python.source-python .me1 {color: black;}
+.python.source-python .ln-xtra, .python.source-python li.ln-xtra, .python.source-python div.ln-xtra {background-color: #ffc;}
+.python.source-python span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=18000";
+/*]]>*/
+</style></head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-Complete_Roguelike_Tutorial_using_python3_libtcod_part_11 skin-monobook action-view">
+<div id="globalWrapper">
+<div id="column-content"><div id="content"><div id="mw-js-message" class="js-messagebox" style="display: none;"></div>
+	<a id="top"></a>
+	<div id="siteNotice"><div id="localNotice" lang="en" dir="ltr"></div></div>
+	<h1 id="firstHeading" class="firstHeading"><span dir="auto">Complete Roguelike Tutorial, using python3+libtcod, part 11</span></h1>
+	<div id="bodyContent" class="mw-body">
+		<div id="siteSub">From RogueBasin</div>
+		<div id="contentSub"></div>
+		<div id="jump-to-nav" class="mw-jump">Jump to: <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11#column-one">navigation</a>, <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11#searchInput">search</a></div>
+		<!-- start content -->
+<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><center><table border="0" cellpadding="10" cellspacing="0" style="background:#F0E68C"><tbody><tr><td><center>
+<p>This is part of a series of tutorials; the main page can be found <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod" title="Complete Roguelike Tutorial, using python3+libtcod">here</a>.
+</p>
+</center></td></tr></tbody></table></center>
+<p><br>
+</p>
+<table id="toc" class="toc"><tbody><tr><td><div id="toctitle"><h2>Contents</h2><span class="toctoggle">&nbsp;[<a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11#" class="internal" id="togglelink">hide</a>]&nbsp;</span></div>
+<ul>
+<li class="toclevel-1"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11#Dungeon_levels_and_character_progression"><span class="tocnumber">1</span> <span class="toctext"><b>Dungeon levels and character progression</b></span></a>
+<ul>
+<li class="toclevel-2 tocsection-1"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11#Second_floor_please"><span class="tocnumber">1.1</span> <span class="toctext">Second floor please</span></a></li>
+<li class="toclevel-2 tocsection-2"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11#Character_progression"><span class="tocnumber">1.2</span> <span class="toctext">Character progression</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></tbody></table>
+<p><br>
+</p>
+<center><h1> <span class="mw-headline" id="Dungeon_levels_and_character_progression"><b>Dungeon levels and character progression</b></span></h1></center>
+<p><br>
+</p>
+<h2> <span class="mw-headline" id="Second_floor_please"> Second floor please </span></h2>
+<p>We're approaching the point where we have a complete game really fast. A big step will be taken in the next two parts, where we will focus on progression! They will deal with changing dungeon levels, advancing the character and acquiring skills, and finally varying the monsters and items as the player progresses. At the end you will have a game that can take the player quite some time to finish, and to master its strategies too.
+</p><p>We'll cover a lot of ground, but don't worry, this part is all familiar territory! We will reuse many functions from before.
+</p><p>A staple of roguelikes is the <i>stairs</i>, which the player must find to advance to the next dungeon level. We will start by placing them, when generating a level. Right at the end of <i>make_map</i>:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="co1">#create stairs at the center of the last room</span>
+    stairs = Object<span class="br0">(</span>new_x, new_y, <span class="st0">'&lt;'</span>, <span class="st0">'stairs'</span>, libtcod.<span class="me1">white</span><span class="br0">)</span>
+    objects.<span class="me1">append</span><span class="br0">(</span>stairs<span class="br0">)</span>
+    stairs.<span class="me1">send_to_back</span><span class="br0">(</span><span class="br0">)</span>  <span class="co1">#so it's drawn below the monsters</span></pre></div></div></div>
+<p><br>
+As you can see, it's just a regular object! To identify it in other functions, we'll make it global, so add <i>stairs</i> to the globals list at the top of <i>make_map</i>.
+</p><p>We must now let the player go down the stairs when standing on them and presses the <b> '&lt;' </b> key (or <b> '&gt;' </b> key if you prefer). It's easy to add this check at the end of <i>handle_keys</i>:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">            <span class="kw1">if</span> key_char == <span class="st0">'&lt;'</span>:
+                <span class="co1">#go down stairs, if the player is on them</span>
+                <span class="kw1">if</span> stairs.<span class="me1">x</span> == player.<span class="me1">x</span> <span class="kw1">and</span> stairs.<span class="me1">y</span> == player.<span class="me1">y</span>:
+                    next_level<span class="br0">(</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+The <i>next_level</i> function is the most important bit. What happens when the player goes down the stairs? Well, for now all we have to do is generate a brand new level, with <i>make_map()</i> and <i>initialize_fov()</i>. I will also heal the player because I'm such a nice guy!
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> next_level<span class="br0">(</span><span class="br0">)</span>:
+    <span class="co1">#advance to the next level</span>
+    message<span class="br0">(</span><span class="st0">'You take a moment to rest, and recover your strength.'</span>, libtcod.<span class="me1">light_violet</span><span class="br0">)</span>
+    player.<span class="me1">fighter</span>.<span class="me1">heal</span><span class="br0">(</span>player.<span class="me1">fighter</span>.<span class="me1">max_hp</span> / <span class="nu0">2</span><span class="br0">)</span>  <span class="co1">#heal the player by 50%</span>
+&nbsp;
+    message<span class="br0">(</span><span class="st0">'After a rare moment of peace, you descend deeper into the heart of the dungeon...'</span>, libtcod.<span class="me1">red</span><span class="br0">)</span>
+    make_map<span class="br0">(</span><span class="br0">)</span>  <span class="co1">#create a fresh new level!</span>
+    initialize_fov<span class="br0">(</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+That's it! You can now advance indefinitely and fight as many monsters as you want.
+</p><p>However, we probably want to keep track of the dungeon level we're on. So create a variable for that, by initializing it in the function <i>new_game</i>, before <i>make_map()</i>:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    dungeon_level = <span class="nu0">1</span></pre></div></div></div>
+<p><br>
+Don't forget to add <i>dungeon_level</i> to the list of globals at the top of the function! Otherwise you'll just be setting a local variable, that won't be visible in your other functions. The dungeon level can then be increased in <i>next_level</i>, before <i>make_map()</i>:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    dungeon_level += <span class="nu0">1</span></pre></div></div></div>
+<p><br>
+And declare it as global there too. To display it in the GUI, just print some informative text in <i>render_all</i>, after the call to <i>render_bar</i>:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    libtcod.<span class="me1">console_print_ex</span><span class="br0">(</span>panel, <span class="nu0">1</span>, <span class="nu0">3</span>, libtcod.<span class="me1">BKGND_NONE</span>, libtcod.<span class="me1">LEFT</span>, <span class="st0">'Dungeon level '</span> + <span class="kw2">str</span><span class="br0">(</span>dungeon_level<span class="br0">)</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+It's done! An important detail, however, is that we want this information (what object is the stairs, and what's the dungeon level) to be saved and loaded properly. We just have to follow the usual pattern, by adding to <i>save_game</i>:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="kw2">file</span><span class="br0">[</span><span class="st0">'stairs_index'</span><span class="br0">]</span> = objects.<span class="me1">index</span><span class="br0">(</span>stairs<span class="br0">)</span>
+    <span class="kw2">file</span><span class="br0">[</span><span class="st0">'dungeon_level'</span><span class="br0">]</span> = dungeon_level</pre></div></div></div>
+<p><br>
+And to <i>load_game</i>:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    stairs = objects<span class="br0">[</span><span class="kw2">file</span><span class="br0">[</span><span class="st0">'stairs_index'</span><span class="br0">]</span><span class="br0">]</span>
+    dungeon_level = <span class="kw2">file</span><span class="br0">[</span><span class="st0">'dungeon_level'</span><span class="br0">]</span></pre></div></div></div>
+<p><br>
+Again, don't forget to declare them as global in <i>load_game</i>.
+</p><p>Now, since I like exploring a level thoroughly before going to the next, I found that quite often I can't remember where the stairs were! So let's add a bit of polish and allow some objects to be always visible, as long as they are in a tile that was explored once. This is most useful for stairs, but I think it makes sense for items as well. Just add a new optional property to objects, by modifying the Object's initialization:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="kw1">def</span> <span class="kw4">__init__</span><span class="br0">(</span><span class="kw2">self</span>, x, y, char, name, color, blocks=<span class="kw2">False</span>, always_visible=<span class="kw2">False</span>, fighter=<span class="kw2">None</span>, ai=<span class="kw2">None</span>, item=<span class="kw2">None</span><span class="br0">)</span>:
+        <span class="kw2">self</span>.<span class="me1">always_visible</span> = always_visible</pre></div></div></div>
+<p><br>
+The behavior we talked about can be created by changing the <i>if</i> in the Object's <i>draw</i> method:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">        <span class="co1">#only show if it's visible to the player; or it's set to "always visible" and on an explored tile</span>
+        <span class="kw1">if</span> <span class="br0">(</span>libtcod.<span class="me1">map_is_in_fov</span><span class="br0">(</span>fov_map, <span class="kw2">self</span>.<span class="me1">x</span>, <span class="kw2">self</span>.<span class="me1">y</span><span class="br0">)</span> <span class="kw1">or</span>
+            <span class="br0">(</span><span class="kw2">self</span>.<span class="me1">always_visible</span> <span class="kw1">and</span> <span class="kw2">map</span><span class="br0">[</span><span class="kw2">self</span>.<span class="me1">x</span><span class="br0">]</span><span class="br0">[</span><span class="kw2">self</span>.<span class="me1">y</span><span class="br0">]</span>.<span class="me1">explored</span><span class="br0">)</span><span class="br0">)</span>:</pre></div></div></div>
+<p><br>
+You can now set <i>always_visible=True</i> when creating the stairs. I also set <i>item.always_visible = True</i> in <i>place_objects</i>, for all items to do the same. If you added the optional room-numbering labels in part 3, set them to always be visible too. They haven't been much use since the fog-of-war code was added, but this makes them useful again.
+</p>
+<h2> <span class="mw-headline" id="Character_progression"> Character progression </span></h2>
+<p>What's next? Let's see... Now that the player can fight so many monsters, it makes sense to gain some skill during the heroic quest! The simplest way to do this is to keep track of experience and player level. We'll store the amount of experience each monster gives in the Fighter component, by adding a new parameter <i>xp</i> to it:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="kw1">def</span> <span class="kw4">__init__</span><span class="br0">(</span><span class="kw2">self</span>, hp, defense, power, xp, death_function=<span class="kw2">None</span><span class="br0">)</span>:
+        <span class="kw2">self</span>.<span class="me1">xp</span> = xp</pre></div></div></div>
+<p><br>
+When creating an orc's Fighter component in <i>place_objects</i>, I set their <i>xp</i> to 35, and for trolls <i>xp=100</i> since they're harder to kill. I'm sure these numbers could use some tweaking!
+</p><p>When the player kills a monster, at the end of Fighter's <i>take_damage</i> method, it yields experience:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">                <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">owner</span> <span class="sy0">!</span>= player:  <span class="co1">#yield experience to the player</span>
+                    player.<span class="me1">fighter</span>.<span class="me1">xp</span> += <span class="kw2">self</span>.<span class="me1">xp</span></pre></div></div></div>
+<p><br>
+As you can see I'm storing it in the player's Fighter component as well, but I guess you could store it anywhere else since the player's xp is special.
+</p><p>But what does the player do with that experience? Let's level up! First, change the initialization of the player object to also set the experience and character level, in <i>new_game</i>:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="co1">#create object representing the player</span>
+    fighter_component = Fighter<span class="br0">(</span>hp=<span class="nu0">30</span>, defense=<span class="nu0">2</span>, power=<span class="nu0">5</span>, xp=<span class="nu0">0</span>, death_function=player_death<span class="br0">)</span>
+    player = Object<span class="br0">(</span><span class="nu0">0</span>, <span class="nu0">0</span>, <span class="st0">'@'</span>, <span class="st0">'player'</span>, libtcod.<span class="me1">white</span>, blocks=<span class="kw2">True</span>, fighter=fighter_component<span class="br0">)</span>
+&nbsp;
+    player.<span class="me1">level</span> = <span class="nu0">1</span></pre></div></div></div>
+<p><br>
+Now, we need to regularly check if the player has leveled up. I want it to become more difficult every time, so it takes 350 xp points to level up at the first level, and this increases by 150 points with every new level. The formula for this is <i>200 + player.level * 150</i>, but I'll declare some constants so they're easier to adjust later:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="co1">#experience and level-ups</span>
+LEVEL_UP_BASE = <span class="nu0">200</span>
+LEVEL_UP_FACTOR = <span class="nu0">150</span></pre></div></div></div>
+<p><br>
+And the function that handles this will simply check the formula:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> check_level_up<span class="br0">(</span><span class="br0">)</span>:
+    <span class="co1">#see if the player's experience is enough to level-up</span>
+    level_up_xp = LEVEL_UP_BASE + player.<span class="me1">level</span> <span class="sy0">*</span> LEVEL_UP_FACTOR
+    <span class="kw1">if</span> player.<span class="me1">fighter</span>.<span class="me1">xp</span> <span class="sy0">&gt;</span>= level_up_xp:
+        <span class="co1">#it is! level up</span>
+        player.<span class="me1">level</span> += <span class="nu0">1</span>
+        player.<span class="me1">fighter</span>.<span class="me1">xp</span> -= level_up_xp
+        message<span class="br0">(</span><span class="st0">'Your battle skills grow stronger! You reached level '</span> + <span class="kw2">str</span><span class="br0">(</span>player.<span class="me1">level</span><span class="br0">)</span> + <span class="st0">'!'</span>, libtcod.<span class="me1">yellow</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+Looks good so far! But when leveling up, the player should become stronger too. My idea is to allow the player between 3 choices: to increase agility (defense), strength (power) or constitution (hp). However, this is one area where you can really get creative -- you can let the player acquire new abilities, increase skills, stats, and even learn to cast new spells!
+</p><p>Using the <i>menu</i> function, this is straightforward; just ask the player at the end of <i>check_level_up</i>:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">        choice = <span class="kw2">None</span>
+        <span class="kw1">while</span> choice == <span class="kw2">None</span>:  <span class="co1">#keep asking until a choice is made</span>
+            choice = menu<span class="br0">(</span><span class="st0">'Level up! Choose a stat to raise:<span class="es0">\n</span>'</span>,
+                <span class="br0">[</span><span class="st0">'Constitution (+20 HP, from '</span> + <span class="kw2">str</span><span class="br0">(</span>player.<span class="me1">fighter</span>.<span class="me1">max_hp</span><span class="br0">)</span> + <span class="st0">')'</span>,
+                <span class="st0">'Strength (+1 attack, from '</span> + <span class="kw2">str</span><span class="br0">(</span>player.<span class="me1">fighter</span>.<span class="me1">power</span><span class="br0">)</span> + <span class="st0">')'</span>,
+                <span class="st0">'Agility (+1 defense, from '</span> + <span class="kw2">str</span><span class="br0">(</span>player.<span class="me1">fighter</span>.<span class="me1">defense</span><span class="br0">)</span> + <span class="st0">')'</span><span class="br0">]</span>, LEVEL_SCREEN_WIDTH<span class="br0">)</span>
+&nbsp;
+        <span class="kw1">if</span> choice == <span class="nu0">0</span>:
+            player.<span class="me1">fighter</span>.<span class="me1">max_hp</span> += <span class="nu0">20</span>
+            player.<span class="me1">fighter</span>.<span class="me1">hp</span> += <span class="nu0">20</span>
+        <span class="kw1">elif</span> choice == <span class="nu0">1</span>:
+            player.<span class="me1">fighter</span>.<span class="me1">power</span> += <span class="nu0">1</span>
+        <span class="kw1">elif</span> choice == <span class="nu0">2</span>:
+            player.<span class="me1">fighter</span>.<span class="me1">defense</span> += <span class="nu0">1</span></pre></div></div></div>
+<p><br>
+I set the constant <i>LEVEL_SCREEN_WIDTH = 40</i> at the top of the file. You can now call <i>check_level_up()</i> in the main loop after <i>libtcod.console_flush()</i>, so the check happens before every turn. This way the menu renders properly (remember we erase all objects before processing a turn, so otherwise they wouldn't show up behind the level up menu).
+</p><p>This seems great, but how do you know it's working? You need a way to check the character info! The character screen can be just a message box that pops up when you press the 'C' key. It's a little messy since it's just pasting together all the info in a string. In <i>handle_keys</i>:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">            <span class="kw1">if</span> key_char == <span class="st0">'c'</span>:
+                <span class="co1">#show character information</span>
+                level_up_xp = LEVEL_UP_BASE + player.<span class="me1">level</span> <span class="sy0">*</span> LEVEL_UP_FACTOR
+                msgbox<span class="br0">(</span><span class="st0">'Character Information<span class="es0">\n</span><span class="es0">\n</span>Level: '</span> + <span class="kw2">str</span><span class="br0">(</span>player.<span class="me1">level</span><span class="br0">)</span> + <span class="st0">'<span class="es0">\n</span>Experience: '</span> + <span class="kw2">str</span><span class="br0">(</span>player.<span class="me1">fighter</span>.<span class="me1">xp</span><span class="br0">)</span> +
+                    <span class="st0">'<span class="es0">\n</span>Experience to level up: '</span> + <span class="kw2">str</span><span class="br0">(</span>level_up_xp<span class="br0">)</span> + <span class="st0">'<span class="es0">\n</span><span class="es0">\n</span>Maximum HP: '</span> + <span class="kw2">str</span><span class="br0">(</span>player.<span class="me1">fighter</span>.<span class="me1">max_hp</span><span class="br0">)</span> +
+                    <span class="st0">'<span class="es0">\n</span>Attack: '</span> + <span class="kw2">str</span><span class="br0">(</span>player.<span class="me1">fighter</span>.<span class="me1">power</span><span class="br0">)</span> + <span class="st0">'<span class="es0">\n</span>Defense: '</span> + <span class="kw2">str</span><span class="br0">(</span>player.<span class="me1">fighter</span>.<span class="me1">defense</span><span class="br0">)</span>, CHARACTER_SCREEN_WIDTH<span class="br0">)</span></pre></div></div></div>
+<p><br>
+And set the constant <i>CHARACTER_SCREEN_WIDTH = 30</i>. It would also be polite to tell the player how much experience he or she gained when slaying a monster. So I modified the log message in <i>monster_death</i>:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    message<span class="br0">(</span><span class="st0">'The '</span> + monster.<span class="me1">name</span> + <span class="st0">' is dead! You gain '</span> + <span class="kw2">str</span><span class="br0">(</span>monster.<span class="me1">fighter</span>.<span class="me1">xp</span><span class="br0">)</span> + <span class="st0">' experience points.'</span>, libtcod.<span class="me1">orange</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+That's it. You can now become ridiculously overpowered in no time, and see how you're doing by pressing 'C'. But don't worry, we'll take care of that shortly -- the monsters will grow stronger too!
+</p><p>By the way, if you're missing diagonal movement with the numpad keys, now's a good chance to do it. The <a rel="nofollow" class="external text" href="http://roguecentral.org/doryen/data/libtcod/doc/1.5.1/html2/console_keycode_t.html?c=false&amp;cpp=false&amp;cs=false&amp;py=true&amp;lua=false">key codes</a> are KEY_KP0 to KEY_KP9. Have the player rest when the keypad '5' is pressed. This allows you to wait for a monster to come to you, rather than charging into a crowded room. Things are getting pretty serious!
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">        <span class="co1">#movement keys</span>
+        <span class="kw1">if</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_UP</span> <span class="kw1">or</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_KP8</span>:
+            player_move_or_attack<span class="br0">(</span><span class="nu0">0</span>, -<span class="nu0">1</span><span class="br0">)</span>
+        <span class="kw1">elif</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_DOWN</span> <span class="kw1">or</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_KP2</span>:
+            player_move_or_attack<span class="br0">(</span><span class="nu0">0</span>, <span class="nu0">1</span><span class="br0">)</span>
+        <span class="kw1">elif</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_LEFT</span> <span class="kw1">or</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_KP4</span>:
+            player_move_or_attack<span class="br0">(</span>-<span class="nu0">1</span>, <span class="nu0">0</span><span class="br0">)</span>
+        <span class="kw1">elif</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_RIGHT</span> <span class="kw1">or</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_KP6</span>:
+            player_move_or_attack<span class="br0">(</span><span class="nu0">1</span>, <span class="nu0">0</span><span class="br0">)</span>
+        <span class="kw1">elif</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_HOME</span> <span class="kw1">or</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_KP7</span>:
+            player_move_or_attack<span class="br0">(</span>-<span class="nu0">1</span>, -<span class="nu0">1</span><span class="br0">)</span>
+        <span class="kw1">elif</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_PAGEUP</span> <span class="kw1">or</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_KP9</span>:
+            player_move_or_attack<span class="br0">(</span><span class="nu0">1</span>, -<span class="nu0">1</span><span class="br0">)</span>
+        <span class="kw1">elif</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_END</span> <span class="kw1">or</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_KP1</span>:
+            player_move_or_attack<span class="br0">(</span>-<span class="nu0">1</span>, <span class="nu0">1</span><span class="br0">)</span>
+        <span class="kw1">elif</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_PAGEDOWN</span> <span class="kw1">or</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_KP3</span>:
+            player_move_or_attack<span class="br0">(</span><span class="nu0">1</span>, <span class="nu0">1</span><span class="br0">)</span>
+        <span class="kw1">elif</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_KP5</span>:
+            <span class="kw1">pass</span>  <span class="co1">#do nothing ie wait for the monster to come to you</span></pre></div></div></div>
+<p>The whole code is available <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11_code&amp;action=edit&amp;redlink=1" class="new" title="Complete Roguelike Tutorial, using python3+libtcod, part 11 code (page does not exist)">here</a>.
+</p><p><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12" title="Complete Roguelike Tutorial, using python3+libtcod, part 12">Go on to the next part</a>.
+</p>
+<!-- 
+NewPP limit report
+Preprocessor node count: 201/1000000
+Post‐expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key 133099-basin:pcache:idhash:8305-0!*!0!!en!*!* and timestamp 20191221184721 -->
+</div><div class="printfooter">
+Retrieved from "<a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11&amp;oldid=47042">http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11&amp;oldid=47042</a>"</div>
+		<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="http://www.roguebasin.com/index.php?title=Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="http://www.roguebasin.com/index.php?title=Category:Developing" title="Category:Developing">Developing</a></li></ul></div></div>		<!-- end content -->
+				<div class="visualClear"></div>
+	</div>
+</div></div>
+<div id="column-one">
+	<div id="p-cactions" class="portlet">
+		<h5>Views</h5>
+		<div class="pBody">
+			<ul>
+				<li id="ca-nstab-main" class="selected"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11" primary="1" context="subject" title="View the content page [ctrl-option-c]" accesskey="c">Page</a></li>
+				<li id="ca-talk" class="new"><a href="http://www.roguebasin.com/index.php?title=Talk:Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11&amp;action=edit&amp;redlink=1" primary="1" context="talk" title="Discussion about the content page [ctrl-option-t]" accesskey="t">Discussion</a></li>
+				<li id="ca-viewsource"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11&amp;action=edit" primary="1" title="This page is protected.
+You can view its source [ctrl-option-e]" accesskey="e">View source</a></li>
+				<li id="ca-history"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11&amp;action=history" rel="archives" title="Past revisions of this page [ctrl-option-h]" accesskey="h">History</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-personal">
+		<h5>Personal tools</h5>
+		<div class="pBody">
+			<ul>
+				<li id="pt-login"><a href="http://www.roguebasin.com/index.php?title=Special:UserLogin&amp;returnto=Complete+Roguelike+Tutorial%2C+using+python3%2Blibtcod%2C+part+11" title="You are encouraged to log in; however, it is not mandatory [ctrl-option-o]" accesskey="o">Log in / create account</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-logo">
+<a href="http://www.roguebasin.com/index.php?title=Main_Page" style="background-image: url(/skins/roguebasin/RogueBasin_logo.png);" title="Visit the main page"></a>
+	</div>
+	<div class="generated-sidebar portlet" id="p-navigation">
+		<h5>Navigation</h5>
+		<div class="pBody">
+			<ul>
+				<li id="n-mainpage"><a href="http://www.roguebasin.com/index.php?title=Main_Page" title="Visit the main page [ctrl-option-z]" accesskey="z">Main Page</a></li>
+				<li id="n-portal"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li>
+				<li id="n-recentchanges"><a href="http://www.roguebasin.com/index.php?title=Special:RecentChanges" title="A list of recent changes in the wiki [ctrl-option-r]" accesskey="r">Recent changes</a></li>
+				<li id="n-randompage"><a href="http://www.roguebasin.com/index.php?title=Special:Random" title="Load a random page [ctrl-option-x]" accesskey="x">Random page</a></li>
+				<li id="n-help"><a href="http://www.roguebasin.com/index.php?title=Help" title="The place to find out">Help</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="p-search" class="portlet">
+		<h5><label for="searchInput">Search</label></h5>
+		<div id="searchBody" class="pBody">
+			<form action="http://www.roguebasin.com/index.php" id="searchform">
+				<input type="hidden" name="title" value="Special:Search">
+				<input type="search" name="search" title="Search RogueBasin [ctrl-option-f]" accesskey="f" id="searchInput">
+				<input type="submit" name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton">&nbsp;
+				<input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton">
+			</form>
+		</div>
+	</div>
+	<div class="portlet" id="p-tb">
+		<h5>Tools</h5>
+		<div class="pBody">
+			<ul>
+				<li id="t-whatlinkshere"><a href="http://www.roguebasin.com/index.php?title=Special:WhatLinksHere/Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11" title="A list of all wiki pages that link here [ctrl-option-j]" accesskey="j">What links here</a></li>
+				<li id="t-recentchangeslinked"><a href="http://www.roguebasin.com/index.php?title=Special:RecentChangesLinked/Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11" title="Recent changes in pages linked from this page [ctrl-option-k]" accesskey="k">Related changes</a></li>
+				<li id="t-specialpages"><a href="http://www.roguebasin.com/index.php?title=Special:SpecialPages" title="A list of all special pages [ctrl-option-q]" accesskey="q">Special pages</a></li>
+				<li><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11&amp;printable=yes" rel="alternate">Printable version</a></li>
+				<li id="t-permalink"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11&amp;oldid=47042" title="Permanent link to this revision of the page">Permanent link</a></li>
+			</ul>
+		</div>
+	</div>
+</div><!-- end of the left (by default at least) column -->
+<div class="visualClear"></div>
+<div id="footer">
+	<div id="f-poweredbyico">
+		<a href="http://www.mediawiki.org/"><img src="./Complete Roguelike Tutorial, using python3+libtcod, part 11 - RogueBasin_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31"></a>
+	</div>
+	<ul id="f-list">
+		<li id="lastmod"> This page was last modified on 7 May 2018, at 02:35.</li>
+		<li id="viewcount">This page has been accessed 1,579 times.</li>
+		<li id="privacy"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:Privacy_policy" title="RogueBasin:Privacy policy">Privacy policy</a></li>
+		<li id="about"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:About" title="RogueBasin:About">About RogueBasin</a></li>
+		<li id="disclaimer"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:General_disclaimer" title="RogueBasin:General disclaimer">Disclaimers</a></li>
+	</ul>
+</div>
+</div>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.user","mediawiki.page.ready"], null, true);
+}</script><script src="./Complete Roguelike Tutorial, using python3+libtcod, part 11 - RogueBasin_files/load(5).php" type="text/javascript"></script>
+<script src="./Complete Roguelike Tutorial, using python3+libtcod, part 11 - RogueBasin_files/load(6).php"></script>
+<!-- Served in 0.126 secs. --></body></html>
