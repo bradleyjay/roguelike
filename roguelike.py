@@ -296,6 +296,30 @@ class BasicMonster:
             elif player.fighter.hp > 0:
                 monster.fighter.attack(player)
 
+class RangedMonster:
+    # AI for ranged (reloading / charging) monster
+    def __init__(self, spacing=(2,4), ammo=0):
+        self.spacing = spacing # always a tuple of preferred range
+        self.spacing_avg = (spacing[0] + spacing[1]) // 2
+        self.ammo = 1 # arrow / shot nocked?
+
+    def take_turn(self):
+
+
+        monster = self.owner
+
+        if tcod.map_is_in_fov(fov_grid, monster.x, monster.y):
+            # if in FoV
+            # move towards player if far away
+
+            if monster.distance_to(player) >= spacing_avg and self.loaded:
+                monster.move_towards(player.x, player.y)
+
+            # close enough - attack time, if player alive!
+            elif player.fighter.hp > 0:
+                monster.fighter.attack(player)
+
+
 class ConfusedMonster:
     # AI for a confused monster
 
@@ -621,7 +645,7 @@ def place_objects(room):
     num_monsters = tcod.random_get_int(0, 0, MAX_ROOM_MONSTERS)
 
     monster_chances = {'orc': 40, 'troll': 30, 'dragon': 15, 'maw': 8, 'lich': 7}
-    item_chances = {'heal': 40, 'confuse': 20, 'fireball': 20, 'lightning': 20}
+    item_chances = {'heal': 45, 'confuse': 20, 'fireball': 20, 'lightning': 20}
 
     for i in range(num_monsters):
         #choose random spot for this monster
@@ -639,6 +663,13 @@ def place_objects(room):
 
                 monster = Object(x, y, 'o', 'Orc', tcod.desaturated_green, blocks=True, fighter=fighter_component, ai=ai_component)
 
+            elif choice = 'archer':
+
+                fighter_component = Fighter(hp=8, defense=0, power=3, xp = 35, death_function=monster_death)
+                ai_component = RangedMonster(spacing=(2,4),ammo=1)
+
+                monster = Object(x,y, 'a', 'Goblin Archer', tcod.darker_green, blocks=True, fighter=fighter_component, ai=ai_component)
+
             elif choice == 'troll':
                 # 23% chance - otherwise, it's a troll
 
@@ -646,6 +677,7 @@ def place_objects(room):
                 ai_component = BasicMonster()
 
                 monster = Object(x,y, 'T', 'Troll', tcod.darker_green, blocks=True, fighter=fighter_component, ai=ai_component)
+
 
             elif choice == 'dragon':
                 # 7% chance of Dragon, it will rock you
@@ -668,7 +700,7 @@ def place_objects(room):
                 fighter_component = Fighter(hp=70, defense=4, power=12, xp=1500, death_function=monster_death)
                 ai_component = BasicMonster()
 
-                monster = Object(x, y, 'M', 'Maw', tcod.red, blocks=True, fighter=fighter_component, ai=ai_component)
+                monster = Object(x, y, 'L', 'Lich', tcod.black, blocks=True, fighter=fighter_component, ai=ai_component)
 
             objects.append(monster)
 
