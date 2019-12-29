@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<!-- saved from url=(0103)http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_10 -->
+<html lang="en" dir="ltr" class="client-js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Complete Roguelike Tutorial, using python3+libtcod, part 10 - RogueBasin</title>
+
+<meta name="generator" content="MediaWiki 1.19.9">
+<link rel="shortcut icon" href="http://www.roguebasin.com/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="http://www.roguebasin.com/opensearch_desc.php" title="RogueBasin (en)">
+<link rel="EditURI" type="application/rsd+xml" href="http://www.roguebasin.com/api.php?action=rsd">
+<link rel="alternate" type="application/atom+xml" title="RogueBasin Atom feed" href="http://www.roguebasin.com/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="stylesheet" href="./Complete Roguelike Tutorial, using python3+libtcod, part 10 - RogueBasin_files/load.php">
+<!--[if IE 6]><link rel="stylesheet" href="/skins/monobook/IE60Fixes.css?303" media="screen" /><![endif]-->
+<!--[if IE 7]><link rel="stylesheet" href="/skins/monobook/IE70Fixes.css?303" media="screen" /><![endif]--><style type="text/css" media="all">.js-messagebox{margin:1em 5%;padding:0.5em 2.5%;border:1px solid #ccc;background-color:#fcfcfc;font-size:0.8em}.js-messagebox .js-messagebox-group{margin:1px;padding:0.5em 2.5%;border-bottom:1px solid #ddd}.js-messagebox .js-messagebox-group:last-child{border-bottom:thin none transparent}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:8b08bdc91c52a9ffba396dccfb5b473c */
+
+
+.mw-collapsible-toggle{float:right} li .mw-collapsible-toggle{float:none} .mw-collapsible-toggle-li{list-style:none}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:4250852ed2349a0d4d0fc6509a3e7d4c */
+</style><meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="./Complete Roguelike Tutorial, using python3+libtcod, part 10 - RogueBasin_files/load(1).php">
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:c88e2bcd56513749bec09a7e29cb3ffa */
+</style>
+
+<script src="./Complete Roguelike Tutorial, using python3+libtcod, part 10 - RogueBasin_files/load(2).php"></script><script src="./Complete Roguelike Tutorial, using python3+libtcod, part 10 - RogueBasin_files/load(3).php"></script>
+<script>if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Complete_Roguelike_Tutorial,_using_python3+libtcod,_part_10","wgTitle":"Complete Roguelike Tutorial, using python3+libtcod, part 10","wgCurRevisionId":47041,"wgArticleId":8304,"wgIsArticle":true,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Developing"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgRelevantPageName":"Complete_Roguelike_Tutorial,_using_python3+libtcod,_part_10","wgRestrictionEdit":[],"wgRestrictionMove":[]});
+}</script><script>if(window.mw){
+mw.loader.implement("user.options",function($){mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"monobook","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":
+0,"watchlistdays":3,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false});;},{},{});mw.loader.implement("user.tokens",function($){mw.user.tokens.set({"editToken":"+\\","watchToken":false});;},{},{});
+
+/* cache key: 133099-basin:resourceloader:filter:minify-js:7:74a832f2292f1f4d40d425d223444e78 */
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax"]);
+}</script><script type="text/javascript" src="./Complete Roguelike Tutorial, using python3+libtcod, part 10 - RogueBasin_files/load(4).php"></script>
+<style type="text/css">/*<![CDATA[*/
+.source-python {line-height: normal;}
+.source-python li, .source-python pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for python
+ * CSS class: source-python, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.python.source-python .de1, .python.source-python .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.python.source-python  {font-family:monospace;}
+.python.source-python .imp {font-weight: bold; color: red;}
+.python.source-python li, .python.source-python .li1 {font-weight: normal; vertical-align:top;}
+.python.source-python .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.python.source-python .li2 {font-weight: bold; vertical-align:top;}
+.python.source-python .kw1 {color: #ff7700;font-weight:bold;}
+.python.source-python .kw2 {color: #008000;}
+.python.source-python .kw3 {color: #dc143c;}
+.python.source-python .kw4 {color: #0000cd;}
+.python.source-python .co1 {color: #808080; font-style: italic;}
+.python.source-python .coMULTI {color: #808080; font-style: italic;}
+.python.source-python .es0 {color: #000099; font-weight: bold;}
+.python.source-python .br0 {color: black;}
+.python.source-python .sy0 {color: #66cc66;}
+.python.source-python .st0 {color: #483d8b;}
+.python.source-python .nu0 {color: #ff4500;}
+.python.source-python .me1 {color: black;}
+.python.source-python .ln-xtra, .python.source-python li.ln-xtra, .python.source-python div.ln-xtra {background-color: #ffc;}
+.python.source-python span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=18000";
+/*]]>*/
+</style></head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-Complete_Roguelike_Tutorial_using_python3_libtcod_part_10 skin-monobook action-view">
+<div id="globalWrapper">
+<div id="column-content"><div id="content"><div id="mw-js-message" class="js-messagebox" style="display: none;"></div>
+	<a id="top"></a>
+	<div id="siteNotice"><div id="localNotice" lang="en" dir="ltr"></div></div>
+	<h1 id="firstHeading" class="firstHeading"><span dir="auto">Complete Roguelike Tutorial, using python3+libtcod, part 10</span></h1>
+	<div id="bodyContent" class="mw-body">
+		<div id="siteSub">From RogueBasin</div>
+		<div id="contentSub"></div>
+		<div id="jump-to-nav" class="mw-jump">Jump to: <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_10#column-one">navigation</a>, <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_10#searchInput">search</a></div>
+		<!-- start content -->
+<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><center><table border="0" cellpadding="10" cellspacing="0" style="background:#F0E68C"><tbody><tr><td><center>
+<p>This is part of a series of tutorials; the main page can be found <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod" title="Complete Roguelike Tutorial, using python3+libtcod">here</a>.
+</p>
+</center></td></tr></tbody></table></center>
+<p><br>
+</p>
+<table id="toc" class="toc"><tbody><tr><td><div id="toctitle"><h2>Contents</h2><span class="toctoggle">&nbsp;[<a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_10#" class="internal" id="togglelink">hide</a>]&nbsp;</span></div>
+<ul>
+<li class="toclevel-1"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_10#Main_menu_and_saving"><span class="tocnumber">1</span> <span class="toctext"><b>Main menu and saving</b></span></a>
+<ul>
+<li class="toclevel-2 tocsection-1"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_10#Tidy_initialization"><span class="tocnumber">1.1</span> <span class="toctext">Tidy initialization</span></a></li>
+<li class="toclevel-2 tocsection-2"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_10#The_main_menu"><span class="tocnumber">1.2</span> <span class="toctext">The main menu</span></a></li>
+<li class="toclevel-2 tocsection-3"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_10#Saving_and_loading"><span class="tocnumber">1.3</span> <span class="toctext">Saving and loading</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></tbody></table>
+<p><br>
+</p>
+<center><h1> <span class="mw-headline" id="Main_menu_and_saving"><b>Main menu and saving</b></span></h1></center>
+<p><br>
+</p>
+<h2> <span class="mw-headline" id="Tidy_initialization"> Tidy initialization </span></h2>
+<p>Now that our game is bursting with gameplay potential, we can think about those little things that die-hard fans will surely miss during their long playing sessions. One of the most important is, of course, a save/load mechanism! This way they can go to sleep and dream about your scary monsters between play sessions.
+</p><p>To choose between continuing a previous game or starting a new one we need a main menu. But wait: our initialization logic and game loop are tightly bound, so they're not really prepared for these tasks. To avoid code duplication, we need to break them down into meaningful blocks (functions). We can then put them together to change between the menu and the game, start new games or load them, and even go to new dungeon levels. It's much easier than it sounds, so fear not!
+</p><p>Take a look at your initialization and game loop code, after all the functions. I can identify 4 blocks:
+</p><p><br>
+</p>
+<ul><li> <b>System initialization</b> (code between <i>console_set_custom_font</i> and <i>panel = ...</i>).
+</li><li> <b>Setting up a new game</b> (everything else except for the game loop and the FOV map creation).
+</li><li> <b>Creating the FOV map</b>.
+</li><li> <b>Starting the game loop</b>.
+</li></ul>
+<p><br>
+The reason why I chose this separation is because I think they're the minimal blocks needed to do all the tasks. The system initialization must be done just once. Thinking out loud, here are outlines of all the tasks:
+</p><p><br>
+</p>
+<ul><li> <b>Create a new game</b>: set up the game, create FOV map, start game loop. (This is what we have now.)
+</li><li> <b>Load game</b>: load data (we won't deal with this block now), create FOV map, start game loop.
+</li><li> <b>Advance level</b>: set up new level (we won't deal with this block now), create FOV map. (The game loop is already running and will just continue.)
+</li></ul>
+<p><br>
+Hopefully that will make at least some sense, it's not very detailed but gives us something to aim at.
+</p><p>The system initialization code will stay right where it is, it's the first thing the script executes. Now grab the rest of the code before the main loop and put it in a new function; except for FOV map creation (and <i>fov_recompute = True</i>), the lines <i>player_action = None</i> and <i>objects = [player]</i>, which will go elsewhere:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> new_game<span class="br0">(</span><span class="br0">)</span>:
+    <span class="kw1">global</span> player, inventory, game_msgs, game_state
+&nbsp;
+    <span class="co1">#create object representing the player</span>
+    fighter_component = Fighter<span class="br0">(</span>hp=<span class="nu0">30</span>, defense=<span class="nu0">2</span>, power=<span class="nu0">5</span>, death_function=player_death<span class="br0">)</span>
+    player = Object<span class="br0">(</span><span class="nu0">0</span>, <span class="nu0">0</span>, <span class="st0">'@'</span>, <span class="st0">'player'</span>, libtcod.<span class="me1">white</span>, blocks=<span class="kw2">True</span>, fighter=fighter_component<span class="br0">)</span>
+&nbsp;
+    <span class="co1">#generate map (at this point it's not drawn to the screen)</span>
+    make_map<span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+    game_state = <span class="st0">'playing'</span>
+    inventory = <span class="br0">[</span><span class="br0">]</span>
+&nbsp;
+    <span class="co1">#create the list of game messages and their colors, starts empty</span>
+    game_msgs = <span class="br0">[</span><span class="br0">]</span>
+&nbsp;
+    <span class="co1">#a warm welcoming message!</span>
+    message<span class="br0">(</span><span class="st0">'Welcome stranger! Prepare to perish in the Tombs of the Ancient Kings.'</span>, libtcod.<span class="me1">red</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+We have to declare some variables as global, since we're assigning them inside a function now. The FOV map creation code goes in its own function, declaring some globals as well:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> initialize_fov<span class="br0">(</span><span class="br0">)</span>:
+    <span class="kw1">global</span> fov_recompute, fov_map
+    fov_recompute = <span class="kw2">True</span>
+&nbsp;
+    <span class="co1">#create the FOV map, according to the generated map</span>
+    fov_map = libtcod.<span class="me1">map_new</span><span class="br0">(</span>MAP_WIDTH, MAP_HEIGHT<span class="br0">)</span>
+    <span class="kw1">for</span> y <span class="kw1">in</span> <span class="kw2">range</span><span class="br0">(</span>MAP_HEIGHT<span class="br0">)</span>:
+        <span class="kw1">for</span> x <span class="kw1">in</span> <span class="kw2">range</span><span class="br0">(</span>MAP_WIDTH<span class="br0">)</span>:
+            libtcod.<span class="me1">map_set_properties</span><span class="br0">(</span>fov_map, x, y, <span class="kw1">not</span> <span class="kw2">map</span><span class="br0">[</span>x<span class="br0">]</span><span class="br0">[</span>y<span class="br0">]</span>.<span class="me1">block_sight</span>, <span class="kw1">not</span> <span class="kw2">map</span><span class="br0">[</span>x<span class="br0">]</span><span class="br0">[</span>y<span class="br0">]</span>.<span class="me1">blocked</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+Finally, the game loop and the <i>player_action = None</i> line belong to their own function now:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> play_game<span class="br0">(</span><span class="br0">)</span>:
+    <span class="kw1">global</span> key, mouse
+&nbsp;
+    player_action = <span class="kw2">None</span>
+&nbsp;
+    mouse = libtcod.<span class="me1">Mouse</span><span class="br0">(</span><span class="br0">)</span>
+    key = libtcod.<span class="me1">Key</span><span class="br0">(</span><span class="br0">)</span>
+    <span class="kw1">while</span> <span class="kw1">not</span> libtcod.<span class="me1">console_is_window_closed</span><span class="br0">(</span><span class="br0">)</span>:
+        <span class="co1">#render the screen</span>
+        libtcod.<span class="me1">sys_check_for_event</span><span class="br0">(</span>libtcod.<span class="me1">EVENT_KEY_PRESS</span>|libtcod.<span class="me1">EVENT_MOUSE</span>,key,mouse<span class="br0">)</span>
+        render_all<span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+        libtcod.<span class="me1">console_flush</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+        <span class="co1">#erase all objects at their old locations, before they move</span>
+        <span class="kw1">for</span> <span class="kw2">object</span> <span class="kw1">in</span> objects:
+            <span class="kw2">object</span>.<span class="me1">clear</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+        <span class="co1">#handle keys and exit game if needed</span>
+        player_action = handle_keys<span class="br0">(</span><span class="br0">)</span>
+        <span class="kw1">if</span> player_action == <span class="st0">'exit'</span>:
+            <span class="kw1">break</span>
+&nbsp;
+        <span class="co1">#let monsters take their turn</span>
+        <span class="kw1">if</span> game_state == <span class="st0">'playing'</span> <span class="kw1">and</span> player_action <span class="sy0">!</span>= <span class="st0">'didnt-take-turn'</span>:
+            <span class="kw1">for</span> <span class="kw2">object</span> <span class="kw1">in</span> objects:
+                <span class="kw1">if</span> <span class="kw2">object</span>.<span class="me1">ai</span>:
+                    <span class="kw2">object</span>.<span class="me1">ai</span>.<span class="me1">take_turn</span><span class="br0">(</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+That was a lot of shuffling stuff around! Ok, just a couple of tiny changes left. The <i>new_game</i> function should initialize FOV right after creating the map:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    initialize_fov<span class="br0">(</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+And, since the objects' list represents objects on the map, it makes sense to initialize it on map creation, so put it in <i>make_map</i>:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> make_map<span class="br0">(</span><span class="br0">)</span>:
+    <span class="kw1">global</span> <span class="kw2">map</span>, objects
+&nbsp;
+    <span class="co1">#the list of objects with just the player</span>
+    objects = <span class="br0">[</span>player<span class="br0">]</span></pre></div></div></div>
+<p><br>
+Finally, after system initialization you need to call the new functions to start playing:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">new_game<span class="br0">(</span><span class="br0">)</span>
+play_game<span class="br0">(</span><span class="br0">)</span></pre></div></div></div>
+<p>That's it! The code is much tidier. If you don't care much about that, though, and prefer visible changes, then the next section is just for you!
+</p>
+<h2> <span class="mw-headline" id="The_main_menu"> The main menu </span></h2>
+<p>To keep our main menu from appearing a bit bland, it would be pretty cool to show a neat background image below it. Fortunately, libtcod already has a whole lot of <a rel="nofollow" class="external text" href="http://roguecentral.org/doryen/data/libtcod/doc/1.5.1/html2/image.html?c=false&amp;cpp=false&amp;cs=false&amp;py=true&amp;lua=false">image-related functions</a>!
+</p><p>Of course, since libtcod emulates a console, we can't directly show arbitrary images, since we can't access the console's pixels. We can, however, modify the background color of every console cell to match the color of a pixel from the image. The downside is that the image will be in a very low resolution. However, Jice came up with a neat trick: by using specialized characters, and modifying both foreground and background colors, we can double the resolution! This is called subcell resolution, and <a rel="nofollow" class="external text" href="http://roguecentral.org/doryen/data/libtcod/doc/1.5.1/html2/image_blit.html?c=false&amp;cpp=false&amp;cs=false&amp;py=true&amp;lua=false">this page of the docs</a> shows some images of the effect (at the end of the page).
+</p><p>This means that, for our 80x50 cells console, we need a 160x100 pixels image. <a rel="nofollow" class="external text" href="http://roguecentral.org/doryen/files/menu_background1.png">Here's the one I'm using</a>, just download it and put it in your game's folder if you don't want to draw your own. I searched for real dungeon photos with a Creative Commons license using the advanced search in <a rel="nofollow" class="external text" href="http://images.search.yahoo.com/images/advanced">Yahoo Images</a> (I tried it on <a rel="nofollow" class="external text" href="http://www.google.com/advanced_image_search">Google Images</a> too but didn't get as many results), then fired up <a rel="nofollow" class="external text" href="http://www.getpaint.net/">Paint.net</a> to resize it and modify it as much as possibly to give it the feel of a fantasy setting: torches, no natural light, a guy with a sword, that sort of stuff. I found that stacking layers and using a brush with an extremely low alpha (a value of 3 or so) lets me draw things very gradually, since I'm not exactly an artist! It guess it's OK to spend some time with this since it may be the only actual image in the whole game.
+</p><p>Right, after that small detour, it's back to coding! Let's create a function for the main menu interface, and begin by loading and showing the image:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> main_menu<span class="br0">(</span><span class="br0">)</span>:
+    img = libtcod.<span class="me1">image_load</span><span class="br0">(</span><span class="st0">'menu_background.png'</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1">#show the background image, at twice the regular console resolution</span>
+    libtcod.<span class="me1">image_blit_2x</span><span class="br0">(</span>img, <span class="nu0">0</span>, <span class="nu0">0</span>, <span class="nu0">0</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+It's really easy. Notice the file name is a bit different from the image I linked earlier. We can now take advantage of our reusable <i>menu</i> function to present 3 options: start game, continue, or quit. Since the function also returns if the player presses a different key (canceled), we need to wrap it in a loop to present the menu again in that situation.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> main_menu<span class="br0">(</span><span class="br0">)</span>:
+    img = libtcod.<span class="me1">image_load</span><span class="br0">(</span><span class="st0">'menu_background.png'</span><span class="br0">)</span>
+&nbsp;
+    <span class="kw1">while</span> <span class="kw1">not</span> libtcod.<span class="me1">console_is_window_closed</span><span class="br0">(</span><span class="br0">)</span>:
+        <span class="co1">#show the background image, at twice the regular console resolution</span>
+        libtcod.<span class="me1">image_blit_2x</span><span class="br0">(</span>img, <span class="nu0">0</span>, <span class="nu0">0</span>, <span class="nu0">0</span><span class="br0">)</span>
+&nbsp;
+        <span class="co1">#show options and wait for the player's choice</span>
+        choice = menu<span class="br0">(</span><span class="st0">''</span>, <span class="br0">[</span><span class="st0">'Play a new game'</span>, <span class="st0">'Continue last game'</span>, <span class="st0">'Quit'</span><span class="br0">]</span>, <span class="nu0">24</span><span class="br0">)</span>
+&nbsp;
+        <span class="kw1">if</span> choice == <span class="nu0">0</span>:  <span class="co1">#new game</span>
+            new_game<span class="br0">(</span><span class="br0">)</span>
+            play_game<span class="br0">(</span><span class="br0">)</span>
+        <span class="kw1">elif</span> choice == <span class="nu0">2</span>:  <span class="co1">#quit</span>
+            <span class="kw1">break</span></pre></div></div></div>
+<p><br>
+Let's test this out! In the main script, instead of starting a new game right away with <i>new_game()</i> and <i>play_game()</i>, call our new function:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">main_menu<span class="br0">(</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+The main menu is working now, apart from the "continue" feature which we'll get to later. Now it's time to add some fluff. Before calling the <i>menu</i> function, I want to show my game's title and, of course, the author's name! You will probably want to modify this for your own game, of course.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">        <span class="co1">#show the game's title, and some credits!</span>
+        libtcod.<span class="me1">console_set_default_foreground</span><span class="br0">(</span><span class="nu0">0</span>, libtcod.<span class="me1">light_yellow</span><span class="br0">)</span>
+        libtcod.<span class="me1">console_print_ex</span><span class="br0">(</span><span class="nu0">0</span>, SCREEN_WIDTH/<span class="nu0">2</span>, SCREEN_HEIGHT/<span class="nu0">2</span>-<span class="nu0">4</span>, libtcod.<span class="me1">BKGND_NONE</span>, libtcod.<span class="me1">CENTER</span>,
+            <span class="st0">'TOMBS OF THE ANCIENT KINGS'</span><span class="br0">)</span>
+        libtcod.<span class="me1">console_print_ex</span><span class="br0">(</span><span class="nu0">0</span>, SCREEN_WIDTH/<span class="nu0">2</span>, SCREEN_HEIGHT-<span class="nu0">2</span>, libtcod.<span class="me1">BKGND_NONE</span>, libtcod.<span class="me1">CENTER</span>,
+            <span class="st0">'By Jotaf'</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+You'll notice that the menu rectangle itself starts with a blank line. This is because the header string is empty, but <i>console_height_left_rect</i> reports its height as 1 by default. To make that line go away, we need to check that condition in the <i>menu</i> function, between the lines <i>header_height = ...</i> and <i>height = ...</i>.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="kw1">if</span> header == <span class="st0">''</span>:
+        header_height = <span class="nu0">0</span></pre></div></div></div>
+<p><br>
+</p><p>Another detail is that the player may want to switch to fullscreen in the main menu. However, we only check that key during the game. It's fairly easy to copy that code to the <i>menu</i> function too, right after asking for the key:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="kw1">if</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_ENTER</span> <span class="kw1">and</span> key.<span class="me1">lalt</span>:  <span class="co1">#(special case) Alt+Enter: toggle fullscreen</span>
+        libtcod.<span class="me1">console_set_fullscreen</span><span class="br0">(</span><span class="kw1">not</span> libtcod.<span class="me1">console_is_fullscreen</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+Finally, extensive testing shows that starting a new game, going back to the main menu with Escape and starting another game results in a bug! In the second game, parts from the first are still visible. For the screen to always start black we need to clear the console in <i>initialize_fov</i>.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    libtcod.<span class="me1">console_clear</span><span class="br0">(</span>con<span class="br0">)</span>  <span class="co1">#unexplored areas start black (which is the default background color)</span></pre></div></div></div>
+<p><br>
+There it is, a neat main menu, and with only a handful of lines of code! If you want to add mouse support to your menus, this is a good time to do it. <a rel="nofollow" class="external text" href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_Python%2Blibtcod,_extras#Mouse-driven_Menus">See this extra</a> for a small code change that will do the trick!
+</p><p><br>
+</p>
+<h2> <span class="mw-headline" id="Saving_and_loading"> Saving and loading </span></h2>
+<p>If you've tried it before in other languages, this probably sounds scary. It usually means tracing every last bit of state information in your game and cramming it into a raw stream of bytes. Not in Python -- the Pickle module is capable of doing that with only a few function calls!
+</p><p>But we can do even better by using the Shelve module: its interface is a simple dictionary. If you haven't used dictionaries before, check the <a rel="nofollow" class="external text" href="http://docs.python.org/tutorial/datastructures.html#dictionaries">Python tutorial on the subject</a>. They're extremely useful, replacing lists in situations where you wish to index elements not by their position on the list, but by an arbitrary name, number, or any other key.
+</p><p>A Shelve allows you to store any object in a file, indexed by a string (for example, the original variable's name). So to store the map tiles and game objects in a file called "savegame", we only need to call:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> save_game<span class="br0">(</span><span class="br0">)</span>:
+    <span class="co1">#open a new empty shelve (possibly overwriting an old one) to write the game data</span>
+    <span class="kw2">file</span> = <span class="kw3">shelve</span>.<span class="kw2">open</span><span class="br0">(</span><span class="st0">'savegame'</span>, <span class="st0">'n'</span><span class="br0">)</span>
+    <span class="kw2">file</span><span class="br0">[</span><span class="st0">'map'</span><span class="br0">]</span> = <span class="kw2">map</span>
+    <span class="kw2">file</span><span class="br0">[</span><span class="st0">'objects'</span><span class="br0">]</span> = objects
+    <span class="kw2">file</span>.<span class="me1">close</span><span class="br0">(</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+I bet your jaw just dropped over how easy it is to save a game in Python; mine sure did the first time I learned this! Just rinse and repeat for all your game state variables, and don't forget to call <i>close</i> at the end. The Shelve module will recursively find everything referenced from these variables onwards, so tile instances referenced by the map will be saved, as well as components referenced by game objects, which in turn are referenced by the objects list.
+</p><p>The only quirk to keep in mind is when more than one variable references the same object. For example, the objects list references the player object, but the <i>player</i> variable also references it. Normally this doesn't present a problem, but the Shelve module doesn't keep track of shared references between different dictionary entries. So if you try this:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #FDECEC"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="kw2">file</span><span class="br0">[</span><span class="st0">'player'</span><span class="br0">]</span> = player</pre></div></div></div>
+<p><br>
+You'll get two player objects when you load! Because one instance will be saved by <i>file['objects'] = objects</i> and another by <i>file['player'] = player</i>. To avoid this we'll just save the index of the player in the list:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="kw2">file</span><span class="br0">[</span><span class="st0">'player_index'</span><span class="br0">]</span> = objects.<span class="me1">index</span><span class="br0">(</span>player<span class="br0">)</span>  <span class="co1">#index of player in objects list</span></pre></div></div></div>
+<p><br>
+Here are a few more variables to keep. Also, don't forget to <i>import shelve</i> at the top of your code.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="kw2">file</span><span class="br0">[</span><span class="st0">'inventory'</span><span class="br0">]</span> = inventory
+    <span class="kw2">file</span><span class="br0">[</span><span class="st0">'game_msgs'</span><span class="br0">]</span> = game_msgs
+    <span class="kw2">file</span><span class="br0">[</span><span class="st0">'game_state'</span><span class="br0">]</span> = game_state</pre></div></div></div>
+<p><br>
+To automatically save when the player quits, call the new function in <i>play_game</i>, right before the <i>break</i> line:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">            save_game<span class="br0">(</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+That's all for saving. Loading follows the same procedure, except we assign to our variables the contents of the Shelve dictionary. Since we're assigning values to global variables, they need to be declared as such. The <i>player_index</i> we stored lets us assign the <i>player</i> variable to the correct object in the <i>objects</i> list. Having completely restored the core variables of the game, we can initialize the FOV map based on the loaded tiles.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> load_game<span class="br0">(</span><span class="br0">)</span>:
+    <span class="co1">#open the previously saved shelve and load the game data</span>
+    <span class="kw1">global</span> <span class="kw2">map</span>, objects, player, inventory, game_msgs, game_state
+&nbsp;
+    <span class="kw2">file</span> = <span class="kw3">shelve</span>.<span class="kw2">open</span><span class="br0">(</span><span class="st0">'savegame'</span>, <span class="st0">'r'</span><span class="br0">)</span>
+    <span class="kw2">map</span> = <span class="kw2">file</span><span class="br0">[</span><span class="st0">'map'</span><span class="br0">]</span>
+    objects = <span class="kw2">file</span><span class="br0">[</span><span class="st0">'objects'</span><span class="br0">]</span>
+    player = objects<span class="br0">[</span><span class="kw2">file</span><span class="br0">[</span><span class="st0">'player_index'</span><span class="br0">]</span><span class="br0">]</span>  <span class="co1">#get index of player in objects list and access it</span>
+    inventory = <span class="kw2">file</span><span class="br0">[</span><span class="st0">'inventory'</span><span class="br0">]</span>
+    game_msgs = <span class="kw2">file</span><span class="br0">[</span><span class="st0">'game_msgs'</span><span class="br0">]</span>
+    game_state = <span class="kw2">file</span><span class="br0">[</span><span class="st0">'game_state'</span><span class="br0">]</span>
+    <span class="kw2">file</span>.<span class="me1">close</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+    initialize_fov<span class="br0">(</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+We can now add new functionality to the <i>main_menu</i> function, so the player can actually continue a previous game! It needs to be wrapped in a try-except clause, because Shelve will throw an error if loading fails somehow (file doesn't exist, is corrupted, etc). If something goes wrong we just display a message about it and carry on. I also defined a new handy <i>msgbox</i> function for important messages like this.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">        <span class="kw1">if</span> choice == <span class="nu0">1</span>:  <span class="co1">#load last game</span>
+            <span class="kw1">try</span>:
+                load_game<span class="br0">(</span><span class="br0">)</span>
+            <span class="kw1">except</span>:
+                msgbox<span class="br0">(</span><span class="st0">'<span class="es0">\n</span> No saved game to load.<span class="es0">\n</span>'</span>, <span class="nu0">24</span><span class="br0">)</span>
+                <span class="kw1">continue</span>
+            play_game<span class="br0">(</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+And <i>msgbox</i> relies on the <i>menu</i> function entirely. We could call it directly instead of this <i>msgbox</i>, but in my opinion this makes code more readable by clearly conveying the intent (a message box instead of a list of options).
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> msgbox<span class="br0">(</span>text, width=<span class="nu0">50</span><span class="br0">)</span>:
+    menu<span class="br0">(</span>text, <span class="br0">[</span><span class="br0">]</span>, width<span class="br0">)</span>  <span class="co1">#use menu() as a sort of "message box"</span></pre></div></div></div>
+<p><br>
+That concludes the code for the main menu, saving and loading. A nice side-effect is that if the player quits after dying and then tries to continue, the character will still be dead! (Because <i>game_state == 'dead' </i>.) So by saving to different files you could easily create "mortem" files so the player can remember previous lost games, which is pretty cool.
+</p><p>You can easily use the main menu as a template for other screens, like game options or character creation. And as you continually upgrade your game you'll sometimes have to add more state variables to the save/load functions; but hopefully with the Shelve module it won't be too bad. Keep an eye out for the quirk <a rel="nofollow" class="external text" href="http://roguebasin.roguelikedevelopment.org/index.php/Complete_Roguelike_Tutorial,_using_python%2Blibtcod,_part_10#Saving_and_loading">I talked about earlier</a>, if you ever get duplicated objects or strange behavior after loading.
+</p><p><br>
+The whole code is available <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_10_code&amp;action=edit&amp;redlink=1" class="new" title="Complete Roguelike Tutorial, using python3+libtcod, part 10 code (page does not exist)">here</a>.
+</p><p><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11" title="Complete Roguelike Tutorial, using python3+libtcod, part 11">Go on to the next part</a>.
+</p>
+<!-- 
+NewPP limit report
+Preprocessor node count: 225/1000000
+Post‐expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key 133099-basin:pcache:idhash:8304-0!*!0!!en!*!* and timestamp 20191221184709 -->
+</div><div class="printfooter">
+Retrieved from "<a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_10&amp;oldid=47041">http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_10&amp;oldid=47041</a>"</div>
+		<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="http://www.roguebasin.com/index.php?title=Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="http://www.roguebasin.com/index.php?title=Category:Developing" title="Category:Developing">Developing</a></li></ul></div></div>		<!-- end content -->
+				<div class="visualClear"></div>
+	</div>
+</div></div>
+<div id="column-one">
+	<div id="p-cactions" class="portlet">
+		<h5>Views</h5>
+		<div class="pBody">
+			<ul>
+				<li id="ca-nstab-main" class="selected"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_10" primary="1" context="subject" title="View the content page [ctrl-option-c]" accesskey="c">Page</a></li>
+				<li id="ca-talk" class="new"><a href="http://www.roguebasin.com/index.php?title=Talk:Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_10&amp;action=edit&amp;redlink=1" primary="1" context="talk" title="Discussion about the content page [ctrl-option-t]" accesskey="t">Discussion</a></li>
+				<li id="ca-viewsource"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_10&amp;action=edit" primary="1" title="This page is protected.
+You can view its source [ctrl-option-e]" accesskey="e">View source</a></li>
+				<li id="ca-history"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_10&amp;action=history" rel="archives" title="Past revisions of this page [ctrl-option-h]" accesskey="h">History</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-personal">
+		<h5>Personal tools</h5>
+		<div class="pBody">
+			<ul>
+				<li id="pt-login"><a href="http://www.roguebasin.com/index.php?title=Special:UserLogin&amp;returnto=Complete+Roguelike+Tutorial%2C+using+python3%2Blibtcod%2C+part+10" title="You are encouraged to log in; however, it is not mandatory [ctrl-option-o]" accesskey="o">Log in / create account</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-logo">
+<a href="http://www.roguebasin.com/index.php?title=Main_Page" style="background-image: url(/skins/roguebasin/RogueBasin_logo.png);" title="Visit the main page"></a>
+	</div>
+	<div class="generated-sidebar portlet" id="p-navigation">
+		<h5>Navigation</h5>
+		<div class="pBody">
+			<ul>
+				<li id="n-mainpage"><a href="http://www.roguebasin.com/index.php?title=Main_Page" title="Visit the main page [ctrl-option-z]" accesskey="z">Main Page</a></li>
+				<li id="n-portal"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li>
+				<li id="n-recentchanges"><a href="http://www.roguebasin.com/index.php?title=Special:RecentChanges" title="A list of recent changes in the wiki [ctrl-option-r]" accesskey="r">Recent changes</a></li>
+				<li id="n-randompage"><a href="http://www.roguebasin.com/index.php?title=Special:Random" title="Load a random page [ctrl-option-x]" accesskey="x">Random page</a></li>
+				<li id="n-help"><a href="http://www.roguebasin.com/index.php?title=Help" title="The place to find out">Help</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="p-search" class="portlet">
+		<h5><label for="searchInput">Search</label></h5>
+		<div id="searchBody" class="pBody">
+			<form action="http://www.roguebasin.com/index.php" id="searchform">
+				<input type="hidden" name="title" value="Special:Search">
+				<input type="search" name="search" title="Search RogueBasin [ctrl-option-f]" accesskey="f" id="searchInput">
+				<input type="submit" name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton">&nbsp;
+				<input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton">
+			</form>
+		</div>
+	</div>
+	<div class="portlet" id="p-tb">
+		<h5>Tools</h5>
+		<div class="pBody">
+			<ul>
+				<li id="t-whatlinkshere"><a href="http://www.roguebasin.com/index.php?title=Special:WhatLinksHere/Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_10" title="A list of all wiki pages that link here [ctrl-option-j]" accesskey="j">What links here</a></li>
+				<li id="t-recentchangeslinked"><a href="http://www.roguebasin.com/index.php?title=Special:RecentChangesLinked/Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_10" title="Recent changes in pages linked from this page [ctrl-option-k]" accesskey="k">Related changes</a></li>
+				<li id="t-specialpages"><a href="http://www.roguebasin.com/index.php?title=Special:SpecialPages" title="A list of all special pages [ctrl-option-q]" accesskey="q">Special pages</a></li>
+				<li><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_10&amp;printable=yes" rel="alternate">Printable version</a></li>
+				<li id="t-permalink"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_10&amp;oldid=47041" title="Permanent link to this revision of the page">Permanent link</a></li>
+			</ul>
+		</div>
+	</div>
+</div><!-- end of the left (by default at least) column -->
+<div class="visualClear"></div>
+<div id="footer">
+	<div id="f-poweredbyico">
+		<a href="http://www.mediawiki.org/"><img src="./Complete Roguelike Tutorial, using python3+libtcod, part 10 - RogueBasin_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31"></a>
+	</div>
+	<ul id="f-list">
+		<li id="lastmod"> This page was last modified on 7 May 2018, at 02:34.</li>
+		<li id="viewcount">This page has been accessed 1,767 times.</li>
+		<li id="privacy"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:Privacy_policy" title="RogueBasin:Privacy policy">Privacy policy</a></li>
+		<li id="about"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:About" title="RogueBasin:About">About RogueBasin</a></li>
+		<li id="disclaimer"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:General_disclaimer" title="RogueBasin:General disclaimer">Disclaimers</a></li>
+	</ul>
+</div>
+</div>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.user","mediawiki.page.ready"], null, true);
+}</script><script src="./Complete Roguelike Tutorial, using python3+libtcod, part 10 - RogueBasin_files/load(5).php" type="text/javascript"></script>
+<script src="./Complete Roguelike Tutorial, using python3+libtcod, part 10 - RogueBasin_files/load(6).php"></script>
+<!-- Served in 0.127 secs. --></body></html>

@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<!-- saved from url=(0108)http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13_code -->
+<html lang="en" dir="ltr" class="client-js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Complete Roguelike Tutorial, using python3+libtcod, part 13 code - RogueBasin</title>
+
+<meta name="generator" content="MediaWiki 1.19.9">
+<link rel="shortcut icon" href="http://www.roguebasin.com/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="http://www.roguebasin.com/opensearch_desc.php" title="RogueBasin (en)">
+<link rel="EditURI" type="application/rsd+xml" href="http://www.roguebasin.com/api.php?action=rsd">
+<link rel="alternate" type="application/atom+xml" title="RogueBasin Atom feed" href="http://www.roguebasin.com/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="stylesheet" href="./Complete Roguelike Tutorial, using python3+libtcod, part 13 code - RogueBasin_files/load.php">
+<!--[if IE 6]><link rel="stylesheet" href="/skins/monobook/IE60Fixes.css?303" media="screen" /><![endif]-->
+<!--[if IE 7]><link rel="stylesheet" href="/skins/monobook/IE70Fixes.css?303" media="screen" /><![endif]--><style type="text/css" media="all">.js-messagebox{margin:1em 5%;padding:0.5em 2.5%;border:1px solid #ccc;background-color:#fcfcfc;font-size:0.8em}.js-messagebox .js-messagebox-group{margin:1px;padding:0.5em 2.5%;border-bottom:1px solid #ddd}.js-messagebox .js-messagebox-group:last-child{border-bottom:thin none transparent}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:8b08bdc91c52a9ffba396dccfb5b473c */
+
+
+.mw-collapsible-toggle{float:right} li .mw-collapsible-toggle{float:none} .mw-collapsible-toggle-li{list-style:none}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:4250852ed2349a0d4d0fc6509a3e7d4c */
+</style><meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="./Complete Roguelike Tutorial, using python3+libtcod, part 13 code - RogueBasin_files/load(1).php">
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:c88e2bcd56513749bec09a7e29cb3ffa */
+</style>
+
+<script src="./Complete Roguelike Tutorial, using python3+libtcod, part 13 code - RogueBasin_files/load(2).php"></script><script src="./Complete Roguelike Tutorial, using python3+libtcod, part 13 code - RogueBasin_files/load(3).php"></script>
+<script>if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Complete_Roguelike_Tutorial,_using_python3+libtcod,_part_13_code","wgTitle":"Complete Roguelike Tutorial, using python3+libtcod, part 13 code","wgCurRevisionId":47057,"wgArticleId":8406,"wgIsArticle":true,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Developing"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgRelevantPageName":"Complete_Roguelike_Tutorial,_using_python3+libtcod,_part_13_code","wgRestrictionEdit":[],"wgRestrictionMove":[]});
+}</script><script>if(window.mw){
+mw.loader.implement("user.options",function($){mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"monobook","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":
+0,"watchlistdays":3,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false});;},{},{});mw.loader.implement("user.tokens",function($){mw.user.tokens.set({"editToken":"+\\","watchToken":false});;},{},{});
+
+/* cache key: 133099-basin:resourceloader:filter:minify-js:7:74a832f2292f1f4d40d425d223444e78 */
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax"]);
+}</script><script type="text/javascript" src="./Complete Roguelike Tutorial, using python3+libtcod, part 13 code - RogueBasin_files/load(4).php"></script>
+<style type="text/css">/*<![CDATA[*/
+.source-python {line-height: normal;}
+.source-python li, .source-python pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for python
+ * CSS class: source-python, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.python.source-python .de1, .python.source-python .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.python.source-python  {font-family:monospace;}
+.python.source-python .imp {font-weight: bold; color: red;}
+.python.source-python li, .python.source-python .li1 {font-weight: normal; vertical-align:top;}
+.python.source-python .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.python.source-python .li2 {font-weight: bold; vertical-align:top;}
+.python.source-python .kw1 {color: #ff7700;font-weight:bold;}
+.python.source-python .kw2 {color: #008000;}
+.python.source-python .kw3 {color: #dc143c;}
+.python.source-python .kw4 {color: #0000cd;}
+.python.source-python .co1 {color: #808080; font-style: italic;}
+.python.source-python .coMULTI {color: #808080; font-style: italic;}
+.python.source-python .es0 {color: #000099; font-weight: bold;}
+.python.source-python .br0 {color: black;}
+.python.source-python .sy0 {color: #66cc66;}
+.python.source-python .st0 {color: #483d8b;}
+.python.source-python .nu0 {color: #ff4500;}
+.python.source-python .me1 {color: black;}
+.python.source-python .ln-xtra, .python.source-python li.ln-xtra, .python.source-python div.ln-xtra {background-color: #ffc;}
+.python.source-python span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=18000";
+/*]]>*/
+</style></head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-Complete_Roguelike_Tutorial_using_python3_libtcod_part_13_code skin-monobook action-view">
+<div id="globalWrapper">
+<div id="column-content"><div id="content"><div id="mw-js-message" class="js-messagebox" style="display: none;"></div>
+	<a id="top"></a>
+	<div id="siteNotice"><div id="localNotice" lang="en" dir="ltr"></div></div>
+	<h1 id="firstHeading" class="firstHeading"><span dir="auto">Complete Roguelike Tutorial, using python3+libtcod, part 13 code</span></h1>
+	<div id="bodyContent" class="mw-body">
+		<div id="siteSub">From RogueBasin</div>
+		<div id="contentSub"></div>
+		<div id="jump-to-nav" class="mw-jump">Jump to: <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13_code#column-one">navigation</a>, <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13_code#searchInput">search</a></div>
+		<!-- start content -->
+<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><center><table border="0" cellpadding="10" cellspacing="0" style="background:#F0E68C"><tbody><tr><td><center>
+<p>This is part of a series of tutorials; the main page can be found <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod" title="Complete Roguelike Tutorial, using python3+libtcod">here</a>.
+</p>
+</center></td></tr></tbody></table></center>
+<p><br>
+</p>
+<h2> <span class="mw-headline" id="Adventure_gear"> Adventure gear </span></h2>
+<div style="background-color: #EEEEEE; border-style: dotted"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="co1">#&nbsp;!/usr/bin/env python3</span>
+<span class="co1">#</span>
+<span class="co1"># libtcod python tutorial</span>
+<span class="co1">#</span>
+&nbsp;
+<span class="kw1">import</span> <span class="kw3">math</span>
+<span class="kw1">import</span> <span class="kw3">shelve</span>
+<span class="kw1">import</span> <span class="kw3">textwrap</span>
+&nbsp;
+<span class="kw1">import</span> libtcodpy <span class="kw1">as</span> libtcod
+&nbsp;
+<span class="co1"># actual size of the window</span>
+SCREEN_WIDTH = <span class="nu0">80</span>
+SCREEN_HEIGHT = <span class="nu0">50</span>
+&nbsp;
+<span class="co1"># size of the map</span>
+MAP_WIDTH = <span class="nu0">80</span>
+MAP_HEIGHT = <span class="nu0">43</span>
+&nbsp;
+<span class="co1"># sizes and coordinates relevant for the GUI</span>
+BAR_WIDTH = <span class="nu0">20</span>
+PANEL_HEIGHT = <span class="nu0">7</span>
+PANEL_Y = SCREEN_HEIGHT - PANEL_HEIGHT
+MSG_X = BAR_WIDTH + <span class="nu0">2</span>
+MSG_WIDTH = SCREEN_WIDTH - BAR_WIDTH - <span class="nu0">2</span>
+MSG_HEIGHT = PANEL_HEIGHT - <span class="nu0">1</span>
+INVENTORY_WIDTH = <span class="nu0">50</span>
+CHARACTER_SCREEN_WIDTH = <span class="nu0">30</span>
+LEVEL_SCREEN_WIDTH = <span class="nu0">40</span>
+&nbsp;
+<span class="co1"># parameters for dungeon generator</span>
+ROOM_MAX_SIZE = <span class="nu0">10</span>
+ROOM_MIN_SIZE = <span class="nu0">6</span>
+MAX_ROOMS = <span class="nu0">30</span>
+&nbsp;
+<span class="co1"># spell values</span>
+HEAL_AMOUNT = <span class="nu0">40</span>
+LIGHTNING_DAMAGE = <span class="nu0">40</span>
+LIGHTNING_RANGE = <span class="nu0">5</span>
+CONFUSE_RANGE = <span class="nu0">8</span>
+CONFUSE_NUM_TURNS = <span class="nu0">10</span>
+FIREBALL_RADIUS = <span class="nu0">3</span>
+FIREBALL_DAMAGE = <span class="nu0">25</span>
+&nbsp;
+<span class="co1"># experience and level-ups</span>
+LEVEL_UP_BASE = <span class="nu0">200</span>
+LEVEL_UP_FACTOR = <span class="nu0">150</span>
+&nbsp;
+&nbsp;
+FOV_ALGO = <span class="nu0">0</span>  <span class="co1"># default FOV algorithm</span>
+FOV_LIGHT_WALLS = <span class="kw2">True</span>  <span class="co1"># light walls or not</span>
+TORCH_RADIUS = <span class="nu0">10</span>
+&nbsp;
+LIMIT_FPS = <span class="nu0">20</span>  <span class="co1"># 20 frames-per-second maximum</span>
+&nbsp;
+&nbsp;
+color_dark_wall = libtcod.<span class="me1">Color</span><span class="br0">(</span><span class="nu0">0</span>, <span class="nu0">0</span>, <span class="nu0">100</span><span class="br0">)</span>
+color_light_wall = libtcod.<span class="me1">Color</span><span class="br0">(</span><span class="nu0">130</span>, <span class="nu0">110</span>, <span class="nu0">50</span><span class="br0">)</span>
+color_dark_ground = libtcod.<span class="me1">Color</span><span class="br0">(</span><span class="nu0">50</span>, <span class="nu0">50</span>, <span class="nu0">150</span><span class="br0">)</span>
+color_light_ground = libtcod.<span class="me1">Color</span><span class="br0">(</span><span class="nu0">200</span>, <span class="nu0">180</span>, <span class="nu0">50</span><span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">class</span> Tile:
+    <span class="co1"># a tile of the map and its properties</span>
+    <span class="kw1">def</span> <span class="kw4">__init__</span><span class="br0">(</span><span class="kw2">self</span>, blocked, block_sight=<span class="kw2">None</span><span class="br0">)</span>:
+        <span class="kw2">self</span>.<span class="me1">blocked</span> = blocked
+&nbsp;
+        <span class="co1"># all tiles start unexplored</span>
+        <span class="kw2">self</span>.<span class="me1">explored</span> = <span class="kw2">False</span>
+&nbsp;
+        <span class="co1"># by default, if a tile is blocked, it also blocks sight</span>
+        <span class="kw1">if</span> block_sight <span class="kw1">is</span> <span class="kw2">None</span>:
+            block_sight = blocked
+        <span class="kw2">self</span>.<span class="me1">block_sight</span> = block_sight
+&nbsp;
+&nbsp;
+<span class="kw1">class</span> Rect:
+    <span class="co1"># a rectangle on the map. used to characterize a room.</span>
+    <span class="kw1">def</span> <span class="kw4">__init__</span><span class="br0">(</span><span class="kw2">self</span>, x, y, w, h<span class="br0">)</span>:
+        <span class="kw2">self</span>.<span class="me1">x1</span> = x
+        <span class="kw2">self</span>.<span class="me1">y1</span> = y
+        <span class="kw2">self</span>.<span class="me1">x2</span> = x + w
+        <span class="kw2">self</span>.<span class="me1">y2</span> = y + h
+&nbsp;
+    <span class="kw1">def</span> center<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:
+        center_x = <span class="br0">(</span><span class="kw2">self</span>.<span class="me1">x1</span> + <span class="kw2">self</span>.<span class="me1">x2</span><span class="br0">)</span> // <span class="nu0">2</span>
+        center_y = <span class="br0">(</span><span class="kw2">self</span>.<span class="me1">y1</span> + <span class="kw2">self</span>.<span class="me1">y2</span><span class="br0">)</span> // <span class="nu0">2</span>
+        <span class="kw1">return</span> <span class="br0">(</span>center_x, center_y<span class="br0">)</span>
+&nbsp;
+    <span class="kw1">def</span> intersect<span class="br0">(</span><span class="kw2">self</span>, other<span class="br0">)</span>:
+        <span class="co1"># returns true if this rectangle intersects with another one</span>
+        <span class="kw1">return</span> <span class="br0">(</span><span class="kw2">self</span>.<span class="me1">x1</span> <span class="sy0">&lt;</span>= other.<span class="me1">x2</span> <span class="kw1">and</span> <span class="kw2">self</span>.<span class="me1">x2</span> <span class="sy0">&gt;</span>= other.<span class="me1">x1</span> <span class="kw1">and</span>
+                <span class="kw2">self</span>.<span class="me1">y1</span> <span class="sy0">&lt;</span>= other.<span class="me1">y2</span> <span class="kw1">and</span> <span class="kw2">self</span>.<span class="me1">y2</span> <span class="sy0">&gt;</span>= other.<span class="me1">y1</span><span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">class</span> Object:
+    <span class="co1"># this is a generic object: the player, a monster, an item, the stairs...</span>
+    <span class="co1"># it's always represented by a character on screen.</span>
+    <span class="kw1">def</span> <span class="kw4">__init__</span><span class="br0">(</span><span class="kw2">self</span>, x, y, char, name, color, blocks=<span class="kw2">False</span>, always_visible=<span class="kw2">False</span>, fighter=<span class="kw2">None</span>, ai=<span class="kw2">None</span>, item=<span class="kw2">None</span>, equipment=<span class="kw2">None</span><span class="br0">)</span>:
+        <span class="kw2">self</span>.<span class="me1">x</span> = x
+        <span class="kw2">self</span>.<span class="me1">y</span> = y
+        <span class="kw2">self</span>.<span class="me1">char</span> = char
+        <span class="kw2">self</span>.<span class="me1">name</span> = name
+        <span class="kw2">self</span>.<span class="me1">color</span> = color
+        <span class="kw2">self</span>.<span class="me1">blocks</span> = blocks
+        <span class="kw2">self</span>.<span class="me1">always_visible</span> = always_visible
+        <span class="kw2">self</span>.<span class="me1">fighter</span> = fighter
+        <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">fighter</span>:  <span class="co1"># let the fighter component know who owns it</span>
+            <span class="kw2">self</span>.<span class="me1">fighter</span>.<span class="me1">owner</span> = <span class="kw2">self</span>
+&nbsp;
+        <span class="kw2">self</span>.<span class="me1">ai</span> = ai
+        <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">ai</span>:  <span class="co1"># let the AI component know who owns it</span>
+            <span class="kw2">self</span>.<span class="me1">ai</span>.<span class="me1">owner</span> = <span class="kw2">self</span>
+&nbsp;
+        <span class="kw2">self</span>.<span class="me1">item</span> = item
+        <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">item</span>:  <span class="co1"># let the Item component know who owns it</span>
+            <span class="kw2">self</span>.<span class="me1">item</span>.<span class="me1">owner</span> = <span class="kw2">self</span>
+&nbsp;
+        <span class="kw2">self</span>.<span class="me1">equipment</span> = equipment
+        <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">equipment</span>:  <span class="co1"># let the Equipment component know who owns it</span>
+            <span class="kw2">self</span>.<span class="me1">equipment</span>.<span class="me1">owner</span> = <span class="kw2">self</span>
+&nbsp;
+            <span class="co1"># there must be an Item component for the Equipment component to work properly</span>
+            <span class="kw2">self</span>.<span class="me1">item</span> = Item<span class="br0">(</span><span class="br0">)</span>
+            <span class="kw2">self</span>.<span class="me1">item</span>.<span class="me1">owner</span> = <span class="kw2">self</span>
+&nbsp;
+    <span class="kw1">def</span> move<span class="br0">(</span><span class="kw2">self</span>, dx, dy<span class="br0">)</span>:
+        <span class="co1"># move by the given amount, if the destination is not blocked</span>
+        <span class="kw1">if</span> <span class="kw1">not</span> is_blocked<span class="br0">(</span><span class="kw2">self</span>.<span class="me1">x</span> + dx, <span class="kw2">self</span>.<span class="me1">y</span> + dy<span class="br0">)</span>:
+            <span class="kw2">self</span>.<span class="me1">x</span> += dx
+            <span class="kw2">self</span>.<span class="me1">y</span> += dy
+&nbsp;
+    <span class="kw1">def</span> move_towards<span class="br0">(</span><span class="kw2">self</span>, target_x, target_y<span class="br0">)</span>:
+        <span class="co1"># vector from this object to the target, and distance</span>
+        dx = target_x - <span class="kw2">self</span>.<span class="me1">x</span>
+        dy = target_y - <span class="kw2">self</span>.<span class="me1">y</span>
+        distance = <span class="kw3">math</span>.<span class="me1">sqrt</span><span class="br0">(</span>dx <span class="sy0">**</span> <span class="nu0">2</span> + dy <span class="sy0">**</span> <span class="nu0">2</span><span class="br0">)</span>
+&nbsp;
+        <span class="co1"># normalize it to length 1 (preserving direction), then round it and</span>
+        <span class="co1"># convert to integer so the movement is restricted to the map grid</span>
+        dx = <span class="kw2">int</span><span class="br0">(</span><span class="kw2">round</span><span class="br0">(</span>dx // distance<span class="br0">)</span><span class="br0">)</span>
+        dy = <span class="kw2">int</span><span class="br0">(</span><span class="kw2">round</span><span class="br0">(</span>dy // distance<span class="br0">)</span><span class="br0">)</span>
+        <span class="kw2">self</span>.<span class="me1">move</span><span class="br0">(</span>dx, dy<span class="br0">)</span>
+&nbsp;
+    <span class="kw1">def</span> distance_to<span class="br0">(</span><span class="kw2">self</span>, other<span class="br0">)</span>:
+        <span class="co1"># return the distance to another object</span>
+        dx = other.<span class="me1">x</span> - <span class="kw2">self</span>.<span class="me1">x</span>
+        dy = other.<span class="me1">y</span> - <span class="kw2">self</span>.<span class="me1">y</span>
+        <span class="kw1">return</span> <span class="kw3">math</span>.<span class="me1">sqrt</span><span class="br0">(</span>dx <span class="sy0">**</span> <span class="nu0">2</span> + dy <span class="sy0">**</span> <span class="nu0">2</span><span class="br0">)</span>
+&nbsp;
+    <span class="kw1">def</span> distance<span class="br0">(</span><span class="kw2">self</span>, x, y<span class="br0">)</span>:
+        <span class="co1"># return the distance to some coordinates</span>
+        <span class="kw1">return</span> <span class="kw3">math</span>.<span class="me1">sqrt</span><span class="br0">(</span><span class="br0">(</span>x - <span class="kw2">self</span>.<span class="me1">x</span><span class="br0">)</span> <span class="sy0">**</span> <span class="nu0">2</span> + <span class="br0">(</span>y - <span class="kw2">self</span>.<span class="me1">y</span><span class="br0">)</span> <span class="sy0">**</span> <span class="nu0">2</span><span class="br0">)</span>
+&nbsp;
+    <span class="kw1">def</span> send_to_back<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:
+        <span class="co1"># make this object be drawn first, so all others appear above it if they're in the same tile.</span>
+        <span class="kw1">global</span> objects
+        objects.<span class="me1">remove</span><span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>
+        objects.<span class="me1">insert</span><span class="br0">(</span><span class="nu0">0</span>, <span class="kw2">self</span><span class="br0">)</span>
+&nbsp;
+    <span class="kw1">def</span> draw<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:
+        <span class="co1"># only show if it's visible to the player; or it's set to "always visible" and on an explored tile</span>
+        <span class="kw1">if</span> <span class="br0">(</span>libtcod.<span class="me1">map_is_in_fov</span><span class="br0">(</span>fov_map, <span class="kw2">self</span>.<span class="me1">x</span>, <span class="kw2">self</span>.<span class="me1">y</span><span class="br0">)</span> <span class="kw1">or</span>
+                <span class="br0">(</span><span class="kw2">self</span>.<span class="me1">always_visible</span> <span class="kw1">and</span> <span class="kw2">map</span><span class="br0">[</span><span class="kw2">self</span>.<span class="me1">x</span><span class="br0">]</span><span class="br0">[</span><span class="kw2">self</span>.<span class="me1">y</span><span class="br0">]</span>.<span class="me1">explored</span><span class="br0">)</span><span class="br0">)</span>:
+            <span class="co1"># set the color and then draw the character that represents this object at its position</span>
+            libtcod.<span class="me1">console_set_default_foreground</span><span class="br0">(</span>con, <span class="kw2">self</span>.<span class="me1">color</span><span class="br0">)</span>
+            libtcod.<span class="me1">console_put_char</span><span class="br0">(</span>con, <span class="kw2">self</span>.<span class="me1">x</span>, <span class="kw2">self</span>.<span class="me1">y</span>, <span class="kw2">self</span>.<span class="me1">char</span>, libtcod.<span class="me1">BKGND_NONE</span><span class="br0">)</span>
+&nbsp;
+    <span class="kw1">def</span> clear<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:
+        <span class="co1"># erase the character that represents this object</span>
+        libtcod.<span class="me1">console_put_char</span><span class="br0">(</span>con, <span class="kw2">self</span>.<span class="me1">x</span>, <span class="kw2">self</span>.<span class="me1">y</span>, <span class="st0">' '</span>, libtcod.<span class="me1">BKGND_NONE</span><span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">class</span> Fighter:
+    <span class="co1"># combat-related properties and methods (monster, player, NPC).</span>
+    <span class="kw1">def</span> <span class="kw4">__init__</span><span class="br0">(</span><span class="kw2">self</span>, hp, defense, power, xp, death_function=<span class="kw2">None</span><span class="br0">)</span>:
+        <span class="kw2">self</span>.<span class="me1">base_max_hp</span> = hp
+        <span class="kw2">self</span>.<span class="me1">hp</span> = hp
+        <span class="kw2">self</span>.<span class="me1">base_defense</span> = defense
+        <span class="kw2">self</span>.<span class="me1">base_power</span> = power
+        <span class="kw2">self</span>.<span class="me1">xp</span> = xp
+        <span class="kw2">self</span>.<span class="me1">death_function</span> = death_function
+&nbsp;
+    @<span class="kw2">property</span>
+    <span class="kw1">def</span> power<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:  <span class="co1"># return actual power, by summing up the bonuses from all equipped items</span>
+        bonus = <span class="kw2">sum</span><span class="br0">(</span>equipment.<span class="me1">power_bonus</span> <span class="kw1">for</span> equipment <span class="kw1">in</span> get_all_equipped<span class="br0">(</span><span class="kw2">self</span>.<span class="me1">owner</span><span class="br0">)</span><span class="br0">)</span>
+        <span class="kw1">return</span> <span class="kw2">self</span>.<span class="me1">base_power</span> + bonus
+&nbsp;
+    @<span class="kw2">property</span>
+    <span class="kw1">def</span> defense<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:  <span class="co1"># return actual defense, by summing up the bonuses from all equipped items</span>
+        bonus = <span class="kw2">sum</span><span class="br0">(</span>equipment.<span class="me1">defense_bonus</span> <span class="kw1">for</span> equipment <span class="kw1">in</span> get_all_equipped<span class="br0">(</span><span class="kw2">self</span>.<span class="me1">owner</span><span class="br0">)</span><span class="br0">)</span>
+        <span class="kw1">return</span> <span class="kw2">self</span>.<span class="me1">base_defense</span> + bonus
+&nbsp;
+    @<span class="kw2">property</span>
+    <span class="kw1">def</span> max_hp<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:  <span class="co1"># return actual max_hp, by summing up the bonuses from all equipped items</span>
+        bonus = <span class="kw2">sum</span><span class="br0">(</span>equipment.<span class="me1">max_hp_bonus</span> <span class="kw1">for</span> equipment <span class="kw1">in</span> get_all_equipped<span class="br0">(</span><span class="kw2">self</span>.<span class="me1">owner</span><span class="br0">)</span><span class="br0">)</span>
+        <span class="kw1">return</span> <span class="kw2">self</span>.<span class="me1">base_max_hp</span> + bonus
+&nbsp;
+    <span class="kw1">def</span> attack<span class="br0">(</span><span class="kw2">self</span>, target<span class="br0">)</span>:
+        <span class="co1"># a simple formula for attack damage</span>
+        damage = <span class="kw2">self</span>.<span class="me1">power</span> - target.<span class="me1">fighter</span>.<span class="me1">defense</span>
+&nbsp;
+        <span class="kw1">if</span> damage <span class="sy0">&gt;</span> <span class="nu0">0</span>:
+            <span class="co1"># make the target take some damage</span>
+            message<span class="br0">(</span><span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">name</span>.<span class="me1">capitalize</span><span class="br0">(</span><span class="br0">)</span> + <span class="st0">' attacks '</span> + target.<span class="me1">name</span> + <span class="st0">' for '</span> + <span class="kw2">str</span><span class="br0">(</span>damage<span class="br0">)</span> + <span class="st0">' hit points.'</span><span class="br0">)</span>
+            target.<span class="me1">fighter</span>.<span class="me1">take_damage</span><span class="br0">(</span>damage<span class="br0">)</span>
+        <span class="kw1">else</span>:
+            message<span class="br0">(</span><span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">name</span>.<span class="me1">capitalize</span><span class="br0">(</span><span class="br0">)</span> + <span class="st0">' attacks '</span> + target.<span class="me1">name</span> + <span class="st0">' but it has no effect!'</span><span class="br0">)</span>
+&nbsp;
+    <span class="kw1">def</span> take_damage<span class="br0">(</span><span class="kw2">self</span>, damage<span class="br0">)</span>:
+        <span class="co1"># apply damage if possible</span>
+        <span class="kw1">if</span> damage <span class="sy0">&gt;</span> <span class="nu0">0</span>:
+            <span class="kw2">self</span>.<span class="me1">hp</span> -= damage
+&nbsp;
+            <span class="co1"># check for death. if there's a death function, call it</span>
+            <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">hp</span> <span class="sy0">&lt;</span>= <span class="nu0">0</span>:
+                function = <span class="kw2">self</span>.<span class="me1">death_function</span>
+                <span class="kw1">if</span> function <span class="kw1">is</span> <span class="kw1">not</span> <span class="kw2">None</span>:
+                    function<span class="br0">(</span><span class="kw2">self</span>.<span class="me1">owner</span><span class="br0">)</span>
+&nbsp;
+                <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">owner</span> <span class="sy0">!</span>= player:  <span class="co1"># yield experience to the player</span>
+                    player.<span class="me1">fighter</span>.<span class="me1">xp</span> += <span class="kw2">self</span>.<span class="me1">xp</span>
+&nbsp;
+    <span class="kw1">def</span> heal<span class="br0">(</span><span class="kw2">self</span>, amount<span class="br0">)</span>:
+        <span class="co1"># heal by the given amount, without going over the maximum</span>
+        <span class="kw2">self</span>.<span class="me1">hp</span> += amount
+        <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">hp</span> <span class="sy0">&gt;</span> <span class="kw2">self</span>.<span class="me1">max_hp</span>:
+            <span class="kw2">self</span>.<span class="me1">hp</span> = <span class="kw2">self</span>.<span class="me1">max_hp</span>
+&nbsp;
+&nbsp;
+<span class="kw1">class</span> BasicMonster:
+    <span class="co1"># AI for a basic monster.</span>
+    <span class="kw1">def</span> take_turn<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:
+        <span class="co1"># a basic monster takes its turn. if you can see it, it can see you</span>
+        monster = <span class="kw2">self</span>.<span class="me1">owner</span>
+        <span class="kw1">if</span> libtcod.<span class="me1">map_is_in_fov</span><span class="br0">(</span>fov_map, monster.<span class="me1">x</span>, monster.<span class="me1">y</span><span class="br0">)</span>:
+&nbsp;
+            <span class="co1"># move towards player if far away</span>
+            <span class="kw1">if</span> monster.<span class="me1">distance_to</span><span class="br0">(</span>player<span class="br0">)</span> <span class="sy0">&gt;</span>= <span class="nu0">2</span>:
+                monster.<span class="me1">move_towards</span><span class="br0">(</span>player.<span class="me1">x</span>, player.<span class="me1">y</span><span class="br0">)</span>
+&nbsp;
+            <span class="co1"># close enough, attack! (if the player is still alive.)</span>
+            <span class="kw1">elif</span> player.<span class="me1">fighter</span>.<span class="me1">hp</span> <span class="sy0">&gt;</span> <span class="nu0">0</span>:
+                monster.<span class="me1">fighter</span>.<span class="me1">attack</span><span class="br0">(</span>player<span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">class</span> ConfusedMonster:
+    <span class="co1"># AI for a temporarily confused monster (reverts to previous AI after a while).</span>
+    <span class="kw1">def</span> <span class="kw4">__init__</span><span class="br0">(</span><span class="kw2">self</span>, old_ai, num_turns=CONFUSE_NUM_TURNS<span class="br0">)</span>:
+        <span class="kw2">self</span>.<span class="me1">old_ai</span> = old_ai
+        <span class="kw2">self</span>.<span class="me1">num_turns</span> = num_turns
+&nbsp;
+    <span class="kw1">def</span> take_turn<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:
+        <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">num_turns</span> <span class="sy0">&gt;</span> <span class="nu0">0</span>:  <span class="co1"># still confused...</span>
+            <span class="co1"># move in a random direction, and decrease the number of turns confused</span>
+            <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">move</span><span class="br0">(</span>libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, -<span class="nu0">1</span>, <span class="nu0">1</span><span class="br0">)</span>, libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, -<span class="nu0">1</span>, <span class="nu0">1</span><span class="br0">)</span><span class="br0">)</span>
+            <span class="kw2">self</span>.<span class="me1">num_turns</span> -= <span class="nu0">1</span>
+&nbsp;
+        <span class="kw1">else</span>:  <span class="co1"># restore the previous AI (this one will be deleted because it's not referenced anymore)</span>
+            <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">ai</span> = <span class="kw2">self</span>.<span class="me1">old_ai</span>
+            message<span class="br0">(</span><span class="st0">'The '</span> + <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">name</span> + <span class="st0">' is no longer confused!'</span>, libtcod.<span class="me1">red</span><span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">class</span> Item:
+    <span class="co1"># an item that can be picked up and used.</span>
+    <span class="kw1">def</span> <span class="kw4">__init__</span><span class="br0">(</span><span class="kw2">self</span>, use_function=<span class="kw2">None</span><span class="br0">)</span>:
+        <span class="kw2">self</span>.<span class="me1">use_function</span> = use_function
+&nbsp;
+    <span class="kw1">def</span> pick_up<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:
+        <span class="co1"># add to the player's inventory and remove from the map</span>
+        <span class="kw1">if</span> <span class="kw2">len</span><span class="br0">(</span>inventory<span class="br0">)</span> <span class="sy0">&gt;</span>= <span class="nu0">26</span>:
+            message<span class="br0">(</span><span class="st0">'Your inventory is full, cannot pick up '</span> + <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">name</span> + <span class="st0">'.'</span>, libtcod.<span class="me1">red</span><span class="br0">)</span>
+        <span class="kw1">else</span>:
+            inventory.<span class="me1">append</span><span class="br0">(</span><span class="kw2">self</span>.<span class="me1">owner</span><span class="br0">)</span>
+            objects.<span class="me1">remove</span><span class="br0">(</span><span class="kw2">self</span>.<span class="me1">owner</span><span class="br0">)</span>
+            message<span class="br0">(</span><span class="st0">'You picked up a '</span> + <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">name</span> + <span class="st0">'!'</span>, libtcod.<span class="me1">green</span><span class="br0">)</span>
+&nbsp;
+            <span class="co1"># special case: automatically equip, if the corresponding equipment slot is unused</span>
+            equipment = <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">equipment</span>
+            <span class="kw1">if</span> equipment <span class="kw1">and</span> get_equipped_in_slot<span class="br0">(</span>equipment.<span class="me1">slot</span><span class="br0">)</span> <span class="kw1">is</span> <span class="kw2">None</span>:
+                equipment.<span class="me1">equip</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+    <span class="kw1">def</span> drop<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:
+        <span class="co1"># special case: if the object has the Equipment component, dequip it before dropping</span>
+        <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">equipment</span>:
+            <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">equipment</span>.<span class="me1">dequip</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+        <span class="co1"># add to the map and remove from the player's inventory. also, place it at the player's coordinates</span>
+        objects.<span class="me1">append</span><span class="br0">(</span><span class="kw2">self</span>.<span class="me1">owner</span><span class="br0">)</span>
+        inventory.<span class="me1">remove</span><span class="br0">(</span><span class="kw2">self</span>.<span class="me1">owner</span><span class="br0">)</span>
+        <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">x</span> = player.<span class="me1">x</span>
+        <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">y</span> = player.<span class="me1">y</span>
+        message<span class="br0">(</span><span class="st0">'You dropped a '</span> + <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">name</span> + <span class="st0">'.'</span>, libtcod.<span class="me1">yellow</span><span class="br0">)</span>
+&nbsp;
+    <span class="kw1">def</span> use<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:
+        <span class="co1"># special case: if the object has the Equipment component, the "use" action is to equip/dequip</span>
+        <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">equipment</span>:
+            <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">equipment</span>.<span class="me1">toggle_equip</span><span class="br0">(</span><span class="br0">)</span>
+            <span class="kw1">return</span>
+&nbsp;
+        <span class="co1"># just call the "use_function" if it is defined</span>
+        <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">use_function</span> <span class="kw1">is</span> <span class="kw2">None</span>:
+            message<span class="br0">(</span><span class="st0">'The '</span> + <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">name</span> + <span class="st0">' cannot be used.'</span><span class="br0">)</span>
+        <span class="kw1">else</span>:
+            <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">use_function</span><span class="br0">(</span><span class="br0">)</span> <span class="sy0">!</span>= <span class="st0">'cancelled'</span>:
+                inventory.<span class="me1">remove</span><span class="br0">(</span><span class="kw2">self</span>.<span class="me1">owner</span><span class="br0">)</span>  <span class="co1"># destroy after use, unless it was cancelled for some reason</span>
+&nbsp;
+&nbsp;
+<span class="kw1">class</span> Equipment:
+    <span class="co1"># an object that can be equipped, yielding bonuses. automatically adds the Item component.</span>
+    <span class="kw1">def</span> <span class="kw4">__init__</span><span class="br0">(</span><span class="kw2">self</span>, slot, power_bonus=<span class="nu0">0</span>, defense_bonus=<span class="nu0">0</span>, max_hp_bonus=<span class="nu0">0</span><span class="br0">)</span>:
+        <span class="kw2">self</span>.<span class="me1">power_bonus</span> = power_bonus
+        <span class="kw2">self</span>.<span class="me1">defense_bonus</span> = defense_bonus
+        <span class="kw2">self</span>.<span class="me1">max_hp_bonus</span> = max_hp_bonus
+&nbsp;
+        <span class="kw2">self</span>.<span class="me1">slot</span> = slot
+        <span class="kw2">self</span>.<span class="me1">is_equipped</span> = <span class="kw2">False</span>
+&nbsp;
+    <span class="kw1">def</span> toggle_equip<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:  <span class="co1"># toggle equip/dequip status</span>
+        <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">is_equipped</span>:
+            <span class="kw2">self</span>.<span class="me1">dequip</span><span class="br0">(</span><span class="br0">)</span>
+        <span class="kw1">else</span>:
+            <span class="kw2">self</span>.<span class="me1">equip</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+    <span class="kw1">def</span> equip<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:
+        <span class="co1"># if the slot is already being used, dequip whatever is there first</span>
+        old_equipment = get_equipped_in_slot<span class="br0">(</span><span class="kw2">self</span>.<span class="me1">slot</span><span class="br0">)</span>
+        <span class="kw1">if</span> old_equipment <span class="kw1">is</span> <span class="kw1">not</span> <span class="kw2">None</span>:
+            old_equipment.<span class="me1">dequip</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+        <span class="co1"># equip object and show a message about it</span>
+        <span class="kw2">self</span>.<span class="me1">is_equipped</span> = <span class="kw2">True</span>
+        message<span class="br0">(</span><span class="st0">'Equipped '</span> + <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">name</span> + <span class="st0">' on '</span> + <span class="kw2">self</span>.<span class="me1">slot</span> + <span class="st0">'.'</span>, libtcod.<span class="me1">light_green</span><span class="br0">)</span>
+&nbsp;
+    <span class="kw1">def</span> dequip<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:
+        <span class="co1"># dequip object and show a message about it</span>
+        <span class="kw1">if</span> <span class="kw1">not</span> <span class="kw2">self</span>.<span class="me1">is_equipped</span>:
+            <span class="kw1">return</span>
+        <span class="kw2">self</span>.<span class="me1">is_equipped</span> = <span class="kw2">False</span>
+        message<span class="br0">(</span><span class="st0">'Dequipped '</span> + <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">name</span> + <span class="st0">' from '</span> + <span class="kw2">self</span>.<span class="me1">slot</span> + <span class="st0">'.'</span>, libtcod.<span class="me1">light_yellow</span><span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> get_equipped_in_slot<span class="br0">(</span>slot<span class="br0">)</span>:  <span class="co1"># returns the equipment in a slot, or None if it's empty</span>
+    <span class="kw1">for</span> obj <span class="kw1">in</span> inventory:
+        <span class="kw1">if</span> obj.<span class="me1">equipment</span> <span class="kw1">and</span> obj.<span class="me1">equipment</span>.<span class="me1">slot</span> == slot <span class="kw1">and</span> obj.<span class="me1">equipment</span>.<span class="me1">is_equipped</span>:
+            <span class="kw1">return</span> obj.<span class="me1">equipment</span>
+    <span class="kw1">return</span> <span class="kw2">None</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> get_all_equipped<span class="br0">(</span>obj<span class="br0">)</span>:  <span class="co1"># returns a list of equipped items</span>
+    <span class="kw1">if</span> obj == player:
+        equipped_list = <span class="br0">[</span><span class="br0">]</span>
+        <span class="kw1">for</span> item <span class="kw1">in</span> inventory:
+            <span class="kw1">if</span> item.<span class="me1">equipment</span> <span class="kw1">and</span> item.<span class="me1">equipment</span>.<span class="me1">is_equipped</span>:
+                equipped_list.<span class="me1">append</span><span class="br0">(</span>item.<span class="me1">equipment</span><span class="br0">)</span>
+        <span class="kw1">return</span> equipped_list
+    <span class="kw1">else</span>:
+        <span class="kw1">return</span> <span class="br0">[</span><span class="br0">]</span>  <span class="co1"># other objects have no equipment</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> is_blocked<span class="br0">(</span>x, y<span class="br0">)</span>:
+    <span class="co1"># first test the map tile</span>
+    <span class="kw1">if</span> <span class="kw2">map</span><span class="br0">[</span>x<span class="br0">]</span><span class="br0">[</span>y<span class="br0">]</span>.<span class="me1">blocked</span>:
+        <span class="kw1">return</span> <span class="kw2">True</span>
+&nbsp;
+    <span class="co1"># now check for any blocking objects</span>
+    <span class="kw1">for</span> <span class="kw2">object</span> <span class="kw1">in</span> objects:
+        <span class="kw1">if</span> <span class="kw2">object</span>.<span class="me1">blocks</span> <span class="kw1">and</span> <span class="kw2">object</span>.<span class="me1">x</span> == x <span class="kw1">and</span> <span class="kw2">object</span>.<span class="me1">y</span> == y:
+            <span class="kw1">return</span> <span class="kw2">True</span>
+&nbsp;
+    <span class="kw1">return</span> <span class="kw2">False</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> create_room<span class="br0">(</span>room<span class="br0">)</span>:
+    <span class="kw1">global</span> <span class="kw2">map</span>
+    <span class="co1"># go through the tiles in the rectangle and make them passable</span>
+    <span class="kw1">for</span> x <span class="kw1">in</span> <span class="kw2">range</span><span class="br0">(</span>room.<span class="me1">x1</span> + <span class="nu0">1</span>, room.<span class="me1">x2</span><span class="br0">)</span>:
+        <span class="kw1">for</span> y <span class="kw1">in</span> <span class="kw2">range</span><span class="br0">(</span>room.<span class="me1">y1</span> + <span class="nu0">1</span>, room.<span class="me1">y2</span><span class="br0">)</span>:
+            <span class="kw2">map</span><span class="br0">[</span>x<span class="br0">]</span><span class="br0">[</span>y<span class="br0">]</span>.<span class="me1">blocked</span> = <span class="kw2">False</span>
+            <span class="kw2">map</span><span class="br0">[</span>x<span class="br0">]</span><span class="br0">[</span>y<span class="br0">]</span>.<span class="me1">block_sight</span> = <span class="kw2">False</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> create_h_tunnel<span class="br0">(</span>x1, x2, y<span class="br0">)</span>:
+    <span class="kw1">global</span> <span class="kw2">map</span>
+    <span class="co1"># horizontal tunnel. min() and max() are used in case x1&gt;x2</span>
+    <span class="kw1">for</span> x <span class="kw1">in</span> <span class="kw2">range</span><span class="br0">(</span><span class="kw2">min</span><span class="br0">(</span>x1, x2<span class="br0">)</span>, <span class="kw2">max</span><span class="br0">(</span>x1, x2<span class="br0">)</span> + <span class="nu0">1</span><span class="br0">)</span>:
+        <span class="kw2">map</span><span class="br0">[</span>x<span class="br0">]</span><span class="br0">[</span>y<span class="br0">]</span>.<span class="me1">blocked</span> = <span class="kw2">False</span>
+        <span class="kw2">map</span><span class="br0">[</span>x<span class="br0">]</span><span class="br0">[</span>y<span class="br0">]</span>.<span class="me1">block_sight</span> = <span class="kw2">False</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> create_v_tunnel<span class="br0">(</span>y1, y2, x<span class="br0">)</span>:
+    <span class="kw1">global</span> <span class="kw2">map</span>
+    <span class="co1"># vertical tunnel</span>
+    <span class="kw1">for</span> y <span class="kw1">in</span> <span class="kw2">range</span><span class="br0">(</span><span class="kw2">min</span><span class="br0">(</span>y1, y2<span class="br0">)</span>, <span class="kw2">max</span><span class="br0">(</span>y1, y2<span class="br0">)</span> + <span class="nu0">1</span><span class="br0">)</span>:
+        <span class="kw2">map</span><span class="br0">[</span>x<span class="br0">]</span><span class="br0">[</span>y<span class="br0">]</span>.<span class="me1">blocked</span> = <span class="kw2">False</span>
+        <span class="kw2">map</span><span class="br0">[</span>x<span class="br0">]</span><span class="br0">[</span>y<span class="br0">]</span>.<span class="me1">block_sight</span> = <span class="kw2">False</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> make_map<span class="br0">(</span><span class="br0">)</span>:
+    <span class="kw1">global</span> <span class="kw2">map</span>, objects, stairs
+&nbsp;
+    <span class="co1"># the list of objects with just the player</span>
+    objects = <span class="br0">[</span>player<span class="br0">]</span>
+&nbsp;
+    <span class="co1"># fill map with "blocked" tiles</span>
+    <span class="kw2">map</span> = <span class="br0">[</span><span class="br0">[</span>Tile<span class="br0">(</span><span class="kw2">True</span><span class="br0">)</span>
+            <span class="kw1">for</span> y <span class="kw1">in</span> <span class="kw2">range</span><span class="br0">(</span>MAP_HEIGHT<span class="br0">)</span><span class="br0">]</span>
+           <span class="kw1">for</span> x <span class="kw1">in</span> <span class="kw2">range</span><span class="br0">(</span>MAP_WIDTH<span class="br0">)</span><span class="br0">]</span>
+&nbsp;
+    rooms = <span class="br0">[</span><span class="br0">]</span>
+    num_rooms = <span class="nu0">0</span>
+&nbsp;
+    <span class="kw1">for</span> r <span class="kw1">in</span> <span class="kw2">range</span><span class="br0">(</span>MAX_ROOMS<span class="br0">)</span>:
+        <span class="co1"># random width and height</span>
+        w = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, ROOM_MIN_SIZE, ROOM_MAX_SIZE<span class="br0">)</span>
+        h = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, ROOM_MIN_SIZE, ROOM_MAX_SIZE<span class="br0">)</span>
+        <span class="co1"># random position without going out of the boundaries of the map</span>
+        x = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, <span class="nu0">0</span>, MAP_WIDTH - w - <span class="nu0">1</span><span class="br0">)</span>
+        y = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, <span class="nu0">0</span>, MAP_HEIGHT - h - <span class="nu0">1</span><span class="br0">)</span>
+&nbsp;
+        <span class="co1"># "Rect" class makes rectangles easier to work with</span>
+        new_room = Rect<span class="br0">(</span>x, y, w, h<span class="br0">)</span>
+&nbsp;
+        <span class="co1"># run through the other rooms and see if they intersect with this one</span>
+        failed = <span class="kw2">False</span>
+        <span class="kw1">for</span> other_room <span class="kw1">in</span> rooms:
+            <span class="kw1">if</span> new_room.<span class="me1">intersect</span><span class="br0">(</span>other_room<span class="br0">)</span>:
+                failed = <span class="kw2">True</span>
+                <span class="kw1">break</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="kw1">not</span> failed:
+            <span class="co1"># this means there are no intersections, so this room is valid</span>
+&nbsp;
+            <span class="co1"># "paint" it to the map's tiles</span>
+            create_room<span class="br0">(</span>new_room<span class="br0">)</span>
+&nbsp;
+            <span class="co1"># center coordinates of new room, will be useful later</span>
+            <span class="br0">(</span>new_x, new_y<span class="br0">)</span> = new_room.<span class="me1">center</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+            <span class="kw1">if</span> num_rooms == <span class="nu0">0</span>:
+                <span class="co1"># this is the first room, where the player starts at</span>
+                player.<span class="me1">x</span> = new_x
+                player.<span class="me1">y</span> = new_y
+            <span class="kw1">else</span>:
+                <span class="co1"># all rooms after the first:</span>
+                <span class="co1"># connect it to the previous room with a tunnel</span>
+&nbsp;
+                <span class="co1"># center coordinates of previous room</span>
+                <span class="br0">(</span>prev_x, prev_y<span class="br0">)</span> = rooms<span class="br0">[</span>num_rooms - <span class="nu0">1</span><span class="br0">]</span>.<span class="me1">center</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+                <span class="co1"># draw a coin (random number that is either 0 or 1)</span>
+                <span class="kw1">if</span> libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, <span class="nu0">0</span>, <span class="nu0">1</span><span class="br0">)</span> == <span class="nu0">1</span>:
+                    <span class="co1"># first move horizontally, then vertically</span>
+                    create_h_tunnel<span class="br0">(</span>prev_x, new_x, prev_y<span class="br0">)</span>
+                    create_v_tunnel<span class="br0">(</span>prev_y, new_y, new_x<span class="br0">)</span>
+                <span class="kw1">else</span>:
+                    <span class="co1"># first move vertically, then horizontally</span>
+                    create_v_tunnel<span class="br0">(</span>prev_y, new_y, prev_x<span class="br0">)</span>
+                    create_h_tunnel<span class="br0">(</span>prev_x, new_x, new_y<span class="br0">)</span>
+&nbsp;
+            <span class="co1"># add some contents to this room, such as monsters</span>
+            place_objects<span class="br0">(</span>new_room<span class="br0">)</span>
+&nbsp;
+            <span class="co1"># finally, append the new room to the list</span>
+            rooms.<span class="me1">append</span><span class="br0">(</span>new_room<span class="br0">)</span>
+            num_rooms += <span class="nu0">1</span>
+&nbsp;
+    <span class="co1"># create stairs at the center of the last room</span>
+    stairs = Object<span class="br0">(</span>new_x, new_y, <span class="st0">'&lt;'</span>, <span class="st0">'stairs'</span>, libtcod.<span class="me1">white</span>, always_visible=<span class="kw2">True</span><span class="br0">)</span>
+    objects.<span class="me1">append</span><span class="br0">(</span>stairs<span class="br0">)</span>
+    stairs.<span class="me1">send_to_back</span><span class="br0">(</span><span class="br0">)</span>  <span class="co1"># so it's drawn below the monsters</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> random_choice_index<span class="br0">(</span>chances<span class="br0">)</span>:  <span class="co1"># choose one option from list of chances, returning its index</span>
+    <span class="co1"># the dice will land on some number between 1 and the sum of the chances</span>
+    dice = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, <span class="nu0">1</span>, <span class="kw2">sum</span><span class="br0">(</span>chances<span class="br0">)</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1"># go through all chances, keeping the sum so far</span>
+    running_sum = <span class="nu0">0</span>
+    choice = <span class="nu0">0</span>
+    <span class="kw1">for</span> w <span class="kw1">in</span> chances:
+        running_sum += w
+&nbsp;
+        <span class="co1"># see if the dice landed in the part that corresponds to this choice</span>
+        <span class="kw1">if</span> dice <span class="sy0">&lt;</span>= running_sum:
+            <span class="kw1">return</span> choice
+        choice += <span class="nu0">1</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> random_choice<span class="br0">(</span>chances_dict<span class="br0">)</span>:
+    <span class="co1"># choose one option from dictionary of chances, returning its key</span>
+    chances = <span class="kw2">list</span><span class="br0">(</span>chances_dict.<span class="me1">values</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span>
+    strings = <span class="kw2">list</span><span class="br0">(</span>chances_dict.<span class="me1">keys</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span>
+&nbsp;
+    <span class="kw1">return</span> strings<span class="br0">[</span>random_choice_index<span class="br0">(</span>chances<span class="br0">)</span><span class="br0">]</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> from_dungeon_level<span class="br0">(</span>table<span class="br0">)</span>:
+    <span class="co1"># returns a value that depends on level. the table specifies what value occurs after each level, default is 0.</span>
+    <span class="kw1">for</span> <span class="br0">(</span>value, level<span class="br0">)</span> <span class="kw1">in</span> <span class="kw2">reversed</span><span class="br0">(</span>table<span class="br0">)</span>:
+        <span class="kw1">if</span> dungeon_level <span class="sy0">&gt;</span>= level:
+            <span class="kw1">return</span> value
+    <span class="kw1">return</span> <span class="nu0">0</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> place_objects<span class="br0">(</span>room<span class="br0">)</span>:
+    <span class="co1"># this is where we decide the chance of each monster or item appearing.</span>
+&nbsp;
+    <span class="co1"># maximum number of monsters per room</span>
+    max_monsters = from_dungeon_level<span class="br0">(</span><span class="br0">[</span><span class="br0">[</span><span class="nu0">2</span>, <span class="nu0">1</span><span class="br0">]</span>, <span class="br0">[</span><span class="nu0">3</span>, <span class="nu0">4</span><span class="br0">]</span>, <span class="br0">[</span><span class="nu0">5</span>, <span class="nu0">6</span><span class="br0">]</span><span class="br0">]</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1"># chance of each monster</span>
+    monster_chances = <span class="br0">{</span><span class="br0">}</span>
+    monster_chances<span class="br0">[</span><span class="st0">'orc'</span><span class="br0">]</span> = <span class="nu0">80</span>  <span class="co1"># orc always shows up, even if all other monsters have 0 chance</span>
+    monster_chances<span class="br0">[</span><span class="st0">'troll'</span><span class="br0">]</span> = from_dungeon_level<span class="br0">(</span><span class="br0">[</span><span class="br0">[</span><span class="nu0">15</span>, <span class="nu0">3</span><span class="br0">]</span>, <span class="br0">[</span><span class="nu0">30</span>, <span class="nu0">5</span><span class="br0">]</span>, <span class="br0">[</span><span class="nu0">60</span>, <span class="nu0">7</span><span class="br0">]</span><span class="br0">]</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1"># maximum number of items per room</span>
+    max_items = from_dungeon_level<span class="br0">(</span><span class="br0">[</span><span class="br0">[</span><span class="nu0">1</span>, <span class="nu0">1</span><span class="br0">]</span>, <span class="br0">[</span><span class="nu0">2</span>, <span class="nu0">4</span><span class="br0">]</span><span class="br0">]</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1"># chance of each item (by default they have a chance of 0 at level 1, which then goes up)</span>
+    item_chances = <span class="br0">{</span><span class="br0">}</span>
+    item_chances<span class="br0">[</span><span class="st0">'heal'</span><span class="br0">]</span> = <span class="nu0">35</span>  <span class="co1"># healing potion always shows up, even if all other items have 0 chance</span>
+    item_chances<span class="br0">[</span><span class="st0">'lightning'</span><span class="br0">]</span> = from_dungeon_level<span class="br0">(</span><span class="br0">[</span><span class="br0">[</span><span class="nu0">25</span>, <span class="nu0">4</span><span class="br0">]</span><span class="br0">]</span><span class="br0">)</span>
+    item_chances<span class="br0">[</span><span class="st0">'fireball'</span><span class="br0">]</span> = from_dungeon_level<span class="br0">(</span><span class="br0">[</span><span class="br0">[</span><span class="nu0">25</span>, <span class="nu0">6</span><span class="br0">]</span><span class="br0">]</span><span class="br0">)</span>
+    item_chances<span class="br0">[</span><span class="st0">'confuse'</span><span class="br0">]</span> = from_dungeon_level<span class="br0">(</span><span class="br0">[</span><span class="br0">[</span><span class="nu0">10</span>, <span class="nu0">2</span><span class="br0">]</span><span class="br0">]</span><span class="br0">)</span>
+    item_chances<span class="br0">[</span><span class="st0">'sword'</span><span class="br0">]</span> = from_dungeon_level<span class="br0">(</span><span class="br0">[</span><span class="br0">[</span><span class="nu0">5</span>, <span class="nu0">4</span><span class="br0">]</span><span class="br0">]</span><span class="br0">)</span>
+    item_chances<span class="br0">[</span><span class="st0">'shield'</span><span class="br0">]</span> = from_dungeon_level<span class="br0">(</span><span class="br0">[</span><span class="br0">[</span><span class="nu0">15</span>, <span class="nu0">8</span><span class="br0">]</span><span class="br0">]</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1"># choose random number of monsters</span>
+    num_monsters = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, <span class="nu0">0</span>, max_monsters<span class="br0">)</span>
+&nbsp;
+    <span class="kw1">for</span> i <span class="kw1">in</span> <span class="kw2">range</span><span class="br0">(</span>num_monsters<span class="br0">)</span>:
+        <span class="co1"># choose random spot for this monster</span>
+        x = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, room.<span class="me1">x1</span> + <span class="nu0">1</span>, room.<span class="me1">x2</span> - <span class="nu0">1</span><span class="br0">)</span>
+        y = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, room.<span class="me1">y1</span> + <span class="nu0">1</span>, room.<span class="me1">y2</span> - <span class="nu0">1</span><span class="br0">)</span>
+&nbsp;
+        <span class="co1"># only place it if the tile is not blocked</span>
+        <span class="kw1">if</span> <span class="kw1">not</span> is_blocked<span class="br0">(</span>x, y<span class="br0">)</span>:
+            choice = random_choice<span class="br0">(</span>monster_chances<span class="br0">)</span>
+            <span class="kw1">if</span> choice == <span class="st0">'orc'</span>:
+                <span class="co1"># create an orc</span>
+                fighter_component = Fighter<span class="br0">(</span>hp=<span class="nu0">20</span>, defense=<span class="nu0">0</span>, power=<span class="nu0">4</span>, xp=<span class="nu0">35</span>, death_function=monster_death<span class="br0">)</span>
+                ai_component = BasicMonster<span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+                monster = Object<span class="br0">(</span>x, y, <span class="st0">'o'</span>, <span class="st0">'orc'</span>, libtcod.<span class="me1">desaturated_green</span>,
+                                 blocks=<span class="kw2">True</span>, fighter=fighter_component, ai=ai_component<span class="br0">)</span>
+&nbsp;
+            <span class="kw1">elif</span> choice == <span class="st0">'troll'</span>:
+                <span class="co1"># create a troll</span>
+                fighter_component = Fighter<span class="br0">(</span>hp=<span class="nu0">30</span>, defense=<span class="nu0">2</span>, power=<span class="nu0">8</span>, xp=<span class="nu0">100</span>, death_function=monster_death<span class="br0">)</span>
+                ai_component = BasicMonster<span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+                monster = Object<span class="br0">(</span>x, y, <span class="st0">'T'</span>, <span class="st0">'troll'</span>, libtcod.<span class="me1">darker_green</span>,
+                                 blocks=<span class="kw2">True</span>, fighter=fighter_component, ai=ai_component<span class="br0">)</span>
+&nbsp;
+            objects.<span class="me1">append</span><span class="br0">(</span>monster<span class="br0">)</span>
+&nbsp;
+    <span class="co1"># choose random number of items</span>
+    num_items = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, <span class="nu0">0</span>, max_items<span class="br0">)</span>
+&nbsp;
+    <span class="kw1">for</span> i <span class="kw1">in</span> <span class="kw2">range</span><span class="br0">(</span>num_items<span class="br0">)</span>:
+        <span class="co1"># choose random spot for this item</span>
+        x = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, room.<span class="me1">x1</span> + <span class="nu0">1</span>, room.<span class="me1">x2</span> - <span class="nu0">1</span><span class="br0">)</span>
+        y = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, room.<span class="me1">y1</span> + <span class="nu0">1</span>, room.<span class="me1">y2</span> - <span class="nu0">1</span><span class="br0">)</span>
+&nbsp;
+        <span class="co1"># only place it if the tile is not blocked</span>
+        <span class="kw1">if</span> <span class="kw1">not</span> is_blocked<span class="br0">(</span>x, y<span class="br0">)</span>:
+            choice = random_choice<span class="br0">(</span>item_chances<span class="br0">)</span>
+            <span class="kw1">if</span> choice == <span class="st0">'heal'</span>:
+                <span class="co1"># create a healing potion</span>
+                item_component = Item<span class="br0">(</span>use_function=cast_heal<span class="br0">)</span>
+                item = Object<span class="br0">(</span>x, y, <span class="st0">'!'</span>, <span class="st0">'healing potion'</span>, libtcod.<span class="me1">violet</span>, item=item_component<span class="br0">)</span>
+&nbsp;
+            <span class="kw1">elif</span> choice == <span class="st0">'lightning'</span>:
+                <span class="co1"># create a lightning bolt scroll</span>
+                item_component = Item<span class="br0">(</span>use_function=cast_lightning<span class="br0">)</span>
+                item = Object<span class="br0">(</span>x, y, <span class="st0">'# '</span>, <span class="st0">'scroll of lightning bolt'</span>, libtcod.<span class="me1">light_yellow</span>, item=item_component<span class="br0">)</span>
+&nbsp;
+            <span class="kw1">elif</span> choice == <span class="st0">'fireball'</span>:
+                <span class="co1"># create a fireball scroll</span>
+                item_component = Item<span class="br0">(</span>use_function=cast_fireball<span class="br0">)</span>
+                item = Object<span class="br0">(</span>x, y, <span class="st0">'# '</span>, <span class="st0">'scroll of fireball'</span>, libtcod.<span class="me1">light_yellow</span>, item=item_component<span class="br0">)</span>
+&nbsp;
+            <span class="kw1">elif</span> choice == <span class="st0">'confuse'</span>:
+                <span class="co1"># create a confuse scroll</span>
+                item_component = Item<span class="br0">(</span>use_function=cast_confuse<span class="br0">)</span>
+                item = Object<span class="br0">(</span>x, y, <span class="st0">'# '</span>, <span class="st0">'scroll of confusion'</span>, libtcod.<span class="me1">light_yellow</span>, item=item_component<span class="br0">)</span>
+&nbsp;
+            <span class="kw1">elif</span> choice == <span class="st0">'sword'</span>:
+                <span class="co1"># create a sword</span>
+                equipment_component = Equipment<span class="br0">(</span>slot=<span class="st0">'right hand'</span>, power_bonus=<span class="nu0">3</span><span class="br0">)</span>
+                item = Object<span class="br0">(</span>x, y, <span class="st0">'/'</span>, <span class="st0">'sword'</span>, libtcod.<span class="me1">sky</span>, equipment=equipment_component<span class="br0">)</span>
+&nbsp;
+            <span class="kw1">elif</span> choice == <span class="st0">'shield'</span>:
+                <span class="co1"># create a shield</span>
+                equipment_component = Equipment<span class="br0">(</span>slot=<span class="st0">'left hand'</span>, defense_bonus=<span class="nu0">1</span><span class="br0">)</span>
+                item = Object<span class="br0">(</span>x, y, <span class="st0">'['</span>, <span class="st0">'shield'</span>, libtcod.<span class="me1">darker_orange</span>, equipment=equipment_component<span class="br0">)</span>
+&nbsp;
+            objects.<span class="me1">append</span><span class="br0">(</span>item<span class="br0">)</span>
+            item.<span class="me1">send_to_back</span><span class="br0">(</span><span class="br0">)</span>  <span class="co1"># items appear below other objects</span>
+            item.<span class="me1">always_visible</span> = <span class="kw2">True</span>  <span class="co1"># items are visible even out-of-FOV, if in an explored area</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> render_bar<span class="br0">(</span>x, y, total_width, name, value, maximum, bar_color, back_color<span class="br0">)</span>:
+    <span class="co1"># render a bar (HP, experience, etc). first calculate the width of the bar</span>
+    bar_width = <span class="kw2">int</span><span class="br0">(</span><span class="kw2">float</span><span class="br0">(</span>value<span class="br0">)</span> // maximum <span class="sy0">*</span> total_width<span class="br0">)</span>
+&nbsp;
+    <span class="co1"># render the background first</span>
+    libtcod.<span class="me1">console_set_default_background</span><span class="br0">(</span>panel, back_color<span class="br0">)</span>
+    libtcod.<span class="me1">console_rect</span><span class="br0">(</span>panel, x, y, total_width, <span class="nu0">1</span>, <span class="kw2">False</span>, libtcod.<span class="me1">BKGND_SCREEN</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1"># now render the bar on top</span>
+    libtcod.<span class="me1">console_set_default_background</span><span class="br0">(</span>panel, bar_color<span class="br0">)</span>
+    <span class="kw1">if</span> bar_width <span class="sy0">&gt;</span> <span class="nu0">0</span>:
+        libtcod.<span class="me1">console_rect</span><span class="br0">(</span>panel, x, y, bar_width, <span class="nu0">1</span>, <span class="kw2">False</span>, libtcod.<span class="me1">BKGND_SCREEN</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1"># finally, some centered text with the values</span>
+    libtcod.<span class="me1">console_set_default_foreground</span><span class="br0">(</span>panel, libtcod.<span class="me1">white</span><span class="br0">)</span>
+    libtcod.<span class="me1">console_print_ex</span><span class="br0">(</span>panel, x + total_width // <span class="nu0">2</span>, y, libtcod.<span class="me1">BKGND_NONE</span>, libtcod.<span class="me1">CENTER</span>,
+                             name + <span class="st0">': '</span> + <span class="kw2">str</span><span class="br0">(</span>value<span class="br0">)</span> + <span class="st0">'/'</span> + <span class="kw2">str</span><span class="br0">(</span>maximum<span class="br0">)</span><span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> get_names_under_mouse<span class="br0">(</span><span class="br0">)</span>:
+    <span class="kw1">global</span> mouse
+    <span class="co1"># return a string with the names of all objects under the mouse</span>
+&nbsp;
+    <span class="br0">(</span>x, y<span class="br0">)</span> = <span class="br0">(</span>mouse.<span class="me1">cx</span>, mouse.<span class="me1">cy</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1"># create a list with the names of all objects at the mouse's coordinates and in FOV</span>
+    names = <span class="br0">[</span>obj.<span class="me1">name</span> <span class="kw1">for</span> obj <span class="kw1">in</span> objects
+             <span class="kw1">if</span> obj.<span class="me1">x</span> == x <span class="kw1">and</span> obj.<span class="me1">y</span> == y <span class="kw1">and</span> libtcod.<span class="me1">map_is_in_fov</span><span class="br0">(</span>fov_map, obj.<span class="me1">x</span>, obj.<span class="me1">y</span><span class="br0">)</span><span class="br0">]</span>
+&nbsp;
+    names = <span class="st0">', '</span>.<span class="me1">join</span><span class="br0">(</span>names<span class="br0">)</span>  <span class="co1"># join the names, separated by commas</span>
+    <span class="kw1">return</span> names.<span class="me1">capitalize</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> render_all<span class="br0">(</span><span class="br0">)</span>:
+    <span class="kw1">global</span> fov_map, color_dark_wall, color_light_wall
+    <span class="kw1">global</span> color_dark_ground, color_light_ground
+    <span class="kw1">global</span> fov_recompute
+&nbsp;
+    <span class="kw1">if</span> fov_recompute:
+        <span class="co1"># recompute FOV if needed (the player moved or something)</span>
+        fov_recompute = <span class="kw2">False</span>
+        libtcod.<span class="me1">map_compute_fov</span><span class="br0">(</span>fov_map, player.<span class="me1">x</span>, player.<span class="me1">y</span>, TORCH_RADIUS, FOV_LIGHT_WALLS, FOV_ALGO<span class="br0">)</span>
+&nbsp;
+        <span class="co1"># go through all tiles, and set their background color according to the FOV</span>
+        <span class="kw1">for</span> y <span class="kw1">in</span> <span class="kw2">range</span><span class="br0">(</span>MAP_HEIGHT<span class="br0">)</span>:
+            <span class="kw1">for</span> x <span class="kw1">in</span> <span class="kw2">range</span><span class="br0">(</span>MAP_WIDTH<span class="br0">)</span>:
+                visible = libtcod.<span class="me1">map_is_in_fov</span><span class="br0">(</span>fov_map, x, y<span class="br0">)</span>
+                wall = <span class="kw2">map</span><span class="br0">[</span>x<span class="br0">]</span><span class="br0">[</span>y<span class="br0">]</span>.<span class="me1">block_sight</span>
+                <span class="kw1">if</span> <span class="kw1">not</span> visible:
+                    <span class="co1"># if it's not visible right now, the player can only see it if it's explored</span>
+                    <span class="kw1">if</span> <span class="kw2">map</span><span class="br0">[</span>x<span class="br0">]</span><span class="br0">[</span>y<span class="br0">]</span>.<span class="me1">explored</span>:
+                        <span class="kw1">if</span> wall:
+                            libtcod.<span class="me1">console_set_char_background</span><span class="br0">(</span>con, x, y, color_dark_wall, libtcod.<span class="me1">BKGND_SET</span><span class="br0">)</span>
+                        <span class="kw1">else</span>:
+                            libtcod.<span class="me1">console_set_char_background</span><span class="br0">(</span>con, x, y, color_dark_ground, libtcod.<span class="me1">BKGND_SET</span><span class="br0">)</span>
+                <span class="kw1">else</span>:
+                    <span class="co1"># it's visible</span>
+                    <span class="kw1">if</span> wall:
+                        libtcod.<span class="me1">console_set_char_background</span><span class="br0">(</span>con, x, y, color_light_wall, libtcod.<span class="me1">BKGND_SET</span><span class="br0">)</span>
+                    <span class="kw1">else</span>:
+                        libtcod.<span class="me1">console_set_char_background</span><span class="br0">(</span>con, x, y, color_light_ground, libtcod.<span class="me1">BKGND_SET</span><span class="br0">)</span>
+                        <span class="co1"># since it's visible, explore it</span>
+                    <span class="kw2">map</span><span class="br0">[</span>x<span class="br0">]</span><span class="br0">[</span>y<span class="br0">]</span>.<span class="me1">explored</span> = <span class="kw2">True</span>
+&nbsp;
+    <span class="co1"># draw all objects in the list, except the player. we want it to</span>
+    <span class="co1"># always appear over all other objects! so it's drawn later.</span>
+    <span class="kw1">for</span> <span class="kw2">object</span> <span class="kw1">in</span> objects:
+        <span class="kw1">if</span> <span class="kw2">object</span> <span class="sy0">!</span>= player:
+            <span class="kw2">object</span>.<span class="me1">draw</span><span class="br0">(</span><span class="br0">)</span>
+    player.<span class="me1">draw</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1"># blit the contents of "con" to the root console</span>
+    libtcod.<span class="me1">console_blit</span><span class="br0">(</span>con, <span class="nu0">0</span>, <span class="nu0">0</span>, MAP_WIDTH, MAP_HEIGHT, <span class="nu0">0</span>, <span class="nu0">0</span>, <span class="nu0">0</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1"># prepare to render the GUI panel</span>
+    libtcod.<span class="me1">console_set_default_background</span><span class="br0">(</span>panel, libtcod.<span class="me1">black</span><span class="br0">)</span>
+    libtcod.<span class="me1">console_clear</span><span class="br0">(</span>panel<span class="br0">)</span>
+&nbsp;
+    <span class="co1"># print the game messages, one line at a time</span>
+    y = <span class="nu0">1</span>
+    <span class="kw1">for</span> <span class="br0">(</span>line, color<span class="br0">)</span> <span class="kw1">in</span> game_msgs:
+        libtcod.<span class="me1">console_set_default_foreground</span><span class="br0">(</span>panel, color<span class="br0">)</span>
+        libtcod.<span class="me1">console_print_ex</span><span class="br0">(</span>panel, MSG_X, y, libtcod.<span class="me1">BKGND_NONE</span>, libtcod.<span class="me1">LEFT</span>, line<span class="br0">)</span>
+        y += <span class="nu0">1</span>
+&nbsp;
+    <span class="co1"># show the player's stats</span>
+    render_bar<span class="br0">(</span><span class="nu0">1</span>, <span class="nu0">1</span>, BAR_WIDTH, <span class="st0">'HP'</span>, player.<span class="me1">fighter</span>.<span class="me1">hp</span>, player.<span class="me1">fighter</span>.<span class="me1">max_hp</span>,
+               libtcod.<span class="me1">light_red</span>, libtcod.<span class="me1">darker_red</span><span class="br0">)</span>
+    libtcod.<span class="me1">console_print_ex</span><span class="br0">(</span>panel, <span class="nu0">1</span>, <span class="nu0">3</span>, libtcod.<span class="me1">BKGND_NONE</span>, libtcod.<span class="me1">LEFT</span>, <span class="st0">'Dungeon level '</span> + <span class="kw2">str</span><span class="br0">(</span>dungeon_level<span class="br0">)</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1"># display names of objects under the mouse</span>
+    libtcod.<span class="me1">console_set_default_foreground</span><span class="br0">(</span>panel, libtcod.<span class="me1">light_gray</span><span class="br0">)</span>
+    libtcod.<span class="me1">console_print_ex</span><span class="br0">(</span>panel, <span class="nu0">1</span>, <span class="nu0">0</span>, libtcod.<span class="me1">BKGND_NONE</span>, libtcod.<span class="me1">LEFT</span>, get_names_under_mouse<span class="br0">(</span><span class="br0">)</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1"># blit the contents of "panel" to the root console</span>
+    libtcod.<span class="me1">console_blit</span><span class="br0">(</span>panel, <span class="nu0">0</span>, <span class="nu0">0</span>, SCREEN_WIDTH, PANEL_HEIGHT, <span class="nu0">0</span>, <span class="nu0">0</span>, PANEL_Y<span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> message<span class="br0">(</span>new_msg, color=libtcod.<span class="me1">white</span><span class="br0">)</span>:
+    <span class="co1"># split the message if necessary, among multiple lines</span>
+    new_msg_lines = <span class="kw3">textwrap</span>.<span class="me1">wrap</span><span class="br0">(</span>new_msg, MSG_WIDTH<span class="br0">)</span>
+&nbsp;
+    <span class="kw1">for</span> line <span class="kw1">in</span> new_msg_lines:
+        <span class="co1"># if the buffer is full, remove the first line to make room for the new one</span>
+        <span class="kw1">if</span> <span class="kw2">len</span><span class="br0">(</span>game_msgs<span class="br0">)</span> == MSG_HEIGHT:
+            <span class="kw1">del</span> game_msgs<span class="br0">[</span><span class="nu0">0</span><span class="br0">]</span>
+&nbsp;
+        <span class="co1"># add the new line as a tuple, with the text and the color</span>
+        game_msgs.<span class="me1">append</span><span class="br0">(</span><span class="br0">(</span>line, color<span class="br0">)</span><span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> player_move_or_attack<span class="br0">(</span>dx, dy<span class="br0">)</span>:
+    <span class="kw1">global</span> fov_recompute
+&nbsp;
+    <span class="co1"># the coordinates the player is moving to/attacking</span>
+    x = player.<span class="me1">x</span> + dx
+    y = player.<span class="me1">y</span> + dy
+&nbsp;
+    <span class="co1"># try to find an attackable object there</span>
+    target = <span class="kw2">None</span>
+    <span class="kw1">for</span> <span class="kw2">object</span> <span class="kw1">in</span> objects:
+        <span class="kw1">if</span> <span class="kw2">object</span>.<span class="me1">fighter</span> <span class="kw1">and</span> <span class="kw2">object</span>.<span class="me1">x</span> == x <span class="kw1">and</span> <span class="kw2">object</span>.<span class="me1">y</span> == y:
+            target = <span class="kw2">object</span>
+            <span class="kw1">break</span>
+&nbsp;
+    <span class="co1"># attack if target found, move otherwise</span>
+    <span class="kw1">if</span> target <span class="kw1">is</span> <span class="kw1">not</span> <span class="kw2">None</span>:
+        player.<span class="me1">fighter</span>.<span class="me1">attack</span><span class="br0">(</span>target<span class="br0">)</span>
+    <span class="kw1">else</span>:
+        player.<span class="me1">move</span><span class="br0">(</span>dx, dy<span class="br0">)</span>
+        fov_recompute = <span class="kw2">True</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> menu<span class="br0">(</span>header, options, width<span class="br0">)</span>:
+    <span class="kw1">if</span> <span class="kw2">len</span><span class="br0">(</span>options<span class="br0">)</span> <span class="sy0">&gt;</span> <span class="nu0">26</span>:
+        <span class="kw1">raise</span> <span class="kw2">ValueError</span><span class="br0">(</span><span class="st0">'Cannot have a menu with more than 26 options.'</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1"># calculate total height for the header (after auto-wrap) and one line per option</span>
+    header_height = libtcod.<span class="me1">console_get_height_rect</span><span class="br0">(</span>con, <span class="nu0">0</span>, <span class="nu0">0</span>, width, SCREEN_HEIGHT, header<span class="br0">)</span>
+    <span class="kw1">if</span> header == <span class="st0">''</span>:
+        header_height = <span class="nu0">0</span>
+    height = <span class="kw2">len</span><span class="br0">(</span>options<span class="br0">)</span> + header_height
+&nbsp;
+    <span class="co1"># create an off-screen console that represents the menu's window</span>
+    window = libtcod.<span class="me1">console_new</span><span class="br0">(</span>width, height<span class="br0">)</span>
+&nbsp;
+    <span class="co1"># print the header, with auto-wrap</span>
+    libtcod.<span class="me1">console_set_default_foreground</span><span class="br0">(</span>window, libtcod.<span class="me1">white</span><span class="br0">)</span>
+    libtcod.<span class="me1">console_print_rect_ex</span><span class="br0">(</span>window, <span class="nu0">0</span>, <span class="nu0">0</span>, width, height, libtcod.<span class="me1">BKGND_NONE</span>, libtcod.<span class="me1">LEFT</span>, header<span class="br0">)</span>
+&nbsp;
+    <span class="co1"># print all the options</span>
+    y = header_height
+    letter_index = <span class="kw2">ord</span><span class="br0">(</span><span class="st0">'a'</span><span class="br0">)</span>
+    <span class="kw1">for</span> option_text <span class="kw1">in</span> options:
+        text = <span class="st0">'('</span> + <span class="kw2">chr</span><span class="br0">(</span>letter_index<span class="br0">)</span> + <span class="st0">') '</span> + option_text
+        libtcod.<span class="me1">console_print_ex</span><span class="br0">(</span>window, <span class="nu0">0</span>, y, libtcod.<span class="me1">BKGND_NONE</span>, libtcod.<span class="me1">LEFT</span>, text<span class="br0">)</span>
+        y += <span class="nu0">1</span>
+        letter_index += <span class="nu0">1</span>
+&nbsp;
+    <span class="co1"># blit the contents of "window" to the root console</span>
+    x = SCREEN_WIDTH // <span class="nu0">2</span> - width // <span class="nu0">2</span>
+    y = SCREEN_HEIGHT // <span class="nu0">2</span> - height // <span class="nu0">2</span>
+    libtcod.<span class="me1">console_blit</span><span class="br0">(</span>window, <span class="nu0">0</span>, <span class="nu0">0</span>, width, height, <span class="nu0">0</span>, x, y, <span class="nu0">1.0</span>, <span class="nu0">0.7</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1"># present the root console to the player and wait for a key-press</span>
+    libtcod.<span class="me1">console_flush</span><span class="br0">(</span><span class="br0">)</span>
+    key = libtcod.<span class="me1">console_wait_for_keypress</span><span class="br0">(</span><span class="kw2">True</span><span class="br0">)</span>
+&nbsp;
+    <span class="kw1">if</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_ENTER</span> <span class="kw1">and</span> key.<span class="me1">lalt</span>:  <span class="co1"># (special case) Alt+Enter: toggle fullscreen</span>
+        libtcod.<span class="me1">console_set_fullscreen</span><span class="br0">(</span><span class="kw1">not</span> libtcod.<span class="me1">console_is_fullscreen</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1"># convert the ASCII code to an index; if it corresponds to an option, return it</span>
+    index = key.<span class="me1">c</span> - <span class="kw2">ord</span><span class="br0">(</span><span class="st0">'a'</span><span class="br0">)</span>
+    <span class="kw1">if</span> index <span class="sy0">&gt;</span>= <span class="nu0">0</span> <span class="kw1">and</span> index <span class="sy0">&lt;</span> <span class="kw2">len</span><span class="br0">(</span>options<span class="br0">)</span>:
+        <span class="kw1">return</span> index
+    <span class="kw1">return</span> <span class="kw2">None</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> inventory_menu<span class="br0">(</span>header<span class="br0">)</span>:
+    <span class="co1"># show a menu with each item of the inventory as an option</span>
+    <span class="kw1">if</span> <span class="kw2">len</span><span class="br0">(</span>inventory<span class="br0">)</span> == <span class="nu0">0</span>:
+        options = <span class="br0">[</span><span class="st0">'Inventory is empty.'</span><span class="br0">]</span>
+    <span class="kw1">else</span>:
+        options = <span class="br0">[</span><span class="br0">]</span>
+        <span class="kw1">for</span> item <span class="kw1">in</span> inventory:
+            text = item.<span class="me1">name</span>
+            <span class="co1"># show additional information, in case it's equipped</span>
+            <span class="kw1">if</span> item.<span class="me1">equipment</span> <span class="kw1">and</span> item.<span class="me1">equipment</span>.<span class="me1">is_equipped</span>:
+                text = text + <span class="st0">' (on '</span> + item.<span class="me1">equipment</span>.<span class="me1">slot</span> + <span class="st0">')'</span>
+            options.<span class="me1">append</span><span class="br0">(</span>text<span class="br0">)</span>
+&nbsp;
+    index = menu<span class="br0">(</span>header, options, INVENTORY_WIDTH<span class="br0">)</span>
+&nbsp;
+    <span class="co1"># if an item was chosen, return it</span>
+    <span class="kw1">if</span> index <span class="kw1">is</span> <span class="kw2">None</span> <span class="kw1">or</span> <span class="kw2">len</span><span class="br0">(</span>inventory<span class="br0">)</span> == <span class="nu0">0</span>:
+        <span class="kw1">return</span> <span class="kw2">None</span>
+    <span class="kw1">return</span> inventory<span class="br0">[</span>index<span class="br0">]</span>.<span class="me1">item</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> msgbox<span class="br0">(</span>text, width=<span class="nu0">50</span><span class="br0">)</span>:
+    menu<span class="br0">(</span>text, <span class="br0">[</span><span class="br0">]</span>, width<span class="br0">)</span>  <span class="co1"># use menu() as a sort of "message box"</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> handle_keys<span class="br0">(</span><span class="br0">)</span>:
+    <span class="kw1">global</span> key
+&nbsp;
+    <span class="kw1">if</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_ENTER</span> <span class="kw1">and</span> key.<span class="me1">lalt</span>:
+        <span class="co1"># Alt+Enter: toggle fullscreen</span>
+        libtcod.<span class="me1">console_set_fullscreen</span><span class="br0">(</span><span class="kw1">not</span> libtcod.<span class="me1">console_is_fullscreen</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span>
+&nbsp;
+    <span class="kw1">elif</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_ESCAPE</span>:
+        <span class="kw1">return</span> <span class="st0">'exit'</span>  <span class="co1"># exit game</span>
+&nbsp;
+    <span class="kw1">if</span> game_state == <span class="st0">'playing'</span>:
+        <span class="co1"># movement keys</span>
+        <span class="kw1">if</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_UP</span> <span class="kw1">or</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_KP8</span>:
+            player_move_or_attack<span class="br0">(</span><span class="nu0">0</span>, -<span class="nu0">1</span><span class="br0">)</span>
+        <span class="kw1">elif</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_DOWN</span> <span class="kw1">or</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_KP2</span>:
+            player_move_or_attack<span class="br0">(</span><span class="nu0">0</span>, <span class="nu0">1</span><span class="br0">)</span>
+        <span class="kw1">elif</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_LEFT</span> <span class="kw1">or</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_KP4</span>:
+            player_move_or_attack<span class="br0">(</span>-<span class="nu0">1</span>, <span class="nu0">0</span><span class="br0">)</span>
+        <span class="kw1">elif</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_RIGHT</span> <span class="kw1">or</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_KP6</span>:
+            player_move_or_attack<span class="br0">(</span><span class="nu0">1</span>, <span class="nu0">0</span><span class="br0">)</span>
+        <span class="kw1">elif</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_HOME</span> <span class="kw1">or</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_KP7</span>:
+            player_move_or_attack<span class="br0">(</span>-<span class="nu0">1</span>, -<span class="nu0">1</span><span class="br0">)</span>
+        <span class="kw1">elif</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_PAGEUP</span> <span class="kw1">or</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_KP9</span>:
+            player_move_or_attack<span class="br0">(</span><span class="nu0">1</span>, -<span class="nu0">1</span><span class="br0">)</span>
+        <span class="kw1">elif</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_END</span> <span class="kw1">or</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_KP1</span>:
+            player_move_or_attack<span class="br0">(</span>-<span class="nu0">1</span>, <span class="nu0">1</span><span class="br0">)</span>
+        <span class="kw1">elif</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_PAGEDOWN</span> <span class="kw1">or</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_KP3</span>:
+            player_move_or_attack<span class="br0">(</span><span class="nu0">1</span>, <span class="nu0">1</span><span class="br0">)</span>
+        <span class="kw1">elif</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_KP5</span>:
+            <span class="kw1">pass</span>  <span class="co1"># do nothing ie wait for the monster to come to you</span>
+        <span class="kw1">else</span>:
+            <span class="co1"># test for other keys</span>
+            key_char = <span class="kw2">chr</span><span class="br0">(</span>key.<span class="me1">c</span><span class="br0">)</span>
+&nbsp;
+            <span class="kw1">if</span> key_char == <span class="st0">'g'</span>:
+                <span class="co1"># pick up an item</span>
+                <span class="kw1">for</span> <span class="kw2">object</span> <span class="kw1">in</span> objects:  <span class="co1"># look for an item in the player's tile</span>
+                    <span class="kw1">if</span> <span class="kw2">object</span>.<span class="me1">x</span> == player.<span class="me1">x</span> <span class="kw1">and</span> <span class="kw2">object</span>.<span class="me1">y</span> == player.<span class="me1">y</span> <span class="kw1">and</span> <span class="kw2">object</span>.<span class="me1">item</span>:
+                        <span class="kw2">object</span>.<span class="me1">item</span>.<span class="me1">pick_up</span><span class="br0">(</span><span class="br0">)</span>
+                        <span class="kw1">break</span>
+&nbsp;
+            <span class="kw1">if</span> key_char == <span class="st0">'i'</span>:
+                <span class="co1"># show the inventory; if an item is selected, use it</span>
+                chosen_item = inventory_menu<span class="br0">(</span><span class="st0">'Press the key next to an item to use it, or any other to cancel.<span class="es0">\n</span>'</span><span class="br0">)</span>
+                <span class="kw1">if</span> chosen_item <span class="kw1">is</span> <span class="kw1">not</span> <span class="kw2">None</span>:
+                    chosen_item.<span class="me1">use</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+            <span class="kw1">if</span> key_char == <span class="st0">'d'</span>:
+                <span class="co1"># show the inventory; if an item is selected, drop it</span>
+                chosen_item = inventory_menu<span class="br0">(</span><span class="st0">'Press the key next to an item to drop it, or any other to cancel.<span class="es0">\n</span>'</span><span class="br0">)</span>
+                <span class="kw1">if</span> chosen_item <span class="kw1">is</span> <span class="kw1">not</span> <span class="kw2">None</span>:
+                    chosen_item.<span class="me1">drop</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+            <span class="kw1">if</span> key_char == <span class="st0">'c'</span>:
+                <span class="co1"># show character information</span>
+                level_up_xp = LEVEL_UP_BASE + player.<span class="me1">level</span> <span class="sy0">*</span> LEVEL_UP_FACTOR
+                msgbox<span class="br0">(</span><span class="st0">'Character Information<span class="es0">\n</span><span class="es0">\n</span>Level: '</span> + <span class="kw2">str</span><span class="br0">(</span>player.<span class="me1">level</span><span class="br0">)</span> + <span class="st0">'<span class="es0">\n</span>Experience: '</span> + <span class="kw2">str</span><span class="br0">(</span>player.<span class="me1">fighter</span>.<span class="me1">xp</span><span class="br0">)</span> +
+                       <span class="st0">'<span class="es0">\n</span>Experience to level up: '</span> + <span class="kw2">str</span><span class="br0">(</span>level_up_xp<span class="br0">)</span> + <span class="st0">'<span class="es0">\n</span><span class="es0">\n</span>Maximum HP: '</span> + <span class="kw2">str</span><span class="br0">(</span>player.<span class="me1">fighter</span>.<span class="me1">max_hp</span><span class="br0">)</span> +
+                       <span class="st0">'<span class="es0">\n</span>Attack: '</span> + <span class="kw2">str</span><span class="br0">(</span>player.<span class="me1">fighter</span>.<span class="me1">power</span><span class="br0">)</span> + <span class="st0">'<span class="es0">\n</span>Defense: '</span> + <span class="kw2">str</span><span class="br0">(</span>player.<span class="me1">fighter</span>.<span class="me1">defense</span><span class="br0">)</span>, CHARACTER_SCREEN_WIDTH<span class="br0">)</span>
+&nbsp;
+            <span class="kw1">if</span> key_char == <span class="st0">'&lt;'</span>:
+                <span class="co1"># go down stairs, if the player is on them</span>
+                <span class="kw1">if</span> stairs.<span class="me1">x</span> == player.<span class="me1">x</span> <span class="kw1">and</span> stairs.<span class="me1">y</span> == player.<span class="me1">y</span>:
+                    next_level<span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+            <span class="kw1">return</span> <span class="st0">'didnt-take-turn'</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> check_level_up<span class="br0">(</span><span class="br0">)</span>:
+    <span class="co1"># see if the player's experience is enough to level-up</span>
+    level_up_xp = LEVEL_UP_BASE + player.<span class="me1">level</span> <span class="sy0">*</span> LEVEL_UP_FACTOR
+    <span class="kw1">if</span> player.<span class="me1">fighter</span>.<span class="me1">xp</span> <span class="sy0">&gt;</span>= level_up_xp:
+        <span class="co1"># it is! level up and ask to raise some stats</span>
+        player.<span class="me1">level</span> += <span class="nu0">1</span>
+        player.<span class="me1">fighter</span>.<span class="me1">xp</span> -= level_up_xp
+        message<span class="br0">(</span><span class="st0">'Your battle skills grow stronger! You reached level '</span> + <span class="kw2">str</span><span class="br0">(</span>player.<span class="me1">level</span><span class="br0">)</span> + <span class="st0">'!'</span>, libtcod.<span class="me1">yellow</span><span class="br0">)</span>
+&nbsp;
+        choice = <span class="kw2">None</span>
+        <span class="kw1">while</span> choice <span class="kw1">is</span> <span class="kw2">None</span>:  <span class="co1"># keep asking until a choice is made</span>
+            choice = menu<span class="br0">(</span><span class="st0">'Level up! Choose a stat to raise:<span class="es0">\n</span>'</span>,
+                          <span class="br0">[</span><span class="st0">'Constitution (+20 HP, from '</span> + <span class="kw2">str</span><span class="br0">(</span>player.<span class="me1">fighter</span>.<span class="me1">max_hp</span><span class="br0">)</span> + <span class="st0">')'</span>,
+                           <span class="st0">'Strength (+1 attack, from '</span> + <span class="kw2">str</span><span class="br0">(</span>player.<span class="me1">fighter</span>.<span class="me1">power</span><span class="br0">)</span> + <span class="st0">')'</span>,
+                           <span class="st0">'Agility (+1 defense, from '</span> + <span class="kw2">str</span><span class="br0">(</span>player.<span class="me1">fighter</span>.<span class="me1">defense</span><span class="br0">)</span> + <span class="st0">')'</span><span class="br0">]</span>, LEVEL_SCREEN_WIDTH<span class="br0">)</span>
+&nbsp;
+        <span class="kw1">if</span> choice == <span class="nu0">0</span>:
+            player.<span class="me1">fighter</span>.<span class="me1">base_max_hp</span> += <span class="nu0">20</span>
+            player.<span class="me1">fighter</span>.<span class="me1">hp</span> += <span class="nu0">20</span>
+        <span class="kw1">elif</span> choice == <span class="nu0">1</span>:
+            player.<span class="me1">fighter</span>.<span class="me1">base_power</span> += <span class="nu0">1</span>
+        <span class="kw1">elif</span> choice == <span class="nu0">2</span>:
+            player.<span class="me1">fighter</span>.<span class="me1">base_defense</span> += <span class="nu0">1</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> player_death<span class="br0">(</span>player<span class="br0">)</span>:
+    <span class="co1"># the game ended!</span>
+    <span class="kw1">global</span> game_state
+    message<span class="br0">(</span><span class="st0">'You died!'</span>, libtcod.<span class="me1">red</span><span class="br0">)</span>
+    game_state = <span class="st0">'dead'</span>
+&nbsp;
+    <span class="co1"># for added effect, transform the player into a corpse!</span>
+    player.<span class="me1">char</span> = <span class="st0">'%'</span>
+    player.<span class="me1">color</span> = libtcod.<span class="me1">dark_red</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> monster_death<span class="br0">(</span>monster<span class="br0">)</span>:
+    <span class="co1"># transform it into a nasty corpse! it doesn't block, can't be</span>
+    <span class="co1"># attacked and doesn't move</span>
+    message<span class="br0">(</span><span class="st0">'The '</span> + monster.<span class="me1">name</span> + <span class="st0">' is dead! You gain '</span> + <span class="kw2">str</span><span class="br0">(</span>monster.<span class="me1">fighter</span>.<span class="me1">xp</span><span class="br0">)</span> + <span class="st0">' experience points.'</span>, libtcod.<span class="me1">orange</span><span class="br0">)</span>
+    monster.<span class="me1">char</span> = <span class="st0">'%'</span>
+    monster.<span class="me1">color</span> = libtcod.<span class="me1">dark_red</span>
+    monster.<span class="me1">blocks</span> = <span class="kw2">False</span>
+    monster.<span class="me1">fighter</span> = <span class="kw2">None</span>
+    monster.<span class="me1">ai</span> = <span class="kw2">None</span>
+    monster.<span class="me1">name</span> = <span class="st0">'remains of '</span> + monster.<span class="me1">name</span>
+    monster.<span class="me1">send_to_back</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> target_tile<span class="br0">(</span>max_range=<span class="kw2">None</span><span class="br0">)</span>:
+    <span class="kw1">global</span> key, mouse
+    <span class="co1"># return the position of a tile left-clicked in player's FOV (optionally in a range), or (None,None) if right-clicked.</span>
+    <span class="kw1">while</span> <span class="kw2">True</span>:
+        <span class="co1"># render the screen. this erases the inventory and shows the names of objects under the mouse.</span>
+        libtcod.<span class="me1">console_flush</span><span class="br0">(</span><span class="br0">)</span>
+        libtcod.<span class="me1">sys_check_for_event</span><span class="br0">(</span>libtcod.<span class="me1">EVENT_KEY_PRESS</span> | libtcod.<span class="me1">EVENT_MOUSE</span>, key, mouse<span class="br0">)</span>
+        render_all<span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+        <span class="br0">(</span>x, y<span class="br0">)</span> = <span class="br0">(</span>mouse.<span class="me1">cx</span>, mouse.<span class="me1">cy</span><span class="br0">)</span>
+&nbsp;
+        <span class="kw1">if</span> mouse.<span class="me1">rbutton_pressed</span> <span class="kw1">or</span> key.<span class="me1">vk</span> == libtcod.<span class="me1">KEY_ESCAPE</span>:
+            <span class="kw1">return</span> <span class="br0">(</span><span class="kw2">None</span>, <span class="kw2">None</span><span class="br0">)</span>  <span class="co1"># cancel if the player right-clicked or pressed Escape</span>
+&nbsp;
+        <span class="co1"># accept the target if the player clicked in FOV, and in case a range is specified, if it's in that range</span>
+        <span class="kw1">if</span> <span class="br0">(</span>mouse.<span class="me1">lbutton_pressed</span> <span class="kw1">and</span> libtcod.<span class="me1">map_is_in_fov</span><span class="br0">(</span>fov_map, x, y<span class="br0">)</span> <span class="kw1">and</span>
+                <span class="br0">(</span>max_range <span class="kw1">is</span> <span class="kw2">None</span> <span class="kw1">or</span> player.<span class="me1">distance</span><span class="br0">(</span>x, y<span class="br0">)</span> <span class="sy0">&lt;</span>= max_range<span class="br0">)</span><span class="br0">)</span>:
+            <span class="kw1">return</span> <span class="br0">(</span>x, y<span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> target_monster<span class="br0">(</span>max_range=<span class="kw2">None</span><span class="br0">)</span>:
+    <span class="co1"># returns a clicked monster inside FOV up to a range, or None if right-clicked</span>
+    <span class="kw1">while</span> <span class="kw2">True</span>:
+        <span class="br0">(</span>x, y<span class="br0">)</span> = target_tile<span class="br0">(</span>max_range<span class="br0">)</span>
+        <span class="kw1">if</span> x <span class="kw1">is</span> <span class="kw2">None</span>:  <span class="co1"># player cancelled</span>
+            <span class="kw1">return</span> <span class="kw2">None</span>
+&nbsp;
+        <span class="co1"># return the first clicked monster, otherwise continue looping</span>
+        <span class="kw1">for</span> obj <span class="kw1">in</span> objects:
+            <span class="kw1">if</span> obj.<span class="me1">x</span> == x <span class="kw1">and</span> obj.<span class="me1">y</span> == y <span class="kw1">and</span> obj.<span class="me1">fighter</span> <span class="kw1">and</span> obj <span class="sy0">!</span>= player:
+                <span class="kw1">return</span> obj
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> closest_monster<span class="br0">(</span>max_range<span class="br0">)</span>:
+    <span class="co1"># find closest enemy, up to a maximum range, and in the player's FOV</span>
+    closest_enemy = <span class="kw2">None</span>
+    closest_dist = max_range + <span class="nu0">1</span>  <span class="co1"># start with (slightly more than) maximum range</span>
+&nbsp;
+    <span class="kw1">for</span> <span class="kw2">object</span> <span class="kw1">in</span> objects:
+        <span class="kw1">if</span> <span class="kw2">object</span>.<span class="me1">fighter</span> <span class="kw1">and</span> <span class="kw1">not</span> <span class="kw2">object</span> == player <span class="kw1">and</span> libtcod.<span class="me1">map_is_in_fov</span><span class="br0">(</span>fov_map, <span class="kw2">object</span>.<span class="me1">x</span>, <span class="kw2">object</span>.<span class="me1">y</span><span class="br0">)</span>:
+            <span class="co1"># calculate distance between this object and the player</span>
+            dist = player.<span class="me1">distance_to</span><span class="br0">(</span><span class="kw2">object</span><span class="br0">)</span>
+            <span class="kw1">if</span> dist <span class="sy0">&lt;</span> closest_dist:  <span class="co1"># it's closer, so remember it</span>
+                closest_enemy = <span class="kw2">object</span>
+                closest_dist = dist
+    <span class="kw1">return</span> closest_enemy
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> cast_heal<span class="br0">(</span><span class="br0">)</span>:
+    <span class="co1"># heal the player</span>
+    <span class="kw1">if</span> player.<span class="me1">fighter</span>.<span class="me1">hp</span> == player.<span class="me1">fighter</span>.<span class="me1">max_hp</span>:
+        message<span class="br0">(</span><span class="st0">'You are already at full health.'</span>, libtcod.<span class="me1">red</span><span class="br0">)</span>
+        <span class="kw1">return</span> <span class="st0">'cancelled'</span>
+&nbsp;
+    message<span class="br0">(</span><span class="st0">'Your wounds start to feel better!'</span>, libtcod.<span class="me1">light_violet</span><span class="br0">)</span>
+    player.<span class="me1">fighter</span>.<span class="me1">heal</span><span class="br0">(</span>HEAL_AMOUNT<span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> cast_lightning<span class="br0">(</span><span class="br0">)</span>:
+    <span class="co1"># find closest enemy (inside a maximum range) and damage it</span>
+    monster = closest_monster<span class="br0">(</span>LIGHTNING_RANGE<span class="br0">)</span>
+    <span class="kw1">if</span> monster <span class="kw1">is</span> <span class="kw2">None</span>:  <span class="co1"># no enemy found within maximum range</span>
+        message<span class="br0">(</span><span class="st0">'No enemy is close enough to strike.'</span>, libtcod.<span class="me1">red</span><span class="br0">)</span>
+        <span class="kw1">return</span> <span class="st0">'cancelled'</span>
+&nbsp;
+    <span class="co1"># zap it!</span>
+    message<span class="br0">(</span><span class="st0">'A lighting bolt strikes the '</span> + monster.<span class="me1">name</span> + <span class="st0">' with a loud thunder! The damage is '</span>
+            + <span class="kw2">str</span><span class="br0">(</span>LIGHTNING_DAMAGE<span class="br0">)</span> + <span class="st0">' hit points.'</span>, libtcod.<span class="me1">light_blue</span><span class="br0">)</span>
+    monster.<span class="me1">fighter</span>.<span class="me1">take_damage</span><span class="br0">(</span>LIGHTNING_DAMAGE<span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> cast_fireball<span class="br0">(</span><span class="br0">)</span>:
+    <span class="co1"># ask the player for a target tile to throw a fireball at</span>
+    message<span class="br0">(</span><span class="st0">'Left-click a target tile for the fireball, or right-click to cancel.'</span>, libtcod.<span class="me1">light_cyan</span><span class="br0">)</span>
+    <span class="br0">(</span>x, y<span class="br0">)</span> = target_tile<span class="br0">(</span><span class="br0">)</span>
+    <span class="kw1">if</span> x <span class="kw1">is</span> <span class="kw2">None</span>:
+        <span class="kw1">return</span> <span class="st0">'cancelled'</span>
+    message<span class="br0">(</span><span class="st0">'The fireball explodes, burning everything within '</span> + <span class="kw2">str</span><span class="br0">(</span>FIREBALL_RADIUS<span class="br0">)</span> + <span class="st0">' tiles!'</span>, libtcod.<span class="me1">orange</span><span class="br0">)</span>
+&nbsp;
+    <span class="kw1">for</span> obj <span class="kw1">in</span> objects:  <span class="co1"># damage every fighter in range, including the player</span>
+        <span class="kw1">if</span> obj.<span class="me1">distance</span><span class="br0">(</span>x, y<span class="br0">)</span> <span class="sy0">&lt;</span>= FIREBALL_RADIUS <span class="kw1">and</span> obj.<span class="me1">fighter</span>:
+            message<span class="br0">(</span><span class="st0">'The '</span> + obj.<span class="me1">name</span> + <span class="st0">' gets burned for '</span> + <span class="kw2">str</span><span class="br0">(</span>FIREBALL_DAMAGE<span class="br0">)</span> + <span class="st0">' hit points.'</span>, libtcod.<span class="me1">orange</span><span class="br0">)</span>
+            obj.<span class="me1">fighter</span>.<span class="me1">take_damage</span><span class="br0">(</span>FIREBALL_DAMAGE<span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> cast_confuse<span class="br0">(</span><span class="br0">)</span>:
+    <span class="co1"># ask the player for a target to confuse</span>
+    message<span class="br0">(</span><span class="st0">'Left-click an enemy to confuse it, or right-click to cancel.'</span>, libtcod.<span class="me1">light_cyan</span><span class="br0">)</span>
+    monster = target_monster<span class="br0">(</span>CONFUSE_RANGE<span class="br0">)</span>
+    <span class="kw1">if</span> monster <span class="kw1">is</span> <span class="kw2">None</span>:
+        <span class="kw1">return</span> <span class="st0">'cancelled'</span>
+&nbsp;
+    <span class="co1"># replace the monster's AI with a "confused" one; after some turns it will restore the old AI</span>
+    old_ai = monster.<span class="me1">ai</span>
+    monster.<span class="me1">ai</span> = ConfusedMonster<span class="br0">(</span>old_ai<span class="br0">)</span>
+    monster.<span class="me1">ai</span>.<span class="me1">owner</span> = monster  <span class="co1"># tell the new component who owns it</span>
+    message<span class="br0">(</span><span class="st0">'The eyes of the '</span> + monster.<span class="me1">name</span> + <span class="st0">' look vacant, as he starts to stumble around!'</span>, libtcod.<span class="me1">light_green</span><span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> save_game<span class="br0">(</span><span class="br0">)</span>:
+    <span class="co1"># open a new empty shelve (possibly overwriting an old one) to write the game data</span>
+    <span class="kw2">file</span> = <span class="kw3">shelve</span>.<span class="kw2">open</span><span class="br0">(</span><span class="st0">'savegame'</span>, <span class="st0">'n'</span><span class="br0">)</span>
+    <span class="kw2">file</span><span class="br0">[</span><span class="st0">'map'</span><span class="br0">]</span> = <span class="kw2">map</span>
+    <span class="kw2">file</span><span class="br0">[</span><span class="st0">'objects'</span><span class="br0">]</span> = objects
+    <span class="kw2">file</span><span class="br0">[</span><span class="st0">'player_index'</span><span class="br0">]</span> = objects.<span class="me1">index</span><span class="br0">(</span>player<span class="br0">)</span>  <span class="co1"># index of player in objects list</span>
+    <span class="kw2">file</span><span class="br0">[</span><span class="st0">'stairs_index'</span><span class="br0">]</span> = objects.<span class="me1">index</span><span class="br0">(</span>stairs<span class="br0">)</span>  <span class="co1"># same for the stairs</span>
+    <span class="kw2">file</span><span class="br0">[</span><span class="st0">'inventory'</span><span class="br0">]</span> = inventory
+    <span class="kw2">file</span><span class="br0">[</span><span class="st0">'game_msgs'</span><span class="br0">]</span> = game_msgs
+    <span class="kw2">file</span><span class="br0">[</span><span class="st0">'game_state'</span><span class="br0">]</span> = game_state
+    <span class="kw2">file</span><span class="br0">[</span><span class="st0">'dungeon_level'</span><span class="br0">]</span> = dungeon_level
+    <span class="kw2">file</span>.<span class="me1">close</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> load_game<span class="br0">(</span><span class="br0">)</span>:
+    <span class="co1"># open the previously saved shelve and load the game data</span>
+    <span class="kw1">global</span> <span class="kw2">map</span>, objects, player, stairs, inventory, game_msgs, game_state, dungeon_level
+&nbsp;
+    <span class="kw2">file</span> = <span class="kw3">shelve</span>.<span class="kw2">open</span><span class="br0">(</span><span class="st0">'savegame'</span>, <span class="st0">'r'</span><span class="br0">)</span>
+    <span class="kw2">map</span> = <span class="kw2">file</span><span class="br0">[</span><span class="st0">'map'</span><span class="br0">]</span>
+    objects = <span class="kw2">file</span><span class="br0">[</span><span class="st0">'objects'</span><span class="br0">]</span>
+    player = objects<span class="br0">[</span><span class="kw2">file</span><span class="br0">[</span><span class="st0">'player_index'</span><span class="br0">]</span><span class="br0">]</span>  <span class="co1"># get index of player in objects list and access it</span>
+    stairs = objects<span class="br0">[</span><span class="kw2">file</span><span class="br0">[</span><span class="st0">'stairs_index'</span><span class="br0">]</span><span class="br0">]</span>  <span class="co1"># same for the stairs</span>
+    inventory = <span class="kw2">file</span><span class="br0">[</span><span class="st0">'inventory'</span><span class="br0">]</span>
+    game_msgs = <span class="kw2">file</span><span class="br0">[</span><span class="st0">'game_msgs'</span><span class="br0">]</span>
+    game_state = <span class="kw2">file</span><span class="br0">[</span><span class="st0">'game_state'</span><span class="br0">]</span>
+    dungeon_level = <span class="kw2">file</span><span class="br0">[</span><span class="st0">'dungeon_level'</span><span class="br0">]</span>
+    <span class="kw2">file</span>.<span class="me1">close</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+    initialize_fov<span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> new_game<span class="br0">(</span><span class="br0">)</span>:
+    <span class="kw1">global</span> player, inventory, game_msgs, game_state, dungeon_level
+&nbsp;
+    <span class="co1"># create object representing the player</span>
+    fighter_component = Fighter<span class="br0">(</span>hp=<span class="nu0">100</span>, defense=<span class="nu0">1</span>, power=<span class="nu0">2</span>, xp=<span class="nu0">0</span>, death_function=player_death<span class="br0">)</span>
+    player = Object<span class="br0">(</span><span class="nu0">0</span>, <span class="nu0">0</span>, <span class="st0">'@'</span>, <span class="st0">'player'</span>, libtcod.<span class="me1">white</span>, blocks=<span class="kw2">True</span>, fighter=fighter_component<span class="br0">)</span>
+&nbsp;
+    player.<span class="me1">level</span> = <span class="nu0">1</span>
+&nbsp;
+    <span class="co1"># generate map (at this point it's not drawn to the screen)</span>
+    dungeon_level = <span class="nu0">1</span>
+    make_map<span class="br0">(</span><span class="br0">)</span>
+    initialize_fov<span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+    game_state = <span class="st0">'playing'</span>
+    inventory = <span class="br0">[</span><span class="br0">]</span>
+&nbsp;
+    <span class="co1"># create the list of game messages and their colors, starts empty</span>
+    game_msgs = <span class="br0">[</span><span class="br0">]</span>
+&nbsp;
+    <span class="co1"># a warm welcoming message!</span>
+    message<span class="br0">(</span><span class="st0">'Welcome stranger! Prepare to perish in the Tombs of the Ancient Kings.'</span>, libtcod.<span class="me1">red</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1"># initial equipment: a dagger</span>
+    equipment_component = Equipment<span class="br0">(</span>slot=<span class="st0">'right hand'</span>, power_bonus=<span class="nu0">2</span><span class="br0">)</span>
+    obj = Object<span class="br0">(</span><span class="nu0">0</span>, <span class="nu0">0</span>, <span class="st0">'-'</span>, <span class="st0">'dagger'</span>, libtcod.<span class="me1">sky</span>, equipment=equipment_component<span class="br0">)</span>
+    inventory.<span class="me1">append</span><span class="br0">(</span>obj<span class="br0">)</span>
+    equipment_component.<span class="me1">equip</span><span class="br0">(</span><span class="br0">)</span>
+    obj.<span class="me1">always_visible</span> = <span class="kw2">True</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> next_level<span class="br0">(</span><span class="br0">)</span>:
+    <span class="co1"># advance to the next level</span>
+    <span class="kw1">global</span> dungeon_level
+    message<span class="br0">(</span><span class="st0">'You take a moment to rest, and recover your strength.'</span>, libtcod.<span class="me1">light_violet</span><span class="br0">)</span>
+    player.<span class="me1">fighter</span>.<span class="me1">heal</span><span class="br0">(</span>player.<span class="me1">fighter</span>.<span class="me1">max_hp</span> // <span class="nu0">2</span><span class="br0">)</span>  <span class="co1"># heal the player by 50%</span>
+&nbsp;
+    dungeon_level += <span class="nu0">1</span>
+    message<span class="br0">(</span><span class="st0">'After a rare moment of peace, you descend deeper into the heart of the dungeon...'</span>, libtcod.<span class="me1">red</span><span class="br0">)</span>
+    make_map<span class="br0">(</span><span class="br0">)</span>  <span class="co1"># create a fresh new level!</span>
+    initialize_fov<span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> initialize_fov<span class="br0">(</span><span class="br0">)</span>:
+    <span class="kw1">global</span> fov_recompute, fov_map
+    fov_recompute = <span class="kw2">True</span>
+&nbsp;
+    <span class="co1"># create the FOV map, according to the generated map</span>
+    fov_map = libtcod.<span class="me1">map_new</span><span class="br0">(</span>MAP_WIDTH, MAP_HEIGHT<span class="br0">)</span>
+    <span class="kw1">for</span> y <span class="kw1">in</span> <span class="kw2">range</span><span class="br0">(</span>MAP_HEIGHT<span class="br0">)</span>:
+        <span class="kw1">for</span> x <span class="kw1">in</span> <span class="kw2">range</span><span class="br0">(</span>MAP_WIDTH<span class="br0">)</span>:
+            libtcod.<span class="me1">map_set_properties</span><span class="br0">(</span>fov_map, x, y, <span class="kw1">not</span> <span class="kw2">map</span><span class="br0">[</span>x<span class="br0">]</span><span class="br0">[</span>y<span class="br0">]</span>.<span class="me1">block_sight</span>, <span class="kw1">not</span> <span class="kw2">map</span><span class="br0">[</span>x<span class="br0">]</span><span class="br0">[</span>y<span class="br0">]</span>.<span class="me1">blocked</span><span class="br0">)</span>
+&nbsp;
+    libtcod.<span class="me1">console_clear</span><span class="br0">(</span>con<span class="br0">)</span>  <span class="co1"># unexplored areas start black (which is the default background color)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> play_game<span class="br0">(</span><span class="br0">)</span>:
+    <span class="kw1">global</span> key, mouse
+&nbsp;
+    player_action = <span class="kw2">None</span>
+&nbsp;
+    mouse = libtcod.<span class="me1">Mouse</span><span class="br0">(</span><span class="br0">)</span>
+    key = libtcod.<span class="me1">Key</span><span class="br0">(</span><span class="br0">)</span>
+    <span class="co1"># main loop</span>
+    <span class="kw1">while</span> <span class="kw1">not</span> libtcod.<span class="me1">console_is_window_closed</span><span class="br0">(</span><span class="br0">)</span>:
+        libtcod.<span class="me1">sys_check_for_event</span><span class="br0">(</span>libtcod.<span class="me1">EVENT_KEY_PRESS</span> | libtcod.<span class="me1">EVENT_MOUSE</span>, key, mouse<span class="br0">)</span>
+        <span class="co1"># render the screen</span>
+        render_all<span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+        libtcod.<span class="me1">console_flush</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+        <span class="co1"># level up if needed</span>
+        check_level_up<span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+        <span class="co1"># erase all objects at their old locations, before they move</span>
+        <span class="kw1">for</span> <span class="kw2">object</span> <span class="kw1">in</span> objects:
+            <span class="kw2">object</span>.<span class="me1">clear</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+        <span class="co1"># handle keys and exit game if needed</span>
+        player_action = handle_keys<span class="br0">(</span><span class="br0">)</span>
+        <span class="kw1">if</span> player_action == <span class="st0">'exit'</span>:
+            save_game<span class="br0">(</span><span class="br0">)</span>
+            <span class="kw1">break</span>
+&nbsp;
+        <span class="co1"># let monsters take their turn</span>
+        <span class="kw1">if</span> game_state == <span class="st0">'playing'</span> <span class="kw1">and</span> player_action <span class="sy0">!</span>= <span class="st0">'didnt-take-turn'</span>:
+            <span class="kw1">for</span> <span class="kw2">object</span> <span class="kw1">in</span> objects:
+                <span class="kw1">if</span> <span class="kw2">object</span>.<span class="me1">ai</span>:
+                    <span class="kw2">object</span>.<span class="me1">ai</span>.<span class="me1">take_turn</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+&nbsp;
+<span class="kw1">def</span> main_menu<span class="br0">(</span><span class="br0">)</span>:
+    img = libtcod.<span class="me1">image_load</span><span class="br0">(</span><span class="st0">'menu_background.png'</span><span class="br0">)</span>
+&nbsp;
+    <span class="kw1">while</span> <span class="kw1">not</span> libtcod.<span class="me1">console_is_window_closed</span><span class="br0">(</span><span class="br0">)</span>:
+        <span class="co1"># show the background image, at twice the regular console resolution</span>
+        libtcod.<span class="me1">image_blit_2x</span><span class="br0">(</span>img, <span class="nu0">0</span>, <span class="nu0">0</span>, <span class="nu0">0</span><span class="br0">)</span>
+&nbsp;
+        <span class="co1"># show the game's title, and some credits!</span>
+        libtcod.<span class="me1">console_set_default_foreground</span><span class="br0">(</span><span class="nu0">0</span>, libtcod.<span class="me1">light_yellow</span><span class="br0">)</span>
+        libtcod.<span class="me1">console_print_ex</span><span class="br0">(</span><span class="nu0">0</span>, SCREEN_WIDTH // <span class="nu0">2</span>, SCREEN_HEIGHT // <span class="nu0">2</span> - <span class="nu0">4</span>, libtcod.<span class="me1">BKGND_NONE</span>, libtcod.<span class="me1">CENTER</span>,
+                                 <span class="st0">'TOMBS OF THE ANCIENT KINGS'</span><span class="br0">)</span>
+        libtcod.<span class="me1">console_print_ex</span><span class="br0">(</span><span class="nu0">0</span>, SCREEN_WIDTH // <span class="nu0">2</span>, SCREEN_HEIGHT - <span class="nu0">2</span>, libtcod.<span class="me1">BKGND_NONE</span>, libtcod.<span class="me1">CENTER</span>, <span class="st0">'By Jotaf'</span><span class="br0">)</span>
+&nbsp;
+        <span class="co1"># show options and wait for the player's choice</span>
+        choice = menu<span class="br0">(</span><span class="st0">''</span>, <span class="br0">[</span><span class="st0">'Play a new game'</span>, <span class="st0">'Continue last game'</span>, <span class="st0">'Quit'</span><span class="br0">]</span>, <span class="nu0">24</span><span class="br0">)</span>
+&nbsp;
+        <span class="kw1">if</span> choice == <span class="nu0">0</span>:  <span class="co1"># new game</span>
+            new_game<span class="br0">(</span><span class="br0">)</span>
+            play_game<span class="br0">(</span><span class="br0">)</span>
+        <span class="kw1">if</span> choice == <span class="nu0">1</span>:  <span class="co1"># load last game</span>
+            <span class="kw1">try</span>:
+                load_game<span class="br0">(</span><span class="br0">)</span>
+            <span class="kw1">except</span> <span class="kw2">Exception</span>:
+                msgbox<span class="br0">(</span><span class="st0">'<span class="es0">\n</span> No saved game to load.<span class="es0">\n</span>'</span>, <span class="nu0">24</span><span class="br0">)</span>
+                <span class="kw1">continue</span>
+            play_game<span class="br0">(</span><span class="br0">)</span>
+        <span class="kw1">elif</span> choice == <span class="nu0">2</span>:  <span class="co1"># quit</span>
+            <span class="kw1">break</span>
+&nbsp;
+&nbsp;
+libtcod.<span class="me1">console_set_custom_font</span><span class="br0">(</span><span class="st0">'arial10x10.png'</span>, libtcod.<span class="me1">FONT_TYPE_GREYSCALE</span> | libtcod.<span class="me1">FONT_LAYOUT_TCOD</span><span class="br0">)</span>
+libtcod.<span class="me1">console_init_root</span><span class="br0">(</span>SCREEN_WIDTH, SCREEN_HEIGHT, <span class="st0">'python/libtcod tutorial'</span>, <span class="kw2">False</span><span class="br0">)</span>
+libtcod.<span class="me1">sys_set_fps</span><span class="br0">(</span>LIMIT_FPS<span class="br0">)</span>
+con = libtcod.<span class="me1">console_new</span><span class="br0">(</span>MAP_WIDTH, MAP_HEIGHT<span class="br0">)</span>
+panel = libtcod.<span class="me1">console_new</span><span class="br0">(</span>SCREEN_WIDTH, PANEL_HEIGHT<span class="br0">)</span>
+&nbsp;
+main_menu<span class="br0">(</span><span class="br0">)</span></pre></div></div></div>
+
+<!-- 
+NewPP limit report
+Preprocessor node count: 8/1000000
+Post‐expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key 133099-basin:pcache:idhash:8406-0!*!0!*!*!*!* and timestamp 20191216093155 -->
+</div><div class="printfooter">
+Retrieved from "<a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13_code&amp;oldid=47057">http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13_code&amp;oldid=47057</a>"</div>
+		<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="http://www.roguebasin.com/index.php?title=Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="http://www.roguebasin.com/index.php?title=Category:Developing" title="Category:Developing">Developing</a></li></ul></div></div>		<!-- end content -->
+				<div class="visualClear"></div>
+	</div>
+</div></div>
+<div id="column-one">
+	<div id="p-cactions" class="portlet">
+		<h5>Views</h5>
+		<div class="pBody">
+			<ul>
+				<li id="ca-nstab-main" class="selected"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13_code" primary="1" context="subject" title="View the content page [ctrl-option-c]" accesskey="c">Page</a></li>
+				<li id="ca-talk" class="new"><a href="http://www.roguebasin.com/index.php?title=Talk:Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13_code&amp;action=edit&amp;redlink=1" primary="1" context="talk" title="Discussion about the content page [ctrl-option-t]" accesskey="t">Discussion</a></li>
+				<li id="ca-viewsource"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13_code&amp;action=edit" primary="1" title="This page is protected.
+You can view its source [ctrl-option-e]" accesskey="e">View source</a></li>
+				<li id="ca-history"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13_code&amp;action=history" rel="archives" title="Past revisions of this page [ctrl-option-h]" accesskey="h">History</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-personal">
+		<h5>Personal tools</h5>
+		<div class="pBody">
+			<ul>
+				<li id="pt-login"><a href="http://www.roguebasin.com/index.php?title=Special:UserLogin&amp;returnto=Complete+Roguelike+Tutorial%2C+using+python3%2Blibtcod%2C+part+13+code" title="You are encouraged to log in; however, it is not mandatory [ctrl-option-o]" accesskey="o">Log in / create account</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-logo">
+<a href="http://www.roguebasin.com/index.php?title=Main_Page" style="background-image: url(/skins/roguebasin/RogueBasin_logo.png);" title="Visit the main page"></a>
+	</div>
+	<div class="generated-sidebar portlet" id="p-navigation">
+		<h5>Navigation</h5>
+		<div class="pBody">
+			<ul>
+				<li id="n-mainpage"><a href="http://www.roguebasin.com/index.php?title=Main_Page" title="Visit the main page [ctrl-option-z]" accesskey="z">Main Page</a></li>
+				<li id="n-portal"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li>
+				<li id="n-recentchanges"><a href="http://www.roguebasin.com/index.php?title=Special:RecentChanges" title="A list of recent changes in the wiki [ctrl-option-r]" accesskey="r">Recent changes</a></li>
+				<li id="n-randompage"><a href="http://www.roguebasin.com/index.php?title=Special:Random" title="Load a random page [ctrl-option-x]" accesskey="x">Random page</a></li>
+				<li id="n-help"><a href="http://www.roguebasin.com/index.php?title=Help" title="The place to find out">Help</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="p-search" class="portlet">
+		<h5><label for="searchInput">Search</label></h5>
+		<div id="searchBody" class="pBody">
+			<form action="http://www.roguebasin.com/index.php" id="searchform">
+				<input type="hidden" name="title" value="Special:Search">
+				<input type="search" name="search" title="Search RogueBasin [ctrl-option-f]" accesskey="f" id="searchInput">
+				<input type="submit" name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton">&nbsp;
+				<input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton">
+			</form>
+		</div>
+	</div>
+	<div class="portlet" id="p-tb">
+		<h5>Tools</h5>
+		<div class="pBody">
+			<ul>
+				<li id="t-whatlinkshere"><a href="http://www.roguebasin.com/index.php?title=Special:WhatLinksHere/Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13_code" title="A list of all wiki pages that link here [ctrl-option-j]" accesskey="j">What links here</a></li>
+				<li id="t-recentchangeslinked"><a href="http://www.roguebasin.com/index.php?title=Special:RecentChangesLinked/Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13_code" title="Recent changes in pages linked from this page [ctrl-option-k]" accesskey="k">Related changes</a></li>
+				<li id="t-specialpages"><a href="http://www.roguebasin.com/index.php?title=Special:SpecialPages" title="A list of all special pages [ctrl-option-q]" accesskey="q">Special pages</a></li>
+				<li><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13_code&amp;printable=yes" rel="alternate">Printable version</a></li>
+				<li id="t-permalink"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13_code&amp;oldid=47057" title="Permanent link to this revision of the page">Permanent link</a></li>
+			</ul>
+		</div>
+	</div>
+</div><!-- end of the left (by default at least) column -->
+<div class="visualClear"></div>
+<div id="footer">
+	<div id="f-poweredbyico">
+		<a href="http://www.mediawiki.org/"><img src="./Complete Roguelike Tutorial, using python3+libtcod, part 13 code - RogueBasin_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31"></a>
+	</div>
+	<ul id="f-list">
+		<li id="lastmod"> This page was last modified on 8 May 2018, at 01:57.</li>
+		<li id="viewcount">This page has been accessed 2,337 times.</li>
+		<li id="privacy"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:Privacy_policy" title="RogueBasin:Privacy policy">Privacy policy</a></li>
+		<li id="about"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:About" title="RogueBasin:About">About RogueBasin</a></li>
+		<li id="disclaimer"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:General_disclaimer" title="RogueBasin:General disclaimer">Disclaimers</a></li>
+	</ul>
+</div>
+</div>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.user","mediawiki.page.ready"], null, true);
+}</script><script src="./Complete Roguelike Tutorial, using python3+libtcod, part 13 code - RogueBasin_files/load(5).php" type="text/javascript"></script>
+<script src="./Complete Roguelike Tutorial, using python3+libtcod, part 13 code - RogueBasin_files/load(6).php"></script>
+<!-- Served in 0.136 secs. --></body></html>

@@ -20,6 +20,6 @@ http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_pyt
 
 (I've skipped Save and Load, can't download SHELVE, so can't test it rn. Dungeon_level needs including (from next step) in saving/loading module too)
 
-STOPPED: Using the menu function, this is straightforward; just ask the player at the end of check_level_up:
+STOPPED: Testing random choice function in monster, item population. About to start: "Monster and item progression"
 
-http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_11
+http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12

@@ -2,6 +2,7 @@
 import tcod
 import math
 import textwrap
+import random
 
 # ######################################################################
 # Global Game Settings
@@ -12,6 +13,9 @@ FULLSCREEN = False
 
 SCREEN_WIDTH = 80  # characters wide
 SCREEN_HEIGHT = 50  # characters tall
+LEVEL_SCREEN_WIDTH = 40
+CHARACTER_SCREEN_WIDTH = 30
+
 LIMIT_FPS = 20  # 20 frames-per-second maximum
 # Game Controls
 TURN_BASED = True  # turn-based game
@@ -57,8 +61,8 @@ MSG_HEIGHT = PANEL_HEIGHT - 1
 ## Player / Creature Constants ##
 #################################
 
-MAX_ROOM_MONSTERS = 3
-MAX_ROOM_ITEMS = 2
+# MAX_ROOM_MONSTERS = 3 # math'd out in Place Objects
+# MAX_ROOM_ITEMS = 2  # math'd out in Place Objects
 
 LEVEL_UP_BASE = 200
 LEVEL_UP_FACTOR = 150
@@ -70,7 +74,7 @@ LIGHTNING_DAMAGE = 20
 LIGHTNING_RANGE = 5
 
 FIREBALL_RADIUS = 3
-FIREBALL_DAMAGE = 12
+FIREBALL_DAMAGE = 8
 
 CONFUSE_NUM_TURNS = 10
 CONFUSE_RANGE = 8
@@ -397,81 +401,101 @@ def create_v_tunnel(y1,y2,x):
         grid[x][y].block_sight = False
 
 def make_grid():
-    global grid, objects, stairs # can't call this map, it's a named function
+    print("\n Attempting Grid generation.\n")
+    grid_success = False
+    while not grid_success:
+        global grid, objects, stairs # can't call this map, it's a named function
 
-    objects = [player]
-    # fill map with "blocked" tiles - rooms will be carved out of rock, more or less
+        objects = [player]
+        # fill map with "blocked" tiles - rooms will be carved out of rock, more or less
 
-    grid = [[Tile(True)
-            for y in range(MAP_HEIGHT)]
-            for x in range(MAP_WIDTH)]
+        grid = [[Tile(True)
+                for y in range(MAP_HEIGHT)]
+                for x in range(MAP_WIDTH)]
 
-    rooms = []
-    num_rooms = 0
+        rooms = []
+        num_rooms = 0
 
-    for r in range(MAX_ROOMS):
-        # random width and height
-        # first argument is which "stream" to get number from, ~= seed?
-        w = tcod.random_get_int(0, ROOM_MIN_SIZE, ROOM_MAX_SIZE)
-        h = tcod.random_get_int(0, ROOM_MIN_SIZE, ROOM_MAX_SIZE)
+        for r in range(MAX_ROOMS):
+            # random width and height
+            # first argument is which "stream" to get number from, ~= seed?
+            w = tcod.random_get_int(0, ROOM_MIN_SIZE, ROOM_MAX_SIZE)
+            h = tcod.random_get_int(0, ROOM_MIN_SIZE, ROOM_MAX_SIZE)
 
-        # random room positions, but within map bonds
-        x = tcod.random_get_int(0,0, MAP_WIDTH - w - 1)
-        y = tcod.random_get_int(0,0, MAP_HEIGHT - h - 1)
+            # random room positions, but within map bonds
+            x = tcod.random_get_int(0,0, MAP_WIDTH - w - 1)
+            y = tcod.random_get_int(0,0, MAP_HEIGHT - h - 1)
 
-        # Rect class makes rectangles easier to work with
-        new_room = Rect(x, y, w, h)
+            # Rect class makes rectangles easier to work with
+            new_room = Rect(x, y, w, h)
 
-        # run through other rooms and see if they intersect with this one
-        failed = False
-        for other_room in rooms:
-            if new_room.intersect(other_room):
-                failed = True
-                break
-                # wow this is sloppy - if any room overlaps...what, skip? Yep
+            # run through other rooms and see if they intersect with this one
+            failed = False
+            for other_room in rooms:
+                if new_room.intersect(other_room):
+                    failed = True
+                    break
+                    # wow this is sloppy - if any room overlaps...what, skip? Yep
 
-        if not failed:
-            # this means there are on intersections, so this room is valid - time to actually build the room
+            if not failed:
+                # this means there are on intersections, so this room is valid - time to actually build the room
 
-            # "paint" it to the grid's tiles
-            create_room(new_room)
+                # "paint" it to the grid's tiles
+                create_room(new_room)
 
-            # center coordinates are handy
-            (new_x, new_y) = new_room.center()
+                # center coordinates are handy
+                (new_x, new_y) = new_room.center()
 
-            if num_rooms == 0:
-                # first room! Place the player here
-                player.x = new_x
-                player.y = new_y
+                if num_rooms == 0:
+                    # first room! Place the player here
+                    player.x = new_x
+                    player.y = new_y
 
-            else:
-                 # for all rooms after the first, time to connect the new room to the last one with two tunnels. Generally, will need an h tunnel and v tunnel; this randomly chooses which to start with. AND, if you really only need one, the other tunnel is one tile, nbd.
-
-                 # center coordinates of previous room
-                (prev_x, prev_y) = rooms[num_rooms-1].center()
-
-                 # flip for it - either start with an h tunnel or v tunnel
-
-                if tcod.random_get_int(0, 0, 1) == 1:
-                    # horizontal tunnel first, then vertical
-                    create_h_tunnel(prev_x, new_x, prev_y)
-                    create_v_tunnel(prev_y, new_y, prev_x)
                 else:
-                    # vertical, then horizontal
-                    create_v_tunnel(prev_y, new_y, prev_x)
-                    create_h_tunnel(prev_x, new_x, prev_y)
+                    # for all rooms after the first, time to connect the new room to the last one with two tunnels. Generally, will need an h tunnel and v tunnel; this randomly chooses which to start with. AND, if you really only need one, the other tunnel is one tile, nbd.
 
-            #add some contents to this room, such as monsters
-            place_objects(new_room)
+                    # center coordinates of previous room
+                    (prev_x, prev_y) = rooms[num_rooms-1].center()
 
-            # Append new room to the list
-            rooms.append(new_room)
-            num_rooms += 1
+                    # flip for it - either start with an h tunnel or v tunnel
 
-    # create stairs at center of last room
-    stairs = Object(new_x, new_y, '<', 'stairs', tcod.white, always_visible=True)
-    objects.append(stairs)
-    stairs.send_to_back() # draw below monsters
+                    if random.randint(0, 1) == 1:
+                        # horizontal tunnel first, then vertical
+                        create_h_tunnel(prev_x, new_x, prev_y)
+                        create_v_tunnel(prev_y, new_y, prev_x)
+                    else:
+                        # vertical, then horizontal
+                        create_v_tunnel(prev_y, new_y, prev_x)
+                        create_h_tunnel(prev_x, new_x, prev_y)
+
+                #add some contents to this room, such as monsters
+                place_objects(new_room)
+
+                # Append new room to the list
+                rooms.append(new_room)
+                num_rooms += 1
+
+        # create stairs at center of last OPEN room center. Iterate backwards through list. No possible placement? Reroll the dungeon.
+
+        room = len(rooms) - 1
+
+        while True:
+            x, y = rooms[room].center()
+            if not is_blocked(x,y):
+
+                stairs = Object(x, y, '<', 'stairs', tcod.white, always_visible=True)
+                objects.append(stairs)
+                stairs.send_to_back() # draw below monsters
+                grid_success = True
+                print("Complete:" + str((x,y)) + " and " + str(is_blocked(x,y)))
+                break
+
+            room -= 1
+
+            if room <= -1:
+                grid_success = False
+                rooms = []
+                break
 
 def render_all():
     global fov_grid, color_dark_wall, color_light_wall
@@ -486,7 +510,11 @@ def render_all():
         # set all tiles' background color - now, include FOV too
         for y in range(MAP_HEIGHT):
             for x in range(MAP_WIDTH):
+
                 visible = tcod.map_is_in_fov(fov_grid, x, y)
+
+
+
                 wall = grid[x][y].block_sight
 
                 if not visible:
@@ -554,7 +582,18 @@ def render_all():
 
 def place_objects(room):
     # choose a random number of monsters
+
+    MAX_ROOM_MONSTERS = dungeon_level // 3 + 2
+    MAX_ROOM_ITEMS = dungeon_level // 3 + 2
+    MAX_ODDS = min(dungeon_level * 5 + 60, 100)
+
+
+    ## Monsters
+
     num_monsters = tcod.random_get_int(0, 0, MAX_ROOM_MONSTERS)
+
+    monster_chances = {'orc': 40, 'troll': 30, 'dragon': 15, 'maw': 8, 'lich': 7}
+    item_chances = {'heal': 40, 'confuse': 20, 'fireball': 20, 'lightning': 20}
 
     for i in range(num_monsters):
         #choose random spot for this monster
@@ -562,27 +601,46 @@ def place_objects(room):
         y = tcod.random_get_int(0, room.y1+1, room.y2-1)
 
         if not is_blocked(x,y):
-            monster_roll = tcod.random_get_int(0,0,100)
-            if monster_roll <= 70:
-                # 70% chance of orc
+            # monster_roll = tcod.random_get_int(0,0,100)
+            choice = random_choice(monster_chances, MAX_ODDS)
+
+            if choice == 'orc':
+
                 fighter_component = Fighter(hp=10, defense=0,power=3, xp=35, death_function=monster_death)
                 ai_component = BasicMonster()
 
                 monster = Object(x, y, 'o', 'Orc', tcod.desaturated_green, blocks=True, fighter=fighter_component, ai=ai_component)
 
-            elif monster_roll >= 97:
-                # 7% chance of Dragon, it will rock you
-                fighter_component = Fighter(hp=30, defense=2,power=4,, xp=500, death_function=monster_death)
-                ai_component = BossMonster()
-
-                monster = Object(x, y, 'D', 'Dragon', tcod.red, blocks=True, fighter=fighter_component, ai=ai_component)
-            else:
+            elif choice == 'troll':
                 # 23% chance - otherwise, it's a troll
 
                 fighter_component = Fighter(hp=16, defense=1,power=4, xp = 120, death_function=monster_death)
                 ai_component = BasicMonster()
 
                 monster = Object(x,y, 'T', 'Troll', tcod.darker_green, blocks=True, fighter=fighter_component, ai=ai_component)
+
+            elif choice == 'dragon':
+                # 7% chance of Dragon, it will rock you
+                fighter_component = Fighter(hp=30, defense=2,power=4, xp=500, death_function=monster_death)
+                ai_component = BossMonster()
+
+                monster = Object(x, y, 'D', 'Dragon', tcod.red, blocks=True, fighter=fighter_component, ai=ai_component)
+
+            elif choice == 'maw':
+                # needs abilities that debuff and constrict, hits real hard
+                # very aggressive AI
+                fighter_component = Fighter(hp=50, defense=4,power=8, xp=1000, death_function=monster_death)
+                ai_component = BasicMonster()
+
+                monster = Object(x, y, 'M', 'Maw', tcod.red, blocks=True, fighter=fighter_component, ai=ai_component)
+
+            elif choice == 'lich':
+                # will have spells that summon badguys - lich can be fragile-ish
+                # should have debuffs, evasive AI
+                fighter_component = Fighter(hp=70, defense=4, power=12, xp=1500, death_function=monster_death)
+                ai_component = BasicMonster()
+
+                monster = Object(x, y, 'M', 'Maw', tcod.red, blocks=True, fighter=fighter_component, ai=ai_component)
 
             objects.append(monster)
 
@@ -596,28 +654,28 @@ def place_objects(room):
         # only place if space not blocked
         if not is_blocked(x,y):
 
-            item_roll = tcod.random_get_int(0,0,100)
-            if item_roll < 70: # potions
+            choice = random_choice(item_chances, MAX_ODDS)
+
+            if choice == 'heal':
                 # create healing potion
                 item_component = Item(use_function=cast_heal)
                 item = Object(x,y, '!', 'healing potion', tcod.violet, item=item_component, always_visible=True)
 
-            else: # scrolls
+            elif choice == 'confuse':
+                # confuse scroll
+                item_component = Item(use_function=cast_confuse)
+                item = Object(x,y, '#', 'confuse scroll', tcod.light_yellow, item=item_component, always_visible=True)
 
-                # lightning
-                if item_roll < 70 + 10: # 10% chance
-                    item_component = Item(use_function=cast_lightning)
-                    item = Object(x,y, '#', 'lightning scroll', tcod.light_yellow, item=item_component, always_visible=True)
+            elif choice == 'lightning':
+                # lightning scroll
+                item_component = Item(use_function=cast_lightning)
+                item = Object(x,y, '#', 'lightning scroll', tcod.light_yellow, item=item_component, always_visible=True)
 
-                # fireball
-                elif item_roll < 70 + 10 + 10: # 10% chance
-                    item_component = Item(use_function = cast_fireball)
-                    item = Object(x,y, '#', 'fireball scroll', tcod.light_yellow, item=item_component, always_visible=True)
 
-                # confuse
-                else: # 10%
-                    item_component = Item(use_function=cast_confuse)
-                    item = Object(x,y, '#', 'confuse scroll', tcod.light_yellow, item=item_component, always_visible=True)
+            elif choice == 'fireball':
+                # fireball scroll
+                item_component = Item(use_function = cast_fireball)
+                item = Object(x,y, '#', 'fireball scroll', tcod.light_yellow, item=item_component, always_visible=True)
 
             objects.append(item)
             item.send_to_back() # items are rendered behind other objects
@@ -686,11 +744,13 @@ def next_level():
     message('You take a moment to rest, recovering your strength.', tcod.light_violet)
     player.fighter.heal(player.fighter.max_hp/2)
 
-    message('After a rare moment of peace, you decend deeper into the heart of the dungon...', tcod.red)
+    message('After a rare moment of peace, you decend deeper into the heart of the dungeon...', tcod.red)
 
     # new level time
     dungeon_level += 1
+
     make_grid()
+
     initialize_fov()
 
 
@@ -705,10 +765,83 @@ def check_level_up():
         message('Your battle skills grow stronger! You reached level ' + str(player.level) + '!', tcod.yellow)
 
         choice = None
-        while choice ==None:
+        while choice == None:
             # player picks benefit
+            choice = menu('Level up! Choose a stat to raise:\n', ['Constitution (+20 HP), from ' + str(player.fighter.max_hp) + ')', 'Strength (+1 attack, from ' + str(player.fighter.power) + ')', 'Agility (+1 defense, from ' + str(player.fighter.defense) + ')'], LEVEL_SCREEN_WIDTH)
 
-#### Player Actions
+        if choice == 0:
+            player.fighter.max_hp += 20
+            player.fighter.hp += 20
+        elif choice == 1:
+            player.fighter.power += 1
+        elif choice == 2:
+            player.fighter.defense += 1
+
+
+def random_choice(chances_dict, MAX_ODDS):
+    # choose one option from the list of chances, return its index
+    # the dice will land on some number between 1 and the sum of the chances
+    # MAX ODDS determine what's available - these increase with dungeon level, and open up new items and monsters to spawn.
+
+
+    # chances = chances_dict.values()
+    # strings = chances_dict.keys()
+
+    # dice = tcod.random_get_int(0, 1, MAX_ODDS)
+    dice = random.randint(0, MAX_ODDS)
+
+    # print("DICE: " + str(dice))
+    # print("MAX ODDS: " + str(MAX_ODDS))
+    # go through all the chances, keeping sum so far
+    running_sum = 0
+    # choice = 0 # used to return index, but dicts aren't iterable
+    # for w in chances:
+
+    for w in chances_dict:
+
+        running_sum += chances_dict[w]
+        # how do I iterate through strings, matched with dict? ....don't seperate them, that's dumb. just use the whole dict entry -> return name of choice selected !!
+
+        # see if the dice landed in the part that corresponds with this choice
+        if dice <= running_sum:
+            return w
+        # choice += 1
+
+# def random_choice(chances_dict):
+#     # choose one option from dictionary of chances, returning its key
+#     # chances = chances_dict.values()
+#     # print('CHANCES:' + str(chances))
+#     # strings = chances_dict.keys()
+#     # print('STRINGS:' + str(strings))
+
+#     # dict.keys and dict.values returns an iterable, NOT indexable object - it's a dict OF the keys? so you can't say "give me dict[1]"
+#     # selection = random_choice_index(chances_dict)
+#     # print(selection)
+
+#     # print('tests:\n')
+#     # print(strings[0])
+#     # print(strings[1])
+#     # strings[selection]
+#     # exit
+#     # return strings[random_choice_index(chances)]
+#     return random_choice_index(chances_dict)
+
+def msgbox(text, width=50):
+    menu(text, [], width) #use menu as a message box
+
+
+
+# def from_dungeon_level(table):
+#     # returns a number of rooms based on level
+#     for (value, level) in reversed(table):
+#         if dungeon_level >= level:
+#             return value
+#     return 0
+
+################################
+#### Player Actions   ##########
+################################
+
 
 def player_move_or_attack(dx, dy):
     global fov_recompute
@@ -744,7 +877,7 @@ def player_death(player):
 
 def monster_death(monster):
     # make a monster corpse - doesn't attack, move, can't be hit
-    message(str(monster.name.capitalize()) + ' is dead!', tcod.yellow)
+    message(str(monster.name.capitalize()) + ' is dead! You gain ' + str(monster.fighter.xp) + ' XP!', tcod.yellow)
     monster.char = '%'
     monster.color = tcod.dark_red
     monster.blocks = False
@@ -796,8 +929,6 @@ def cast_heal():
 
 
 
-
-
 def cast_lightning():
     # find closest enemy inside maximum range, damage it
     monster = closest_monster(LIGHTNING_RANGE)
@@ -838,7 +969,6 @@ def cast_fireball():
         if obj.distance(x, y) <= FIREBALL_RADIUS and obj.fighter:
             message('The ' + obj.name + 'was burned for ' + str(FIREBALL_DAMAGE) + ' HP.', tcod.orange)
             obj.fighter.take_damage(FIREBALL_DAMAGE)
-
 
 # ######################################################################
 # User Input
@@ -983,7 +1113,17 @@ def handle_keys():
                 if stairs.x == player.x and stairs.y == player.y:
                     next_level()
 
+            elif key_char == 'c':
+                # show character sheet
+                level_up_xp = LEVEL_UP_BASE + player.level * LEVEL_UP_FACTOR
+                msgbox('Character Information \n\nLevel: ' + str(player.level) + '\nExperience: ' +  str(player.fighter.xp) + '\nExperience to level up: ' + str(level_up_xp) + '\n\nMaximum HP: ' + str(player.fighter.max_hp) + '\nAttack: ' + str(player.fighter.power) + '\nDefense: ' + str(player.fighter.defense), CHARACTER_SCREEN_WIDTH)
+            elif key_char == 'm':
+                for y in range(MAP_HEIGHT):
+                    for x in range(MAP_WIDTH):
+                        grid[x][y].explored = True
+
             return 'didnt-take-turn'
+
 
 def get_names_under_mouse():
     global mouse
@@ -1072,6 +1212,7 @@ def play_game():
         render_all()
 
         tcod.console_flush()
+        check_level_up()
 
         #erase all objects at their old locations, before they move
         for object in objects:
@@ -1116,7 +1257,6 @@ def main_menu():
 
         elif choice == 2:
             break
-
 
 main_menu()
 
