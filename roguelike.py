@@ -1248,10 +1248,10 @@ def handle_keys():
                     for x in range(MAP_WIDTH):
                         grid[x][y].explored = True
 
-            # elif key_char == 'a':
-            #     chosen_ability = ability_menu('Press key next to any ability to use it, or any other to cancel.')
-            #     if chosen_ability is not None:
-            #         chosen_ability.use()
+            elif key_char == 'a':
+                chosen_ability = ability_menu('Press key next to any ability to use it, or any other to cancel.')
+                if chosen_ability is not None:
+                    chosen_ability.use()
 
             return 'didnt-take-turn'
 
