@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<!-- saved from url=(0103)http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12 -->
+<html lang="en" dir="ltr" class="client-js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Complete Roguelike Tutorial, using python3+libtcod, part 12 - RogueBasin</title>
+
+<meta name="generator" content="MediaWiki 1.19.9">
+<link rel="shortcut icon" href="http://www.roguebasin.com/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="http://www.roguebasin.com/opensearch_desc.php" title="RogueBasin (en)">
+<link rel="EditURI" type="application/rsd+xml" href="http://www.roguebasin.com/api.php?action=rsd">
+<link rel="alternate" type="application/atom+xml" title="RogueBasin Atom feed" href="http://www.roguebasin.com/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="stylesheet" href="./Complete Roguelike Tutorial, using python3+libtcod, part 12 - RogueBasin_files/load.php">
+<!--[if IE 6]><link rel="stylesheet" href="/skins/monobook/IE60Fixes.css?303" media="screen" /><![endif]-->
+<!--[if IE 7]><link rel="stylesheet" href="/skins/monobook/IE70Fixes.css?303" media="screen" /><![endif]--><style type="text/css" media="all">.js-messagebox{margin:1em 5%;padding:0.5em 2.5%;border:1px solid #ccc;background-color:#fcfcfc;font-size:0.8em}.js-messagebox .js-messagebox-group{margin:1px;padding:0.5em 2.5%;border-bottom:1px solid #ddd}.js-messagebox .js-messagebox-group:last-child{border-bottom:thin none transparent}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:8b08bdc91c52a9ffba396dccfb5b473c */
+
+
+.mw-collapsible-toggle{float:right} li .mw-collapsible-toggle{float:none} .mw-collapsible-toggle-li{list-style:none}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:4250852ed2349a0d4d0fc6509a3e7d4c */
+</style><meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="./Complete Roguelike Tutorial, using python3+libtcod, part 12 - RogueBasin_files/load(1).php">
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:c88e2bcd56513749bec09a7e29cb3ffa */
+</style>
+
+<script src="./Complete Roguelike Tutorial, using python3+libtcod, part 12 - RogueBasin_files/load(2).php"></script><script src="./Complete Roguelike Tutorial, using python3+libtcod, part 12 - RogueBasin_files/load(3).php"></script>
+<script>if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Complete_Roguelike_Tutorial,_using_python3+libtcod,_part_12","wgTitle":"Complete Roguelike Tutorial, using python3+libtcod, part 12","wgCurRevisionId":47043,"wgArticleId":8306,"wgIsArticle":true,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Developing"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgRelevantPageName":"Complete_Roguelike_Tutorial,_using_python3+libtcod,_part_12","wgRestrictionEdit":[],"wgRestrictionMove":[]});
+}</script><script>if(window.mw){
+mw.loader.implement("user.options",function($){mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"monobook","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":
+0,"watchlistdays":3,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false});;},{},{});mw.loader.implement("user.tokens",function($){mw.user.tokens.set({"editToken":"+\\","watchToken":false});;},{},{});
+
+/* cache key: 133099-basin:resourceloader:filter:minify-js:7:74a832f2292f1f4d40d425d223444e78 */
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax"]);
+}</script><script type="text/javascript" src="./Complete Roguelike Tutorial, using python3+libtcod, part 12 - RogueBasin_files/load(4).php"></script>
+<style type="text/css">/*<![CDATA[*/
+.source-python {line-height: normal;}
+.source-python li, .source-python pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for python
+ * CSS class: source-python, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.python.source-python .de1, .python.source-python .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.python.source-python  {font-family:monospace;}
+.python.source-python .imp {font-weight: bold; color: red;}
+.python.source-python li, .python.source-python .li1 {font-weight: normal; vertical-align:top;}
+.python.source-python .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.python.source-python .li2 {font-weight: bold; vertical-align:top;}
+.python.source-python .kw1 {color: #ff7700;font-weight:bold;}
+.python.source-python .kw2 {color: #008000;}
+.python.source-python .kw3 {color: #dc143c;}
+.python.source-python .kw4 {color: #0000cd;}
+.python.source-python .co1 {color: #808080; font-style: italic;}
+.python.source-python .coMULTI {color: #808080; font-style: italic;}
+.python.source-python .es0 {color: #000099; font-weight: bold;}
+.python.source-python .br0 {color: black;}
+.python.source-python .sy0 {color: #66cc66;}
+.python.source-python .st0 {color: #483d8b;}
+.python.source-python .nu0 {color: #ff4500;}
+.python.source-python .me1 {color: black;}
+.python.source-python .ln-xtra, .python.source-python li.ln-xtra, .python.source-python div.ln-xtra {background-color: #ffc;}
+.python.source-python span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=18000";
+/*]]>*/
+</style></head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-Complete_Roguelike_Tutorial_using_python3_libtcod_part_12 skin-monobook action-view">
+<div id="globalWrapper">
+<div id="column-content"><div id="content"><div id="mw-js-message" class="js-messagebox" style="display: none;"></div>
+	<a id="top"></a>
+	<div id="siteNotice"><div id="localNotice" lang="en" dir="ltr"></div></div>
+	<h1 id="firstHeading" class="firstHeading"><span dir="auto">Complete Roguelike Tutorial, using python3+libtcod, part 12</span></h1>
+	<div id="bodyContent" class="mw-body">
+		<div id="siteSub">From RogueBasin</div>
+		<div id="contentSub"></div>
+		<div id="jump-to-nav" class="mw-jump">Jump to: <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12#column-one">navigation</a>, <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12#searchInput">search</a></div>
+		<!-- start content -->
+<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><center><table border="0" cellpadding="10" cellspacing="0" style="background:#F0E68C"><tbody><tr><td><center>
+<p>This is part of a series of tutorials; the main page can be found <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod" title="Complete Roguelike Tutorial, using python3+libtcod">here</a>.
+</p>
+</center></td></tr></tbody></table></center>
+<table id="toc" class="toc"><tbody><tr><td><div id="toctitle"><h2>Contents</h2><span class="toctoggle">&nbsp;[<a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12#" class="internal" id="togglelink">hide</a>]&nbsp;</span></div>
+<ul>
+<li class="toclevel-1"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12#Monster_and_item_progression"><span class="tocnumber">1</span> <span class="toctext"><b>Monster and item progression</b></span></a>
+<ul>
+<li class="toclevel-2 tocsection-1"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12#Random_choices"><span class="tocnumber">1.1</span> <span class="toctext">Random choices</span></a></li>
+<li class="toclevel-2 tocsection-2"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12#Monster_and_item_progression_2"><span class="tocnumber">1.2</span> <span class="toctext">Monster and item progression</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></tbody></table>
+<p><br>
+</p>
+<center><h1> <span class="mw-headline" id="Monster_and_item_progression"><b>Monster and item progression</b></span></h1></center>
+<p><br>
+</p>
+<h2> <span class="mw-headline" id="Random_choices"> Random choices </span></h2>
+<p>Now that the player character can become stronger, the challenges that await should become harder too! It sure would be nice if the type and quantity of monsters would vary with the dungeon level, as well as the items. This discovery is a great way to entice the player to go forward, wondering if around the next corner is something he or she has never seen before!
+</p><p>Before going further, we'll take a short stop to look at the algorithm to choose randomly between some options, such as different items and monsters. In <i>place_objects</i>, for the items, we have:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #FDECEC"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">dice = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, <span class="nu0">0</span>, <span class="nu0">100</span><span class="br0">)</span>
+<span class="kw1">if</span> dice <span class="sy0">&lt;</span> <span class="nu0">70</span>:
+    <span class="co1">#create a healing potion (70% chance)</span>
+    ...
+<span class="kw1">elif</span> dice <span class="sy0">&lt;</span> <span class="nu0">70</span>+<span class="nu0">10</span>:
+    <span class="co1">#create a lightning bolt scroll (10% chance)</span>
+    ...
+<span class="kw1">elif</span> dice <span class="sy0">&lt;</span> <span class="nu0">70</span>+<span class="nu0">10</span>+<span class="nu0">10</span>:
+    <span class="co1">#create a fireball scroll (10% chance)</span>
+    ...
+<span class="kw1">else</span>:
+    <span class="co1">#create a confuse scroll (10% chance)</span>
+    ...</pre></div></div></div>
+<p><br>
+This will be hard to maintain if you have many items; a small mistake can mess up the chances. It would be better to have a generic function that accepts a list of chances and returns a random choice.
+</p><p>Alright, let's look at that code again! There's a clear pattern, and it has an intuitive explanation. Imagine if you draw a line and split it in 10 equal parts. Take the first 7 parts and call them "healing potion"; the next part call it "lightning bolt scroll"; the next "fireball scroll" and the final part "confuse scroll". If you choose a point at random in this line, there's a 70% chance (or 7 in 10) you get a healing potion, and so on, with all the appropriate chances.
+</p><p>So, for each option, we have to sum its chance and the chances of the previous options, because that gives us the point in the line where the corresponding parts end. Then we check if the random number (point) happens to be inside that zone. That's all there is to it.
+</p><p>For our generic function, we can loop through the choices, and keep track of the point where we are on the line by using a running sum (ie., summing the chances of the choices as we go along). We must also keep track of the index of the current choice. When we find the correct choice, we return its index.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> random_choice_index<span class="br0">(</span>chances<span class="br0">)</span>:  <span class="co1">#choose one option from list of chances, returning its index</span>
+    <span class="co1">#the dice will land on some number between 1 and the sum of the chances</span>
+    dice = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, <span class="nu0">1</span>, <span class="kw2">sum</span><span class="br0">(</span>chances<span class="br0">)</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1">#go through all chances, keeping the sum so far</span>
+    running_sum = <span class="nu0">0</span>
+    choice = <span class="nu0">0</span>
+    <span class="kw1">for</span> w <span class="kw1">in</span> chances:
+        running_sum += w
+&nbsp;
+        <span class="co1">#see if the dice landed in the part that corresponds to this choice</span>
+        <span class="kw1">if</span> dice <span class="sy0">&lt;</span>= running_sum:
+            <span class="kw1">return</span> choice
+        choice += <span class="nu0">1</span></pre></div></div></div>
+<p><br>
+Notice that you don't really have to specify the chances in percentage; you can as easily have 70%, 4 in 10, or 1 in 3. If the sum of the chances is 100 then they're percentages; otherwise they're in some other unit.
+</p><p>I used the <a rel="nofollow" class="external text" href="http://docs.python.org/library/functions.html#sum">built-in function sum()</a>, which takes a list of numbers and returns their sum. It's nicely suited for numeric algorithms like this.
+</p><p>Alright, that was a bit abstract. But now we have a handy function that can be useful in many situations! Figuring out algorithms like this can be the hardest part of programming, but don't let that discourage you. Trying out some concrete situations with pen &amp; paper, such as the line diagram we discussed earlier, can be a great help. Or you can just look for some code on the net if you feel impatient!
+</p><p>Now that it's done, using this function is easy. We can set up lists with the chance of each item and monster:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">monster_chances = <span class="br0">[</span><span class="nu0">80</span>, <span class="nu0">20</span><span class="br0">]</span>
+item_chances = <span class="br0">[</span><span class="nu0">70</span>, <span class="nu0">10</span>, <span class="nu0">10</span>, <span class="nu0">10</span><span class="br0">]</span></pre></div></div></div>
+<p><br>
+We can then call <i>random_choice_index</i> and create the item with the chosen index:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">            choice = random_choice_index<span class="br0">(</span>item_chances<span class="br0">)</span>
+            <span class="kw1">if</span> choice == <span class="nu0">0</span>:
+                <span class="co1">#create a healing potion</span></pre></div></div></div>
+<p><br>
+And so on with indexes from 0 to 3. For monsters it's exactly the same but using <i>monster_chances</i> instead of <i>item_chances</i>.
+</p><p>This is much cleaner, but we can do even better. At a glance you don't know what chance corresponds to each item or monster. We could replace the lists with dictionaries (dicts), so that we can use strings instead of indexes:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">monster_chances = <span class="br0">{</span><span class="st0">'orc'</span>: <span class="nu0">80</span>, <span class="st0">'troll'</span>: <span class="nu0">20</span><span class="br0">}</span>
+item_chances = <span class="br0">{</span><span class="st0">'heal'</span>: <span class="nu0">70</span>, <span class="st0">'lightning'</span>: <span class="nu0">10</span>, <span class="st0">'fireball'</span>: <span class="nu0">10</span>, <span class="st0">'confuse'</span>: <span class="nu0">10</span><span class="br0">}</span></pre></div></div></div>
+<p><br>
+Looks good! Now to create an alternative of <i>random_choice_index</i> that works with strings instead of indexes. You can see a dictionary as just 2 lists: the <i>keys</i>, in this case <i>['heal', 'lightning', 'fireball', 'confuse']</i>, and the <i>values</i>, in this case <i>[70, 10, 10, 10]</i>. We can break down a dict into the 2 lists using the following functions, which are part of the standard library:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> random_choice<span class="br0">(</span>chances_dict<span class="br0">)</span>:
+    <span class="co1">#choose one option from dictionary of chances, returning its key</span>
+    chances = chances_dict.<span class="me1">values</span><span class="br0">(</span><span class="br0">)</span>
+    strings = chances_dict.<span class="me1">keys</span><span class="br0">(</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+We can now pass the <i>chances</i> list to <i>random_choice_index</i>, which does all the work, and then convert the index to a string again:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="kw1">return</span> strings<span class="br0">[</span>random_choice_index<span class="br0">(</span>chances<span class="br0">)</span><span class="br0">]</span></pre></div></div></div>
+<p><br>
+There it is! This function is much handier than the last. The code for choosing items becomes:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">            choice = random_choice<span class="br0">(</span>item_chances<span class="br0">)</span>
+            <span class="kw1">if</span> choice == <span class="st0">'heal'</span>:
+                <span class="co1">#create a healing potion</span></pre></div></div></div>
+<p><br>
+And likewise for all the other items and monsters. This will be much easier to maintain as you add more items and monsters to your game!
+</p><p><br>
+</p>
+<h2> <span class="mw-headline" id="Monster_and_item_progression_2"> Monster and item progression </span></h2>
+<p>The only thing left is varying the contents of the dungeon (number of monsters and items, and their chances) according to the dungeon level. Instead of having fixed values, they could change with some formula, like the one we used to calculate how much xp is needed to level up. You're welcome to do this if you prefer; however in this section we will go down a slightly different path!
+</p><p>I'd like to be able to say that the maximum number of items per room starts as 1 at level 1, and changes to 2 at level 4. Generally, I'd like to have a table of transition points. Each entry in the table says what the value changes to, and at what level. This should be easier to tune, since you can change the value of one level without affecting the values of the others!
+</p><p>We can make a table as a list of pairs <i>[value, level]</i>. For the example above we'd have <i>[[1, 1], [2, 4]]</i>, meaning a value of 1 at level 1 and a value of 2 at level 4. The code for looking up the table is pretty short:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> from_dungeon_level<span class="br0">(</span>table<span class="br0">)</span>:
+    <span class="co1">#returns a value that depends on level. the table specifies what value occurs after each level, default is 0.</span>
+    <span class="kw1">for</span> <span class="br0">(</span>value, level<span class="br0">)</span> <span class="kw1">in</span> <span class="kw2">reversed</span><span class="br0">(</span>table<span class="br0">)</span>:
+        <span class="kw1">if</span> dungeon_level <span class="sy0">&gt;</span>= level:
+            <span class="kw1">return</span> value
+    <span class="kw1">return</span> <span class="nu0">0</span></pre></div></div></div>
+<p><br>
+Notice two things. First, we unpack the current pair into the variables <i>(value, level)</i> directly in the <i>for</i>, which is a nice shortcut. Second, we use the built-in function <i>reversed</i> to go through the list backwards (the Python standard library comes to the rescue again!). Because if you try looping in the regular order, you'll see it always returns on the first element! You could figure this out by trying a few values and seeing what happens. As I said before, I like pen &amp; paper for these situations. This function assumes the table is sorted by level in ascending order, which is reasonable, but you could also use the <i>sort</i> function to enforce it.
+</p><p>Ok, now we have all the tools we need to get back to our game! I decided on the number of monsters and items, and their chances. This took quite a bit of playtesting, but I'm sure it could be better! At the top of <i>place_objects</i>:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="co1">#maximum number of monsters per room</span>
+    max_monsters = from_dungeon_level<span class="br0">(</span><span class="br0">[</span><span class="br0">[</span><span class="nu0">2</span>, <span class="nu0">1</span><span class="br0">]</span>, <span class="br0">[</span><span class="nu0">3</span>, <span class="nu0">4</span><span class="br0">]</span>, <span class="br0">[</span><span class="nu0">5</span>, <span class="nu0">6</span><span class="br0">]</span><span class="br0">]</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1">#chance of each monster</span>
+    monster_chances = <span class="br0">{</span><span class="br0">}</span>
+    monster_chances<span class="br0">[</span><span class="st0">'orc'</span><span class="br0">]</span> = <span class="nu0">80</span>  <span class="co1">#orc always shows up, even if all other monsters have 0 chance</span>
+    monster_chances<span class="br0">[</span><span class="st0">'troll'</span><span class="br0">]</span> = from_dungeon_level<span class="br0">(</span><span class="br0">[</span><span class="br0">[</span><span class="nu0">15</span>, <span class="nu0">3</span><span class="br0">]</span>, <span class="br0">[</span><span class="nu0">30</span>, <span class="nu0">5</span><span class="br0">]</span>, <span class="br0">[</span><span class="nu0">60</span>, <span class="nu0">7</span><span class="br0">]</span><span class="br0">]</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1">#maximum number of items per room</span>
+    max_items = from_dungeon_level<span class="br0">(</span><span class="br0">[</span><span class="br0">[</span><span class="nu0">1</span>, <span class="nu0">1</span><span class="br0">]</span>, <span class="br0">[</span><span class="nu0">2</span>, <span class="nu0">4</span><span class="br0">]</span><span class="br0">]</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1">#chance of each item (by default they have a chance of 0 at level 1, which then goes up)</span>
+    item_chances = <span class="br0">{</span><span class="br0">}</span>
+    item_chances<span class="br0">[</span><span class="st0">'heal'</span><span class="br0">]</span> = <span class="nu0">35</span>  <span class="co1">#healing potion always shows up, even if all other items have 0 chance</span>
+    item_chances<span class="br0">[</span><span class="st0">'lightning'</span><span class="br0">]</span> = from_dungeon_level<span class="br0">(</span><span class="br0">[</span><span class="br0">[</span><span class="nu0">25</span>, <span class="nu0">4</span><span class="br0">]</span><span class="br0">]</span><span class="br0">)</span>
+    item_chances<span class="br0">[</span><span class="st0">'fireball'</span><span class="br0">]</span> =  from_dungeon_level<span class="br0">(</span><span class="br0">[</span><span class="br0">[</span><span class="nu0">25</span>, <span class="nu0">6</span><span class="br0">]</span><span class="br0">]</span><span class="br0">)</span>
+    item_chances<span class="br0">[</span><span class="st0">'confuse'</span><span class="br0">]</span> =   from_dungeon_level<span class="br0">(</span><span class="br0">[</span><span class="br0">[</span><span class="nu0">10</span>, <span class="nu0">2</span><span class="br0">]</span><span class="br0">]</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+You can get rid of the constants <i>MAX_ROOM_MONSTERS</i> and <i>MAX_ROOM_ITEMS</i>, and use the new variables <i>max_monsters</i> and <i>max_items</i> instead. As you can see, the chances now vary with the level. I also decided to change some other values to make the game more balanced: <i>HEAL_AMOUNT = 40</i>, <i>LIGHTNING_DAMAGE = 40</i>, and <i>FIREBALL_DAMAGE = 25</i>. For the player, I set <i>hp=100, defense=1, power=4</i>; for the orcs, <i>hp=20, defense=0, power=4</i>; and for the trolls, <i>hp=30, defense=2, power=8</i>.
+</p><p>Wow, that was a ton of work! But I hope you agree that it paid off. Try playing it for a bit; you'll see it's actually challenging, and you need to use every strategy at your disposal to survive! (I'm planning for the end to be around level 10 or so.) I think it's fun already, and it only has 2 monsters and 4 items. With this system in place, you should have no trouble adding as many items, monsters and other features as you want!
+</p><p>The whole code is available <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12_code&amp;action=edit&amp;redlink=1" class="new" title="Complete Roguelike Tutorial, using python3+libtcod, part 12 code (page does not exist)">here</a>.
+</p><p><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13" title="Complete Roguelike Tutorial, using python3+libtcod, part 13">Go on to the next part</a>.
+</p>
+<!-- 
+NewPP limit report
+Preprocessor node count: 111/1000000
+Post‐expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key 133099-basin:pcache:idhash:8306-0!*!0!!en!*!* and timestamp 20191221095736 -->
+</div><div class="printfooter">
+Retrieved from "<a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12&amp;oldid=47043">http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12&amp;oldid=47043</a>"</div>
+		<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="http://www.roguebasin.com/index.php?title=Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="http://www.roguebasin.com/index.php?title=Category:Developing" title="Category:Developing">Developing</a></li></ul></div></div>		<!-- end content -->
+				<div class="visualClear"></div>
+	</div>
+</div></div>
+<div id="column-one">
+	<div id="p-cactions" class="portlet">
+		<h5>Views</h5>
+		<div class="pBody">
+			<ul>
+				<li id="ca-nstab-main" class="selected"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12" primary="1" context="subject" title="View the content page [ctrl-option-c]" accesskey="c">Page</a></li>
+				<li id="ca-talk" class="new"><a href="http://www.roguebasin.com/index.php?title=Talk:Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12&amp;action=edit&amp;redlink=1" primary="1" context="talk" title="Discussion about the content page [ctrl-option-t]" accesskey="t">Discussion</a></li>
+				<li id="ca-viewsource"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12&amp;action=edit" primary="1" title="This page is protected.
+You can view its source [ctrl-option-e]" accesskey="e">View source</a></li>
+				<li id="ca-history"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12&amp;action=history" rel="archives" title="Past revisions of this page [ctrl-option-h]" accesskey="h">History</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-personal">
+		<h5>Personal tools</h5>
+		<div class="pBody">
+			<ul>
+				<li id="pt-login"><a href="http://www.roguebasin.com/index.php?title=Special:UserLogin&amp;returnto=Complete+Roguelike+Tutorial%2C+using+python3%2Blibtcod%2C+part+12" title="You are encouraged to log in; however, it is not mandatory [ctrl-option-o]" accesskey="o">Log in / create account</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-logo">
+<a href="http://www.roguebasin.com/index.php?title=Main_Page" style="background-image: url(/skins/roguebasin/RogueBasin_logo.png);" title="Visit the main page"></a>
+	</div>
+	<div class="generated-sidebar portlet" id="p-navigation">
+		<h5>Navigation</h5>
+		<div class="pBody">
+			<ul>
+				<li id="n-mainpage"><a href="http://www.roguebasin.com/index.php?title=Main_Page" title="Visit the main page [ctrl-option-z]" accesskey="z">Main Page</a></li>
+				<li id="n-portal"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li>
+				<li id="n-recentchanges"><a href="http://www.roguebasin.com/index.php?title=Special:RecentChanges" title="A list of recent changes in the wiki [ctrl-option-r]" accesskey="r">Recent changes</a></li>
+				<li id="n-randompage"><a href="http://www.roguebasin.com/index.php?title=Special:Random" title="Load a random page [ctrl-option-x]" accesskey="x">Random page</a></li>
+				<li id="n-help"><a href="http://www.roguebasin.com/index.php?title=Help" title="The place to find out">Help</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="p-search" class="portlet">
+		<h5><label for="searchInput">Search</label></h5>
+		<div id="searchBody" class="pBody">
+			<form action="http://www.roguebasin.com/index.php" id="searchform">
+				<input type="hidden" name="title" value="Special:Search">
+				<input type="search" name="search" title="Search RogueBasin [ctrl-option-f]" accesskey="f" id="searchInput">
+				<input type="submit" name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton">&nbsp;
+				<input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton">
+			</form>
+		</div>
+	</div>
+	<div class="portlet" id="p-tb">
+		<h5>Tools</h5>
+		<div class="pBody">
+			<ul>
+				<li id="t-whatlinkshere"><a href="http://www.roguebasin.com/index.php?title=Special:WhatLinksHere/Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12" title="A list of all wiki pages that link here [ctrl-option-j]" accesskey="j">What links here</a></li>
+				<li id="t-recentchangeslinked"><a href="http://www.roguebasin.com/index.php?title=Special:RecentChangesLinked/Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12" title="Recent changes in pages linked from this page [ctrl-option-k]" accesskey="k">Related changes</a></li>
+				<li id="t-specialpages"><a href="http://www.roguebasin.com/index.php?title=Special:SpecialPages" title="A list of all special pages [ctrl-option-q]" accesskey="q">Special pages</a></li>
+				<li><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12&amp;printable=yes" rel="alternate">Printable version</a></li>
+				<li id="t-permalink"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12&amp;oldid=47043" title="Permanent link to this revision of the page">Permanent link</a></li>
+			</ul>
+		</div>
+	</div>
+</div><!-- end of the left (by default at least) column -->
+<div class="visualClear"></div>
+<div id="footer">
+	<div id="f-poweredbyico">
+		<a href="http://www.mediawiki.org/"><img src="./Complete Roguelike Tutorial, using python3+libtcod, part 12 - RogueBasin_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31"></a>
+	</div>
+	<ul id="f-list">
+		<li id="lastmod"> This page was last modified on 7 May 2018, at 02:36.</li>
+		<li id="viewcount">This page has been accessed 1,658 times.</li>
+		<li id="privacy"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:Privacy_policy" title="RogueBasin:Privacy policy">Privacy policy</a></li>
+		<li id="about"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:About" title="RogueBasin:About">About RogueBasin</a></li>
+		<li id="disclaimer"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:General_disclaimer" title="RogueBasin:General disclaimer">Disclaimers</a></li>
+	</ul>
+</div>
+</div>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.user","mediawiki.page.ready"], null, true);
+}</script><script src="./Complete Roguelike Tutorial, using python3+libtcod, part 12 - RogueBasin_files/load(5).php" type="text/javascript"></script>
+<script src="./Complete Roguelike Tutorial, using python3+libtcod, part 12 - RogueBasin_files/load(6).php"></script>
+<!-- Served in 0.154 secs. --></body></html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<!-- saved from url=(0103)http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13 -->
+<html lang="en" dir="ltr" class="client-js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Complete Roguelike Tutorial, using python3+libtcod, part 13 - RogueBasin</title>
+
+<meta name="generator" content="MediaWiki 1.19.9">
+<link rel="shortcut icon" href="http://www.roguebasin.com/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="http://www.roguebasin.com/opensearch_desc.php" title="RogueBasin (en)">
+<link rel="EditURI" type="application/rsd+xml" href="http://www.roguebasin.com/api.php?action=rsd">
+<link rel="alternate" type="application/atom+xml" title="RogueBasin Atom feed" href="http://www.roguebasin.com/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="stylesheet" href="./Complete Roguelike Tutorial, using python3+libtcod, part 13 - RogueBasin_files/load.php">
+<!--[if IE 6]><link rel="stylesheet" href="/skins/monobook/IE60Fixes.css?303" media="screen" /><![endif]-->
+<!--[if IE 7]><link rel="stylesheet" href="/skins/monobook/IE70Fixes.css?303" media="screen" /><![endif]--><style type="text/css" media="all">.js-messagebox{margin:1em 5%;padding:0.5em 2.5%;border:1px solid #ccc;background-color:#fcfcfc;font-size:0.8em}.js-messagebox .js-messagebox-group{margin:1px;padding:0.5em 2.5%;border-bottom:1px solid #ddd}.js-messagebox .js-messagebox-group:last-child{border-bottom:thin none transparent}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:8b08bdc91c52a9ffba396dccfb5b473c */
+
+
+.mw-collapsible-toggle{float:right} li .mw-collapsible-toggle{float:none} .mw-collapsible-toggle-li{list-style:none}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:4250852ed2349a0d4d0fc6509a3e7d4c */
+</style><meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="./Complete Roguelike Tutorial, using python3+libtcod, part 13 - RogueBasin_files/load(1).php">
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:c88e2bcd56513749bec09a7e29cb3ffa */
+</style>
+
+<script src="./Complete Roguelike Tutorial, using python3+libtcod, part 13 - RogueBasin_files/load(2).php"></script><script src="./Complete Roguelike Tutorial, using python3+libtcod, part 13 - RogueBasin_files/load(3).php"></script>
+<script>if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Complete_Roguelike_Tutorial,_using_python3+libtcod,_part_13","wgTitle":"Complete Roguelike Tutorial, using python3+libtcod, part 13","wgCurRevisionId":47044,"wgArticleId":8307,"wgIsArticle":true,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Developing"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgRelevantPageName":"Complete_Roguelike_Tutorial,_using_python3+libtcod,_part_13","wgRestrictionEdit":[],"wgRestrictionMove":[]});
+}</script><script>if(window.mw){
+mw.loader.implement("user.options",function($){mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"monobook","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":
+0,"watchlistdays":3,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false});;},{},{});mw.loader.implement("user.tokens",function($){mw.user.tokens.set({"editToken":"+\\","watchToken":false});;},{},{});
+
+/* cache key: 133099-basin:resourceloader:filter:minify-js:7:74a832f2292f1f4d40d425d223444e78 */
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax"]);
+}</script><script type="text/javascript" src="./Complete Roguelike Tutorial, using python3+libtcod, part 13 - RogueBasin_files/load(4).php"></script>
+<style type="text/css">/*<![CDATA[*/
+.source-python {line-height: normal;}
+.source-python li, .source-python pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for python
+ * CSS class: source-python, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.python.source-python .de1, .python.source-python .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.python.source-python  {font-family:monospace;}
+.python.source-python .imp {font-weight: bold; color: red;}
+.python.source-python li, .python.source-python .li1 {font-weight: normal; vertical-align:top;}
+.python.source-python .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.python.source-python .li2 {font-weight: bold; vertical-align:top;}
+.python.source-python .kw1 {color: #ff7700;font-weight:bold;}
+.python.source-python .kw2 {color: #008000;}
+.python.source-python .kw3 {color: #dc143c;}
+.python.source-python .kw4 {color: #0000cd;}
+.python.source-python .co1 {color: #808080; font-style: italic;}
+.python.source-python .coMULTI {color: #808080; font-style: italic;}
+.python.source-python .es0 {color: #000099; font-weight: bold;}
+.python.source-python .br0 {color: black;}
+.python.source-python .sy0 {color: #66cc66;}
+.python.source-python .st0 {color: #483d8b;}
+.python.source-python .nu0 {color: #ff4500;}
+.python.source-python .me1 {color: black;}
+.python.source-python .ln-xtra, .python.source-python li.ln-xtra, .python.source-python div.ln-xtra {background-color: #ffc;}
+.python.source-python span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=18000";
+/*]]>*/
+</style></head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-Complete_Roguelike_Tutorial_using_python3_libtcod_part_13 skin-monobook action-view">
+<div id="globalWrapper">
+<div id="column-content"><div id="content"><div id="mw-js-message" class="js-messagebox" style="display: none;"></div>
+	<a id="top"></a>
+	<div id="siteNotice"><div id="localNotice" lang="en" dir="ltr"></div></div>
+	<h1 id="firstHeading" class="firstHeading"><span dir="auto">Complete Roguelike Tutorial, using python3+libtcod, part 13</span></h1>
+	<div id="bodyContent" class="mw-body">
+		<div id="siteSub">From RogueBasin</div>
+		<div id="contentSub"></div>
+		<div id="jump-to-nav" class="mw-jump">Jump to: <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13#column-one">navigation</a>, <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13#searchInput">search</a></div>
+		<!-- start content -->
+<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><center><table border="0" cellpadding="10" cellspacing="0" style="background:#F0E68C"><tbody><tr><td><center>
+<p>This is part of a series of tutorials; the main page can be found <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod" title="Complete Roguelike Tutorial, using python3+libtcod">here</a>.
+</p>
+</center></td></tr></tbody></table></center>
+<p><br>
+</p>
+<table id="toc" class="toc"><tbody><tr><td><div id="toctitle"><h2>Contents</h2><span class="toctoggle">&nbsp;[<a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13#" class="internal" id="togglelink">hide</a>]&nbsp;</span></div>
+<ul>
+<li class="toclevel-1"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13#Adventure_gear"><span class="tocnumber">1</span> <span class="toctext"><b>Adventure gear</b></span></a>
+<ul>
+<li class="toclevel-2 tocsection-1"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13#Simplifying"><span class="tocnumber">1.1</span> <span class="toctext">Simplifying</span></a></li>
+<li class="toclevel-2 tocsection-2"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13#Basic_equipment"><span class="tocnumber">1.2</span> <span class="toctext">Basic equipment</span></a></li>
+<li class="toclevel-2 tocsection-3"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13#Equipment_polish"><span class="tocnumber">1.3</span> <span class="toctext">Equipment polish</span></a></li>
+<li class="toclevel-2 tocsection-4"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13#Bonus_round"><span class="tocnumber">1.4</span> <span class="toctext">Bonus round</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></tbody></table>
+<p><br>
+</p>
+<center><h1> <span class="mw-headline" id="Adventure_gear"><b>Adventure gear</b></span></h1></center>
+<p><br>
+</p>
+<h2> <span class="mw-headline" id="Simplifying"> Simplifying </span></h2>
+<p>Now that you can explore a large dungeon, I'm sure you can't help but notice a few things missing. Where are all the swords, armor, enchanted boots and other assorted junk? Sure, we have some cool items, but they can only be used once. We can't really handle weapons and armor in the current system. How do we solve this?
+</p><p>First, we can add a new component to take care of the new functionality. An item with the Equipment component can be equipped or taken off, and while equipped will give the player some bonuses (more power, defense, etc). Sounds good!
+</p><p>Now we must plan ahead how this data will be stored in our game. It's time for a small detour into game architecture!
+</p><p>You see, the way you store your data can have a big impact on how easy it will be to handle and debug. There are two types. A brittle data structure can be easily put in an inconsistent state. A strong data structure cannot; it always makes sense, no matter how you change it. For example, you can keep a list of equipped items. To equip, you move an item to the "equipped" list. There are several inconsistent states: what does it mean for an item to be on both lists? What does it mean to be on no list? (Python will just delete an object if it's not referenced anywhere.) This is brittle.
+</p><p>A stronger data structure is to have a "is_equipped" property on each item, and if it's True the item is equipped. This is much harder to break, because in any case the item is either equipped or unequipped; there are no weird states.
+</p><p>We will use the same idea for bonuses, which you'll see later on. In a nutshell, try to store data in a way that allows a minimum of inconsistent states. Duplicated data or data that requires perfect coordination to make sense is usually a bad sign. This is more of an art than a science, though, and there is no absolute answer. So after the tutorial it will all be up to you!
+</p><p><br>
+</p>
+<h2> <span class="mw-headline" id="Basic_equipment"> Basic equipment </span></h2>
+<p>Ok, it's time to code that up. We'll have an Equipment component that knows whether it's equipped. It will also have an associated slot, like 'hand' for weapons or 'head' for helmets. The slot will simply be indicated by a string.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">class</span> Equipment:
+    <span class="co1">#an object that can be equipped, yielding bonuses. automatically adds the Item component.</span>
+    <span class="kw1">def</span> <span class="kw4">__init__</span><span class="br0">(</span><span class="kw2">self</span>, slot<span class="br0">)</span>:
+        <span class="kw2">self</span>.<span class="me1">slot</span> = slot
+        <span class="kw2">self</span>.<span class="me1">is_equipped</span> = <span class="kw2">False</span>
+&nbsp;
+    <span class="kw1">def</span> toggle_equip<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:  <span class="co1">#toggle equip/dequip status</span>
+        <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">is_equipped</span>:
+            <span class="kw2">self</span>.<span class="me1">dequip</span><span class="br0">(</span><span class="br0">)</span>
+        <span class="kw1">else</span>:
+            <span class="kw2">self</span>.<span class="me1">equip</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+    <span class="kw1">def</span> equip<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:
+        <span class="co1">#equip object and show a message about it</span>
+        <span class="kw2">self</span>.<span class="me1">is_equipped</span> = <span class="kw2">True</span>
+        message<span class="br0">(</span><span class="st0">'Equipped '</span> + <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">name</span> + <span class="st0">' on '</span> + <span class="kw2">self</span>.<span class="me1">slot</span> + <span class="st0">'.'</span>, libtcod.<span class="me1">light_green</span><span class="br0">)</span>
+&nbsp;
+    <span class="kw1">def</span> dequip<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:
+        <span class="co1">#dequip object and show a message about it</span>
+        <span class="kw1">if</span> <span class="kw1">not</span> <span class="kw2">self</span>.<span class="me1">is_equipped</span>: <span class="kw1">return</span>
+        <span class="kw2">self</span>.<span class="me1">is_equipped</span> = <span class="kw2">False</span>
+        message<span class="br0">(</span><span class="st0">'Dequipped '</span> + <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">name</span> + <span class="st0">' from '</span> + <span class="kw2">self</span>.<span class="me1">slot</span> + <span class="st0">'.'</span>, libtcod.<span class="me1">light_yellow</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+Nothing fancy there! To allow objects to have this component, add <i>equipment=None</i> to the parameters of the Object class's <i>__init__</i> function, and the usual component initialization code:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">        <span class="kw2">self</span>.<span class="me1">equipment</span> = equipment
+        <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">equipment</span>:  <span class="co1">#let the Equipment component know who owns it</span>
+            <span class="kw2">self</span>.<span class="me1">equipment</span>.<span class="me1">owner</span> = <span class="kw2">self</span></pre></div></div></div>
+<p><br>
+At that point, we can also create an Item component automatically, because a piece of Equipment is always an Item (can be picked up and used).
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">            <span class="co1">#there must be an Item component for the Equipment component to work properly</span>
+            <span class="kw2">self</span>.<span class="me1">item</span> = Item<span class="br0">(</span><span class="br0">)</span>
+            <span class="kw2">self</span>.<span class="me1">item</span>.<span class="me1">owner</span> = <span class="kw2">self</span></pre></div></div></div>
+<p><br>
+When the player goes to the inventory screen and tries to use a piece of equipment, it will be equipped or dequipped. So, in the <i>use</i> function of the Item class, add to the beginning:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">        <span class="co1">#special case: if the object has the Equipment component, the "use" action is to equip/dequip</span>
+        <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">equipment</span>:
+            <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">equipment</span>.<span class="me1">toggle_equip</span><span class="br0">(</span><span class="br0">)</span>
+            <span class="kw1">return</span></pre></div></div></div>
+<p><br>
+That's the basic functionality! To test it quickly, we can let a sword appear in the dungeon, by adding a new item choice in <i>place_objects</i>:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">            <span class="kw1">elif</span> choice == <span class="st0">'sword'</span>:
+                <span class="co1">#create a sword</span>
+                equipment_component = Equipment<span class="br0">(</span>slot=<span class="st0">'right hand'</span><span class="br0">)</span>
+                item = Object<span class="br0">(</span>x, y, <span class="st0">'/'</span>, <span class="st0">'sword'</span>, libtcod.<span class="me1">sky</span>, equipment=equipment_component<span class="br0">)</span></pre></div></div></div>
+<p><br>
+And <i>item_chances['sword'] = 25</i> after the other item's chances, at the top of that function.
+</p><p>Ready to test! Equipping the sword doesn't do much though. You'll also notice you can equip 2 swords at once (how cool is that?). But 3 swords or more is a bit unrealistic, so we'll take care of that.
+</p><p><br>
+</p>
+<h2> <span class="mw-headline" id="Equipment_polish"> Equipment polish </span></h2>
+<p>We don't want to let the player equip more than one item in the same slot. Fair enough! Let's make a function to check if any item occupies a slot, and return it while we're at it:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> get_equipped_in_slot<span class="br0">(</span>slot<span class="br0">)</span>:  <span class="co1">#returns the equipment in a slot, or None if it's empty</span>
+    <span class="kw1">for</span> obj <span class="kw1">in</span> inventory:
+        <span class="kw1">if</span> obj.<span class="me1">equipment</span> <span class="kw1">and</span> obj.<span class="me1">equipment</span>.<span class="me1">slot</span> == slot <span class="kw1">and</span> obj.<span class="me1">equipment</span>.<span class="me1">is_equipped</span>:
+            <span class="kw1">return</span> obj.<span class="me1">equipment</span>
+    <span class="kw1">return</span> <span class="kw2">None</span></pre></div></div></div>
+<p><br>
+We can use it to prevent a second item in the same slot, or better yet: dequip the old item to make room for the new one. In the <i>equip</i> function:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">        <span class="co1">#if the slot is already being used, dequip whatever is there first</span>
+        old_equipment = get_equipped_in_slot<span class="br0">(</span><span class="kw2">self</span>.<span class="me1">slot</span><span class="br0">)</span>
+        <span class="kw1">if</span> old_equipment <span class="kw1">is</span> <span class="kw1">not</span> <span class="kw2">None</span>:
+            old_equipment.<span class="me1">dequip</span><span class="br0">(</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+Another nice behavior is to automatically equip picked up items, if their slots are available. In the <i>pick_up</i> function, at the end:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">            <span class="co1">#special case: automatically equip, if the corresponding equipment slot is unused</span>
+            equipment = <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">equipment</span>
+            <span class="kw1">if</span> equipment <span class="kw1">and</span> get_equipped_in_slot<span class="br0">(</span>equipment.<span class="me1">slot</span><span class="br0">)</span> <span class="kw1">is</span> <span class="kw2">None</span>:
+                equipment.<span class="me1">equip</span><span class="br0">(</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+It is necessary, though, that dropped items be dequipped; simply add to the <i>drop</i> function:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">        <span class="co1">#special case: if the object has the Equipment component, dequip it before dropping</span>
+        <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">equipment</span>:
+            <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">equipment</span>.<span class="me1">dequip</span><span class="br0">(</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+Finally, another bit of polishing. We'd like to see in the inventory which items are equipped! So in <i>inventory_menu</i>, this information should be shown next to the item names. Replace the line <i>options = [item.name for item in inventory]</i> with:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">        options = <span class="br0">[</span><span class="br0">]</span>
+        <span class="kw1">for</span> item <span class="kw1">in</span> inventory:
+            text = item.<span class="me1">name</span>
+            <span class="co1">#show additional information, in case it's equipped</span>
+            <span class="kw1">if</span> item.<span class="me1">equipment</span> <span class="kw1">and</span> item.<span class="me1">equipment</span>.<span class="me1">is_equipped</span>:
+                text = text + <span class="st0">' (on '</span> + item.<span class="me1">equipment</span>.<span class="me1">slot</span> + <span class="st0">')'</span>
+            options.<span class="me1">append</span><span class="br0">(</span>text<span class="br0">)</span></pre></div></div></div>
+<p><br>
+That's it. You can check the equipment's state in the inventory screen, and it changes correctly as you pick up, drop, equip and dequip various items!
+</p><p><br>
+</p>
+<h2> <span class="mw-headline" id="Bonus_round"> Bonus round </span></h2>
+<p>The last bit is to make equipment useful, by letting it change the player's stats when equipped. We can do this in different ways, but as I mentioned in the beginning, it's better to avoid brittle data structures. For example, you could simply add the bonus value to a stat (say, attack power) when the item is equipped, and subtract it when dequipped. This is brittle because any tiny mistake will permanently change the player's stats!
+</p><p>A more reliable approach is to calculate on-the-fly the player's stats when they are needed, based on the original stat and any bonuses. This way there's no room for inconsistencies -- the stat is truly based on whatever bonuses apply at the moment.
+</p><p>But how can we change a stored variable to a dynamic value? Won't this mean we have to change all of the code that uses those stats? Not really, because of a neat Python feature! You can define a read-only property that is calculated on-the-fly very easily:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    @<span class="kw2">property</span>
+    <span class="kw1">def</span> power<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:
+        <span class="kw1">return</span> <span class="kw2">self</span>.<span class="me1">base_power</span> + bonus</pre></div></div></div>
+<p><br>
+The bonus will be defined later. So now accessing <i>player.power</i> will call this function instead of getting the value of a <i>power</i> variable. We still need a variable to hold the player's power not counting any bonuses, though, and that's called <i>base_power</i>. This means that, in the Fighter class's <i>__init__</i> function, we don't initialize <i>power</i> directly, but rather <i>base_power</i>:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">        <span class="kw2">self</span>.<span class="me1">base_power</span> = power</pre></div></div></div>
+<p><br>
+More generally, you can get the value of <i>power</i> normally, but you only change it through <i>base_power</i>. So, you must also make this change in <i>check_level_up</i>.
+</p><p>All that's left is to calculate the bonus! An Equipment component will remember what's its power bonus, by passing it as a new argument at initialization. I will also go ahead and define the bonuses for all the other stats:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="kw1">def</span> <span class="kw4">__init__</span><span class="br0">(</span><span class="kw2">self</span>, slot, power_bonus=<span class="nu0">0</span>, defense_bonus=<span class="nu0">0</span>, max_hp_bonus=<span class="nu0">0</span><span class="br0">)</span>:
+        <span class="kw2">self</span>.<span class="me1">power_bonus</span> = power_bonus
+        <span class="kw2">self</span>.<span class="me1">defense_bonus</span> = defense_bonus
+        <span class="kw2">self</span>.<span class="me1">max_hp_bonus</span> = max_hp_bonus</pre></div></div></div>
+<p><br>
+The <i>power</i> property can now just iterate through all equipped items, and sum up their bonuses to get the needed total:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">        bonus = <span class="kw2">sum</span><span class="br0">(</span>equipment.<span class="me1">power_bonus</span> <span class="kw1">for</span> equipment <span class="kw1">in</span> get_all_equipped<span class="br0">(</span><span class="kw2">self</span>.<span class="me1">owner</span><span class="br0">)</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+Finally, we need a helper function that returns the list of equipped items. For the player, we just go through the inventory. For monsters, we just return an empty list since they don't really have any. Feel free to change this if you want to let monsters equip items as well!
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> get_all_equipped<span class="br0">(</span>obj<span class="br0">)</span>:  <span class="co1">#returns a list of equipped items</span>
+    <span class="kw1">if</span> obj == player:
+        equipped_list = <span class="br0">[</span><span class="br0">]</span>
+        <span class="kw1">for</span> item <span class="kw1">in</span> inventory:
+            <span class="kw1">if</span> item.<span class="me1">equipment</span> <span class="kw1">and</span> item.<span class="me1">equipment</span>.<span class="me1">is_equipped</span>:
+                equipped_list.<span class="me1">append</span><span class="br0">(</span>item.<span class="me1">equipment</span><span class="br0">)</span>
+        <span class="kw1">return</span> equipped_list
+    <span class="kw1">else</span>:
+        <span class="kw1">return</span> <span class="br0">[</span><span class="br0">]</span>  <span class="co1">#other objects have no equipment</span></pre></div></div></div>
+<p><br>
+That's it! Attack power is now a dynamic property. That wasn't so hard! Remember that you can change the bonus calculation easily, so if there are other modifiers, permanent spells and other conditions, it's only a small change away.
+</p><p>For the sake of completeness, here are the properties for the other stats:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    @<span class="kw2">property</span>
+    <span class="kw1">def</span> defense<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:  <span class="co1">#return actual defense, by summing up the bonuses from all equipped items</span>
+        bonus = <span class="kw2">sum</span><span class="br0">(</span>equipment.<span class="me1">defense_bonus</span> <span class="kw1">for</span> equipment <span class="kw1">in</span> get_all_equipped<span class="br0">(</span><span class="kw2">self</span>.<span class="me1">owner</span><span class="br0">)</span><span class="br0">)</span>
+        <span class="kw1">return</span> <span class="kw2">self</span>.<span class="me1">base_defense</span> + bonus
+&nbsp;
+    @<span class="kw2">property</span>
+    <span class="kw1">def</span> max_hp<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:  <span class="co1">#return actual max_hp, by summing up the bonuses from all equipped items</span>
+        bonus = <span class="kw2">sum</span><span class="br0">(</span>equipment.<span class="me1">max_hp_bonus</span> <span class="kw1">for</span> equipment <span class="kw1">in</span> get_all_equipped<span class="br0">(</span><span class="kw2">self</span>.<span class="me1">owner</span><span class="br0">)</span><span class="br0">)</span>
+        <span class="kw1">return</span> <span class="kw2">self</span>.<span class="me1">base_max_hp</span> + bonus</pre></div></div></div>
+<p><br>
+Don't forget to make the appropriate changes in <i>check_level_up</i> as well. Now we can define some items with hefty bonuses! In <i>place_objects</i>, I changed the sword to have <i>power_bonus=3</i>, and added a shield for good measure:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">            <span class="kw1">elif</span> choice == <span class="st0">'shield'</span>:
+                <span class="co1">#create a shield</span>
+                equipment_component = Equipment<span class="br0">(</span>slot=<span class="st0">'left hand'</span>, defense_bonus=<span class="nu0">1</span><span class="br0">)</span>
+                item = Object<span class="br0">(</span>x, y, <span class="st0">'['</span>, <span class="st0">'shield'</span>, libtcod.<span class="me1">darker_orange</span>, equipment=equipment_component<span class="br0">)</span></pre></div></div></div>
+<p><br>
+You can get really creative with equipment, of course. I'll just modify the chances to make them appear at level 4 and level 8, respectively:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    item_chances<span class="br0">[</span><span class="st0">'sword'</span><span class="br0">]</span> =     from_dungeon_level<span class="br0">(</span><span class="br0">[</span><span class="br0">[</span><span class="nu0">5</span>, <span class="nu0">4</span><span class="br0">]</span><span class="br0">]</span><span class="br0">)</span>
+    item_chances<span class="br0">[</span><span class="st0">'shield'</span><span class="br0">]</span> =    from_dungeon_level<span class="br0">(</span><span class="br0">[</span><span class="br0">[</span><span class="nu0">15</span>, <span class="nu0">8</span><span class="br0">]</span><span class="br0">]</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+Now, since we don't want the player to enter the dungeon unprepared, you can give him or her some starting equipment at the end of <i>new_game</i>:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="co1">#initial equipment: a dagger</span>
+    equipment_component = Equipment<span class="br0">(</span>slot=<span class="st0">'right hand'</span>, power_bonus=<span class="nu0">2</span><span class="br0">)</span>
+    obj = Object<span class="br0">(</span><span class="nu0">0</span>, <span class="nu0">0</span>, <span class="st0">'-'</span>, <span class="st0">'dagger'</span>, libtcod.<span class="me1">sky</span>, equipment=equipment_component<span class="br0">)</span>
+    inventory.<span class="me1">append</span><span class="br0">(</span>obj<span class="br0">)</span>
+    equipment_component.<span class="me1">equip</span><span class="br0">(</span><span class="br0">)</span>
+    obj.<span class="me1">always_visible</span> = <span class="kw2">True</span></pre></div></div></div>
+<p><br>
+Not bad! I also decreased the player's starting power to 2; we don't want to be <i>too</i> generous. It's a dungeon of doom after all!
+</p><p>I showed you read-only properties, which are a breeze to use. If you're wondering about writable properties, check out the <a rel="nofollow" class="external text" href="http://docs.python.org/2/library/functions.html#property">Python docs</a> on the subject.
+</p><p>We managed to create a neat bonus system, and it's generic enough that you can add new stats and ways to change them very easily. There's also equipment and slots that you can choose at will. Now you can create all sorts of useful plunder for the player to discover!
+</p><p>The whole code is available <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13_code" title="Complete Roguelike Tutorial, using python3+libtcod, part 13 code">here</a>.
+</p>
+<!-- 
+NewPP limit report
+Preprocessor node count: 209/1000000
+Post‐expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key 133099-basin:pcache:idhash:8307-0!*!0!!en!*!* and timestamp 20191221184748 -->
+</div><div class="printfooter">
+Retrieved from "<a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13&amp;oldid=47044">http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13&amp;oldid=47044</a>"</div>
+		<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="http://www.roguebasin.com/index.php?title=Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="http://www.roguebasin.com/index.php?title=Category:Developing" title="Category:Developing">Developing</a></li></ul></div></div>		<!-- end content -->
+				<div class="visualClear"></div>
+	</div>
+</div></div>
+<div id="column-one">
+	<div id="p-cactions" class="portlet">
+		<h5>Views</h5>
+		<div class="pBody">
+			<ul>
+				<li id="ca-nstab-main" class="selected"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13" primary="1" context="subject" title="View the content page [ctrl-option-c]" accesskey="c">Page</a></li>
+				<li id="ca-talk" class="new"><a href="http://www.roguebasin.com/index.php?title=Talk:Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13&amp;action=edit&amp;redlink=1" primary="1" context="talk" title="Discussion about the content page [ctrl-option-t]" accesskey="t">Discussion</a></li>
+				<li id="ca-viewsource"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13&amp;action=edit" primary="1" title="This page is protected.
+You can view its source [ctrl-option-e]" accesskey="e">View source</a></li>
+				<li id="ca-history"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13&amp;action=history" rel="archives" title="Past revisions of this page [ctrl-option-h]" accesskey="h">History</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-personal">
+		<h5>Personal tools</h5>
+		<div class="pBody">
+			<ul>
+				<li id="pt-login"><a href="http://www.roguebasin.com/index.php?title=Special:UserLogin&amp;returnto=Complete+Roguelike+Tutorial%2C+using+python3%2Blibtcod%2C+part+13" title="You are encouraged to log in; however, it is not mandatory [ctrl-option-o]" accesskey="o">Log in / create account</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-logo">
+<a href="http://www.roguebasin.com/index.php?title=Main_Page" style="background-image: url(/skins/roguebasin/RogueBasin_logo.png);" title="Visit the main page"></a>
+	</div>
+	<div class="generated-sidebar portlet" id="p-navigation">
+		<h5>Navigation</h5>
+		<div class="pBody">
+			<ul>
+				<li id="n-mainpage"><a href="http://www.roguebasin.com/index.php?title=Main_Page" title="Visit the main page [ctrl-option-z]" accesskey="z">Main Page</a></li>
+				<li id="n-portal"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li>
+				<li id="n-recentchanges"><a href="http://www.roguebasin.com/index.php?title=Special:RecentChanges" title="A list of recent changes in the wiki [ctrl-option-r]" accesskey="r">Recent changes</a></li>
+				<li id="n-randompage"><a href="http://www.roguebasin.com/index.php?title=Special:Random" title="Load a random page [ctrl-option-x]" accesskey="x">Random page</a></li>
+				<li id="n-help"><a href="http://www.roguebasin.com/index.php?title=Help" title="The place to find out">Help</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="p-search" class="portlet">
+		<h5><label for="searchInput">Search</label></h5>
+		<div id="searchBody" class="pBody">
+			<form action="http://www.roguebasin.com/index.php" id="searchform">
+				<input type="hidden" name="title" value="Special:Search">
+				<input type="search" name="search" title="Search RogueBasin [ctrl-option-f]" accesskey="f" id="searchInput">
+				<input type="submit" name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton">&nbsp;
+				<input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton">
+			</form>
+		</div>
+	</div>
+	<div class="portlet" id="p-tb">
+		<h5>Tools</h5>
+		<div class="pBody">
+			<ul>
+				<li id="t-whatlinkshere"><a href="http://www.roguebasin.com/index.php?title=Special:WhatLinksHere/Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13" title="A list of all wiki pages that link here [ctrl-option-j]" accesskey="j">What links here</a></li>
+				<li id="t-recentchangeslinked"><a href="http://www.roguebasin.com/index.php?title=Special:RecentChangesLinked/Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13" title="Recent changes in pages linked from this page [ctrl-option-k]" accesskey="k">Related changes</a></li>
+				<li id="t-specialpages"><a href="http://www.roguebasin.com/index.php?title=Special:SpecialPages" title="A list of all special pages [ctrl-option-q]" accesskey="q">Special pages</a></li>
+				<li><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13&amp;printable=yes" rel="alternate">Printable version</a></li>
+				<li id="t-permalink"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_13&amp;oldid=47044" title="Permanent link to this revision of the page">Permanent link</a></li>
+			</ul>
+		</div>
+	</div>
+</div><!-- end of the left (by default at least) column -->
+<div class="visualClear"></div>
+<div id="footer">
+	<div id="f-poweredbyico">
+		<a href="http://www.mediawiki.org/"><img src="./Complete Roguelike Tutorial, using python3+libtcod, part 13 - RogueBasin_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31"></a>
+	</div>
+	<ul id="f-list">
+		<li id="lastmod"> This page was last modified on 7 May 2018, at 02:37.</li>
+		<li id="viewcount">This page has been accessed 1,976 times.</li>
+		<li id="privacy"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:Privacy_policy" title="RogueBasin:Privacy policy">Privacy policy</a></li>
+		<li id="about"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:About" title="RogueBasin:About">About RogueBasin</a></li>
+		<li id="disclaimer"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:General_disclaimer" title="RogueBasin:General disclaimer">Disclaimers</a></li>
+	</ul>
+</div>
+</div>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.user","mediawiki.page.ready"], null, true);
+}</script><script src="./Complete Roguelike Tutorial, using python3+libtcod, part 13 - RogueBasin_files/load(5).php" type="text/javascript"></script>
+<script src="./Complete Roguelike Tutorial, using python3+libtcod, part 13 - RogueBasin_files/load(6).php"></script>
+<!-- Served in 0.313 secs. --></body></html>

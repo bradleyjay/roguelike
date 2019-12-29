@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<!-- saved from url=(0102)http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8 -->
+<html lang="en" dir="ltr" class="client-js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Complete Roguelike Tutorial, using python3+libtcod, part 8 - RogueBasin</title>
+
+<meta name="generator" content="MediaWiki 1.19.9">
+<link rel="shortcut icon" href="http://www.roguebasin.com/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="http://www.roguebasin.com/opensearch_desc.php" title="RogueBasin (en)">
+<link rel="EditURI" type="application/rsd+xml" href="http://www.roguebasin.com/api.php?action=rsd">
+<link rel="alternate" type="application/atom+xml" title="RogueBasin Atom feed" href="http://www.roguebasin.com/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="stylesheet" href="./Complete Roguelike Tutorial, using python3+libtcod, part 8 - RogueBasin_files/load.php">
+<!--[if IE 6]><link rel="stylesheet" href="/skins/monobook/IE60Fixes.css?303" media="screen" /><![endif]-->
+<!--[if IE 7]><link rel="stylesheet" href="/skins/monobook/IE70Fixes.css?303" media="screen" /><![endif]--><style type="text/css" media="all">.js-messagebox{margin:1em 5%;padding:0.5em 2.5%;border:1px solid #ccc;background-color:#fcfcfc;font-size:0.8em}.js-messagebox .js-messagebox-group{margin:1px;padding:0.5em 2.5%;border-bottom:1px solid #ddd}.js-messagebox .js-messagebox-group:last-child{border-bottom:thin none transparent}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:8b08bdc91c52a9ffba396dccfb5b473c */
+
+
+.mw-collapsible-toggle{float:right} li .mw-collapsible-toggle{float:none} .mw-collapsible-toggle-li{list-style:none}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:4250852ed2349a0d4d0fc6509a3e7d4c */
+</style><meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="./Complete Roguelike Tutorial, using python3+libtcod, part 8 - RogueBasin_files/load(1).php">
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:c88e2bcd56513749bec09a7e29cb3ffa */
+</style>
+
+<script src="./Complete Roguelike Tutorial, using python3+libtcod, part 8 - RogueBasin_files/load(2).php"></script><script src="./Complete Roguelike Tutorial, using python3+libtcod, part 8 - RogueBasin_files/load(3).php"></script>
+<script>if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Complete_Roguelike_Tutorial,_using_python3+libtcod,_part_8","wgTitle":"Complete Roguelike Tutorial, using python3+libtcod, part 8","wgCurRevisionId":47036,"wgArticleId":8302,"wgIsArticle":true,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Developing"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgRelevantPageName":"Complete_Roguelike_Tutorial,_using_python3+libtcod,_part_8","wgRestrictionEdit":[],"wgRestrictionMove":[]});
+}</script><script>if(window.mw){
+mw.loader.implement("user.options",function($){mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"monobook","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":
+0,"watchlistdays":3,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false});;},{},{});mw.loader.implement("user.tokens",function($){mw.user.tokens.set({"editToken":"+\\","watchToken":false});;},{},{});
+
+/* cache key: 133099-basin:resourceloader:filter:minify-js:7:74a832f2292f1f4d40d425d223444e78 */
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax"]);
+}</script><script type="text/javascript" src="./Complete Roguelike Tutorial, using python3+libtcod, part 8 - RogueBasin_files/load(4).php"></script>
+<style type="text/css">/*<![CDATA[*/
+.source-python {line-height: normal;}
+.source-python li, .source-python pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for python
+ * CSS class: source-python, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.python.source-python .de1, .python.source-python .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.python.source-python  {font-family:monospace;}
+.python.source-python .imp {font-weight: bold; color: red;}
+.python.source-python li, .python.source-python .li1 {font-weight: normal; vertical-align:top;}
+.python.source-python .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.python.source-python .li2 {font-weight: bold; vertical-align:top;}
+.python.source-python .kw1 {color: #ff7700;font-weight:bold;}
+.python.source-python .kw2 {color: #008000;}
+.python.source-python .kw3 {color: #dc143c;}
+.python.source-python .kw4 {color: #0000cd;}
+.python.source-python .co1 {color: #808080; font-style: italic;}
+.python.source-python .coMULTI {color: #808080; font-style: italic;}
+.python.source-python .es0 {color: #000099; font-weight: bold;}
+.python.source-python .br0 {color: black;}
+.python.source-python .sy0 {color: #66cc66;}
+.python.source-python .st0 {color: #483d8b;}
+.python.source-python .nu0 {color: #ff4500;}
+.python.source-python .me1 {color: black;}
+.python.source-python .ln-xtra, .python.source-python li.ln-xtra, .python.source-python div.ln-xtra {background-color: #ffc;}
+.python.source-python span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=18000";
+/*]]>*/
+</style></head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-Complete_Roguelike_Tutorial_using_python3_libtcod_part_8 skin-monobook action-view">
+<div id="globalWrapper">
+<div id="column-content"><div id="content"><div id="mw-js-message" class="js-messagebox" style="display: none;"></div>
+	<a id="top"></a>
+	<div id="siteNotice"><div id="localNotice" lang="en" dir="ltr"></div></div>
+	<h1 id="firstHeading" class="firstHeading"><span dir="auto">Complete Roguelike Tutorial, using python3+libtcod, part 8</span></h1>
+	<div id="bodyContent" class="mw-body">
+		<div id="siteSub">From RogueBasin</div>
+		<div id="contentSub"></div>
+		<div id="jump-to-nav" class="mw-jump">Jump to: <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8#column-one">navigation</a>, <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8#searchInput">search</a></div>
+		<!-- start content -->
+<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><center><table border="0" cellpadding="10" cellspacing="0" style="background:#F0E68C"><tbody><tr><td><center>
+<p>This is part of a series of tutorials; the main page can be found <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod" title="Complete Roguelike Tutorial, using python3+libtcod">here</a>.
+</p>
+</center></td></tr></tbody></table></center>
+<p><br>
+</p>
+<table id="toc" class="toc"><tbody><tr><td><div id="toctitle"><h2>Contents</h2><span class="toctoggle">&nbsp;[<a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8#" class="internal" id="togglelink">hide</a>]&nbsp;</span></div>
+<ul>
+<li class="toclevel-1"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8#Items_and_inventory"><span class="tocnumber">1</span> <span class="toctext"><b>Items and inventory</b></span></a>
+<ul>
+<li class="toclevel-2 tocsection-1"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8#Placing_items"><span class="tocnumber">1.1</span> <span class="toctext">Placing items</span></a></li>
+<li class="toclevel-2 tocsection-2"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8#The_inventory_screen"><span class="tocnumber">1.2</span> <span class="toctext">The inventory screen</span></a></li>
+<li class="toclevel-2 tocsection-3"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8#Using_items"><span class="tocnumber">1.3</span> <span class="toctext">Using items</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></tbody></table>
+<p><br>
+</p>
+<center><h1> <span class="mw-headline" id="Items_and_inventory"><b>Items and inventory</b></span></h1></center>
+<p><br>
+</p>
+<h2> <span class="mw-headline" id="Placing_items"> Placing items </span></h2>
+<p>Now that our GUI is all spiffed up, let's put in some more core Roguelike functionality: the inventory! This has been a staple of Roguelikes and RPGs for literally decades. It's a way of gating the player's access to some abilities, and presents an incentive for exploration. Also, why else would you explore a dungeon if not to haul out as many precious items as you can?
+</p><p>We can place some items in each room in pretty much the same way we place monsters, at the end of the <i>place_objects</i> function:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="co1">#choose random number of items</span>
+    num_items = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, <span class="nu0">0</span>, MAX_ROOM_ITEMS<span class="br0">)</span>
+&nbsp;
+    <span class="kw1">for</span> i <span class="kw1">in</span> <span class="kw2">range</span><span class="br0">(</span>num_items<span class="br0">)</span>:
+        <span class="co1">#choose random spot for this item</span>
+        x = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, room.<span class="me1">x1</span>+<span class="nu0">1</span>, room.<span class="me1">x2</span>-<span class="nu0">1</span><span class="br0">)</span>
+        y = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, room.<span class="me1">y1</span>+<span class="nu0">1</span>, room.<span class="me1">y2</span>-<span class="nu0">1</span><span class="br0">)</span>
+&nbsp;
+        <span class="co1">#only place it if the tile is not blocked</span>
+        <span class="kw1">if</span> <span class="kw1">not</span> is_blocked<span class="br0">(</span>x, y<span class="br0">)</span>:
+            <span class="co1">#create a healing potion</span>
+            item = Object<span class="br0">(</span>x, y, <span class="st0">'!'</span>, <span class="st0">'healing potion'</span>, libtcod.<span class="me1">violet</span><span class="br0">)</span>
+&nbsp;
+            objects.<span class="me1">append</span><span class="br0">(</span>item<span class="br0">)</span>
+            item.<span class="me1">send_to_back</span><span class="br0">(</span><span class="br0">)</span>  <span class="co1">#items appear below other objects</span></pre></div></div></div>
+<p><br>
+For this to work, we must define the new constant <i>MAX_ROOM_ITEMS = 2</i> at the top. Later we'll expand this with a few magic scrolls in addition to the healing potions; this is the spot to add any items you want in your game. The healing potions don't have any special components for now; we'll get to that in a second.
+</p><p>The limits of the random position of the items (passed to <i>random_get_int</i>) are a bit different than for the monsters. In fact, the monsters' coordinates have been slightly off the whole time! They should be changed from this:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #FDECEC"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">        <span class="co1">#choose random spot for this monster</span>
+        x = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, room.<span class="me1">x1</span>, room.<span class="me1">x2</span><span class="br0">)</span>
+        y = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, room.<span class="me1">y1</span>, room.<span class="me1">y2</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+To this:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">        <span class="co1">#choose random spot for this monster</span>
+        x = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, room.<span class="me1">x1</span>+<span class="nu0">1</span>, room.<span class="me1">x2</span>-<span class="nu0">1</span><span class="br0">)</span>
+        y = libtcod.<span class="me1">random_get_int</span><span class="br0">(</span><span class="nu0">0</span>, room.<span class="me1">y1</span>+<span class="nu0">1</span>, room.<span class="me1">y2</span>-<span class="nu0">1</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+Which is one tile tighter than the room's walls in every direction. That's because the room's rectangle, as we defined it earlier, includes its walls too (<i>oops!</i>). Anyway, when the old code decided to place a monster on the walls, it wouldn't get created due to the <i>is_blocked</i> check, so there were less monsters on average -- now the game got a little harder! The healing potions should balance this effect, but of course you can always tweak the values to your liking.
+</p><p>After that embarrassing revelation, let's define the inventory! This goes before the main loop:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">inventory = <span class="br0">[</span><span class="br0">]</span></pre></div></div></div>
+<p><br>
+Simple enough: the inventory is a list of items, and it starts empty. Now the Item component -- it will hold all data and functionality that makes an object behave like an item. For it to make its way into the player's inventory, we'll start by giving it a <i>pick_up</i> method.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">class</span> Item:
+    <span class="co1">#an item that can be picked up and used.</span>
+    <span class="kw1">def</span> pick_up<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:
+        <span class="co1">#add to the player's inventory and remove from the map</span>
+        <span class="kw1">if</span> <span class="kw2">len</span><span class="br0">(</span>inventory<span class="br0">)</span> <span class="sy0">&gt;</span>= <span class="nu0">26</span>:
+            message<span class="br0">(</span><span class="st0">'Your inventory is full, cannot pick up '</span> + <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">name</span> + <span class="st0">'.'</span>, libtcod.<span class="me1">red</span><span class="br0">)</span>
+        <span class="kw1">else</span>:
+            inventory.<span class="me1">append</span><span class="br0">(</span><span class="kw2">self</span>.<span class="me1">owner</span><span class="br0">)</span>
+            objects.<span class="me1">remove</span><span class="br0">(</span><span class="kw2">self</span>.<span class="me1">owner</span><span class="br0">)</span>
+            message<span class="br0">(</span><span class="st0">'You picked up a '</span> + <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">name</span> + <span class="st0">'!'</span>, libtcod.<span class="me1">green</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+The limit of 26 is because later, in the inventory screen, items will be selected by pressing a key from A to Z, and there are 26 letters. You could overcome this restriction by implementing "pages" in the inventory, or a fancier interface with scrollbars. That would be a bit harder, so we'll stick to this for now. You could also assign weights to the items and limit the total weight here, as some games do.
+</p><p>This component must be accepted by the <i>Object</i> 's <i>__init__</i> method, like all other components. Just add another parameter to it <i>item=None</i>, and an initialization similar to the other components:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">        <span class="kw2">self</span>.<span class="me1">item</span> = item
+        <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">item</span>:  <span class="co1">#let the Item component know who owns it</span>
+            <span class="kw2">self</span>.<span class="me1">item</span>.<span class="me1">owner</span> = <span class="kw2">self</span></pre></div></div></div>
+<p><br>
+Now that we have an Item component, you can add it to the healing potion in <i>place_objects</i>:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">            item_component = Item<span class="br0">(</span><span class="br0">)</span>
+            item = Object<span class="br0">(</span>x, y, <span class="st0">'!'</span>, <span class="st0">'healing potion'</span>, libtcod.<span class="me1">violet</span>, item=item_component<span class="br0">)</span></pre></div></div></div>
+<p><br>
+How does the player pick up an item? It's very easy: just test for another key in the <i>handle_keys</i> function. If it's pressed, look for an item under the player and pick it up. The new code goes between the <i>else</i> and the <i>return 'didnt-take-turn' </i> line:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">        <span class="kw1">else</span>:
+            <span class="co1">#test for other keys</span>
+            key_char = <span class="kw2">chr</span><span class="br0">(</span>key.<span class="me1">c</span><span class="br0">)</span>
+&nbsp;
+            <span class="kw1">if</span> key_char == <span class="st0">'g'</span>:
+                <span class="co1">#pick up an item</span>
+                <span class="kw1">for</span> <span class="kw2">object</span> <span class="kw1">in</span> objects:  <span class="co1">#look for an item in the player's tile</span>
+                    <span class="kw1">if</span> <span class="kw2">object</span>.<span class="me1">x</span> == player.<span class="me1">x</span> <span class="kw1">and</span> <span class="kw2">object</span>.<span class="me1">y</span> == player.<span class="me1">y</span> <span class="kw1">and</span> <span class="kw2">object</span>.<span class="me1">item</span>:
+                        <span class="kw2">object</span>.<span class="me1">item</span>.<span class="me1">pick_up</span><span class="br0">(</span><span class="br0">)</span>
+                        <span class="kw1">break</span>
+&nbsp;
+            <span class="kw1">return</span> <span class="st0">'didnt-take-turn'</span></pre></div></div></div>
+<p><br>
+You can test it out now! There will be a few potions scattered around, and you'll get a message when you pick them up by pressing G. The inventory is still invisible though.
+</p>
+<h2> <span class="mw-headline" id="The_inventory_screen"> The inventory screen </span></h2>
+<p>We now get to what's probably the trickiest part: showing the inventory screen. Since the functionality is tightly bound to the user interface, it's hard to do it without super-messy code.
+</p><p>To minimize the amount of hacks, we'll define a single function to present a list of options to the player, and reuse the hell out of it! We'll start by defining its parameters so we can decide exactly what it's supposed to do:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> menu<span class="br0">(</span>header, options, width<span class="br0">)</span>:</pre></div></div></div>
+<p><br>
+This function should show a window with a string at the top, the <i>header</i>, which can be the title of the window and/or an explanatory text (say, "Choose an item to use" or "Choose an item to drop"). Following are the <i>options</i>, which are nothing more than a list of strings (for instance, the names of the items). We also need to define the window's <i>width</i>; the height is implicit, since it depends on the header height and number of options.
+</p><p>A letter will be shown next to each option (A, B, ...) so you can select it by pressing that key. Finally, the function returns the index of the selected option (starting with 0), or <i>None</i> if the user pressed some other key. We'll start by just displaying the menu and worry about choosing an option later.
+</p><p>First, check if there are more options than allowed. Since the <i>menu</i> function is supposed to be reused, it's possible that in the future you'll get too carried away and try to give it more options than the letters from A to Z! It's better to get an early error and fix it than let it slide and get harder-to-track errors down the line.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="kw1">if</span> <span class="kw2">len</span><span class="br0">(</span>options<span class="br0">)</span> <span class="sy0">&gt;</span> <span class="nu0">26</span>: <span class="kw1">raise</span> <span class="kw2">ValueError</span><span class="br0">(</span><span class="st0">'Cannot have a menu with more than 26 options.'</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+Now we calculate the height of the window; as I said, it's implicit. The header will be shown using the <i>console_print_left_rect</i> function, which can word-wrap long sentences so it fits a given width. The number of lines after word-wrapping can be calculated with <i>console_get_height_rect</i>; so the total height is that plus the number of options.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="co1">#calculate total height for the header (after auto-wrap) and one line per option</span>
+    header_height = libtcod.<span class="me1">console_get_height_rect</span><span class="br0">(</span>con, <span class="nu0">0</span>, <span class="nu0">0</span>, width, SCREEN_HEIGHT, header<span class="br0">)</span>
+    height = <span class="kw2">len</span><span class="br0">(</span>options<span class="br0">)</span> + header_height</pre></div></div></div>
+<p><br>
+Given the window's size, we can create an off-screen console where the window's contents will be drawn first. The header is printed at the top, using the auto-wrap function.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="co1">#create an off-screen console that represents the menu's window</span>
+    window = libtcod.<span class="me1">console_new</span><span class="br0">(</span>width, height<span class="br0">)</span>
+&nbsp;
+    <span class="co1">#print the header, with auto-wrap</span>
+    libtcod.<span class="me1">console_set_default_foreground</span><span class="br0">(</span>window, libtcod.<span class="me1">white</span><span class="br0">)</span>
+    libtcod.<span class="me1">console_print_rect_ex</span><span class="br0">(</span>window, <span class="nu0">0</span>, <span class="nu0">0</span>, width, height, libtcod.<span class="me1">BKGND_NONE</span>, libtcod.<span class="me1">LEFT</span>, header<span class="br0">)</span></pre></div></div></div>
+<p><br>
+Now to the actual options, printed in a loop. The Y coordinate of the first option is right below the header; we print the option's text and increment it. We also want to start with the letter A and increment it each time, to show it next to the option's text. The <i>ord</i> function returns the ASCII code of the letter A; we can then increment it to get the codes of the remaining letters. To convert an ASCII code back to a character (string), we use the <i>chr</i> function. These are built-in functions; you can read up on them (and others) in <a rel="nofollow" class="external text" href="http://docs.python.org/library/functions.html">the Python docs</a>.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="co1">#print all the options</span>
+    y = header_height
+    letter_index = <span class="kw2">ord</span><span class="br0">(</span><span class="st0">'a'</span><span class="br0">)</span>
+    <span class="kw1">for</span> option_text <span class="kw1">in</span> options:
+        text = <span class="st0">'('</span> + <span class="kw2">chr</span><span class="br0">(</span>letter_index<span class="br0">)</span> + <span class="st0">') '</span> + option_text
+        libtcod.<span class="me1">console_print_ex</span><span class="br0">(</span>window, <span class="nu0">0</span>, y, libtcod.<span class="me1">BKGND_NONE</span>, libtcod.<span class="me1">LEFT</span>, text<span class="br0">)</span>
+        y += <span class="nu0">1</span>
+        letter_index += <span class="nu0">1</span></pre></div></div></div>
+<p><br>
+Ok, all of the window's contents are stored in the off-screen console! It's a simple matter of calling <i>console_blit</i> to display them on the screen. These little formulae calculate what the position of the top-left corner of the window should be, so that it's centered on the screen.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="co1">#blit the contents of "window" to the root console</span>
+    x = SCREEN_WIDTH/<span class="nu0">2</span> - width/<span class="nu0">2</span>
+    y = SCREEN_HEIGHT/<span class="nu0">2</span> - height/<span class="nu0">2</span>
+    libtcod.<span class="me1">console_blit</span><span class="br0">(</span>window, <span class="nu0">0</span>, <span class="nu0">0</span>, width, height, <span class="nu0">0</span>, x, y, <span class="nu0">1.0</span>, <span class="nu0">0.7</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+The last 2 parameters to <i>console_blit</i> hadn't been used in our game before: according to the libtcod docs, they define the foreground and background transparency, respectively. The first is 1.0 so the foreground (the text) is printed fully opaque, as usual. But since the second one is a smaller value, what happens is that the off-screen console's background (which is black by default) does not entirely replace the background colors that were previously on the screen. So what you see is a semi-transparent window, overlaying the game! As you can see, these neat effects are very easy to do with libtcod.
+</p><p>It's not complete though; this screen will be shown for a single frame and then vanish immediately, replaced by the new frame. We need to stop time until the player makes a choice, and only then can the game carry on. This is easy to do with <i>console_wait_for_keypress</i>. There's also the need to <i>flush</i> the screen to present the changes before waiting for input:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="co1">#present the root console to the player and wait for a key-press</span>
+    libtcod.<span class="me1">console_flush</span><span class="br0">(</span><span class="br0">)</span>
+    key = libtcod.<span class="me1">console_wait_for_keypress</span><span class="br0">(</span><span class="kw2">True</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+That was one really long function! But if you base most of your interfaces on this function, you won't need to create any more like it. As an example, here's how you show an inventory -- just build a list of the items' names, and call the <i>menu</i> function:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> inventory_menu<span class="br0">(</span>header<span class="br0">)</span>:
+    <span class="co1">#show a menu with each item of the inventory as an option</span>
+    <span class="kw1">if</span> <span class="kw2">len</span><span class="br0">(</span>inventory<span class="br0">)</span> == <span class="nu0">0</span>:
+        options = <span class="br0">[</span><span class="st0">'Inventory is empty.'</span><span class="br0">]</span>
+    <span class="kw1">else</span>:
+        options = <span class="br0">[</span>item.<span class="me1">name</span> <span class="kw1">for</span> item <span class="kw1">in</span> inventory<span class="br0">]</span>
+&nbsp;
+    index = menu<span class="br0">(</span>header, options, INVENTORY_WIDTH<span class="br0">)</span></pre></div></div></div>
+<p><br>
+It also tells the player if the inventory is empty; simply displaying an empty list would be rude! The constant <i>INVENTORY_WIDTH = 50</i> is defined at the top, as usual. The <i>header</i> text is a parameter because we want to call this both for using and dropping items (and maybe other actions). Speaking of which, we can define the inventory key right now, in <i>handle_keys</i> (after the code to pick up items). The line break <i>\n</i> after the header gives one line of separation between it and the options.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">            <span class="kw1">if</span> key_char == <span class="st0">'i'</span>:
+                <span class="co1">#show the inventory</span>
+                inventory_menu<span class="br0">(</span><span class="st0">'Press the key next to an item to use it, or any other to cancel.<span class="es0">\n</span>'</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+Finally, the inventory is visible! You can list the items you pick up by pressing I. Selecting them does nothing though; that is handled in the next section.
+</p><p><br>
+</p>
+<h2> <span class="mw-headline" id="Using_items"> Using items </span></h2>
+<p>What happens when you use an item? Well, it depends on which item you're talking about. They're all different, so the "use" behavior of each item must be defined as a different function. For the Item component to know which one is it, you need to pass it at initialization, just like the Fighter with its <i>death_function</i>.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="kw1">def</span> <span class="kw4">__init__</span><span class="br0">(</span><span class="kw2">self</span>, use_function=<span class="kw2">None</span><span class="br0">)</span>:
+        <span class="kw2">self</span>.<span class="me1">use_function</span> = use_function</pre></div></div></div>
+<p><br>
+Then, a generic method can call the Item's <i>use_function</i>:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="kw1">def</span> use<span class="br0">(</span><span class="kw2">self</span><span class="br0">)</span>:
+        <span class="co1">#just call the "use_function" if it is defined</span>
+        <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">use_function</span> <span class="kw1">is</span> <span class="kw2">None</span>:
+            message<span class="br0">(</span><span class="st0">'The '</span> + <span class="kw2">self</span>.<span class="me1">owner</span>.<span class="me1">name</span> + <span class="st0">' cannot be used.'</span><span class="br0">)</span>
+        <span class="kw1">else</span>:
+            <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">use_function</span><span class="br0">(</span><span class="br0">)</span> <span class="sy0">!</span>= <span class="st0">'cancelled'</span>:
+                inventory.<span class="me1">remove</span><span class="br0">(</span><span class="kw2">self</span>.<span class="me1">owner</span><span class="br0">)</span>  <span class="co1">#destroy after use, unless it was cancelled for some reason</span></pre></div></div></div>
+<p><br>
+If it's undefined, the item can't be used. Otherwise the function is called, and the item is destroyed (since most items are single-use).  We'll also allow the function to return a special string in case it found that it can't be used after all; for instance, the player is already at full health, so the potion shouldn't be destroyed.
+</p><p>Now let's make the function for the healing potion! It's quite straightforward, as it simply calls a <i>heal</i> method of the Fighter component (which manages health).
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> cast_heal<span class="br0">(</span><span class="br0">)</span>:
+    <span class="co1">#heal the player</span>
+    <span class="kw1">if</span> player.<span class="me1">fighter</span>.<span class="me1">hp</span> == player.<span class="me1">fighter</span>.<span class="me1">max_hp</span>:
+        message<span class="br0">(</span><span class="st0">'You are already at full health.'</span>, libtcod.<span class="me1">red</span><span class="br0">)</span>
+        <span class="kw1">return</span> <span class="st0">'cancelled'</span>
+&nbsp;
+    message<span class="br0">(</span><span class="st0">'Your wounds start to feel better!'</span>, libtcod.<span class="me1">light_violet</span><span class="br0">)</span>
+    player.<span class="me1">fighter</span>.<span class="me1">heal</span><span class="br0">(</span>HEAL_AMOUNT<span class="br0">)</span></pre></div></div></div>
+<p><br>
+The <i>heal</i> method is very simple too; still, it's handy to keep it since it will probably be used multiple times. The constant <i>HEAL_AMOUNT = 4</i> is defined at the top.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="kw1">def</span> heal<span class="br0">(</span><span class="kw2">self</span>, amount<span class="br0">)</span>:
+        <span class="co1">#heal by the given amount, without going over the maximum</span>
+        <span class="kw2">self</span>.<span class="me1">hp</span> += amount
+        <span class="kw1">if</span> <span class="kw2">self</span>.<span class="me1">hp</span> <span class="sy0">&gt;</span> <span class="kw2">self</span>.<span class="me1">max_hp</span>:
+            <span class="kw2">self</span>.<span class="me1">hp</span> = <span class="kw2">self</span>.<span class="me1">max_hp</span></pre></div></div></div>
+<p><br>
+To make the healing potion object call it on use, pass it as a parameter to the Item component, in <i>place_objects</i>.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">            item_component = Item<span class="br0">(</span>use_function=cast_heal<span class="br0">)</span></pre></div></div></div>
+<p><br>
+That's it for creating usable items! You can make other items easily by just defining their <i>use_function</i>. This could also work for wielding weapons or wearing armor, zapping wands, rubbing a magic lamp and all that stuff we know and love.
+</p><p>We now need to get back to the <i>menu</i> function, to finish it so it can actually select an item. It's only a few lines of code though; we already have the key from <i>console_wait_for_keypress</i>, and it's just a matter of converting it to the selected option's index. We do that by subtracting the ASCII code of the letter A, so we get key codes from 0 to 25 corresponding to letters A to Z. Anything out of that range means it's not a valid key. Actually, any index over the number of options is invalid too, since the number of options is usually smaller than 26.
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="co1">#convert the ASCII code to an index; if it corresponds to an option, return it</span>
+    index = key.<span class="me1">c</span> - <span class="kw2">ord</span><span class="br0">(</span><span class="st0">'a'</span><span class="br0">)</span>
+    <span class="kw1">if</span> index <span class="sy0">&gt;</span>= <span class="nu0">0</span> <span class="kw1">and</span> index <span class="sy0">&lt;</span> <span class="kw2">len</span><span class="br0">(</span>options<span class="br0">)</span>: <span class="kw1">return</span> index
+    <span class="kw1">return</span> <span class="kw2">None</span></pre></div></div></div>
+<p><br>
+This returns a valid index, or <i>None</i> if something else was pressed. The <i>inventory_menu</i> function can make use of that index, and return the corresponding item, so this goes at the end:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    <span class="co1">#if an item was chosen, return it</span>
+    <span class="kw1">if</span> index <span class="kw1">is</span> <span class="kw2">None</span> <span class="kw1">or</span> <span class="kw2">len</span><span class="br0">(</span>inventory<span class="br0">)</span> == <span class="nu0">0</span>: <span class="kw1">return</span> <span class="kw2">None</span>
+    <span class="kw1">return</span> inventory<span class="br0">[</span>index<span class="br0">]</span>.<span class="me1">item</span></pre></div></div></div>
+<p><br>
+The <i>inventory_menu</i> function is very handy; it returns the selected item directly, or <i>None</i> if cancelled. We can now change the code in <i>handle_keys</i> to use the selected item:
+</p><p><br>
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">            <span class="kw1">if</span> key_char == <span class="st0">'i'</span>:
+                <span class="co1">#show the inventory; if an item is selected, use it</span>
+                chosen_item = inventory_menu<span class="br0">(</span><span class="st0">'Press the key next to an item to use it, or any other to cancel.<span class="es0">\n</span>'</span><span class="br0">)</span>
+                <span class="kw1">if</span> chosen_item <span class="kw1">is</span> <span class="kw1">not</span> <span class="kw2">None</span>:
+                    chosen_item.<span class="me1">use</span><span class="br0">(</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+There you go, the inventory code is complete! Well, minus dropping items. That's fairly easy with the <i>inventory_menu</i>, but to keep this from getting long we'll leave it to the next part: magic scrolls! That will really make the most of this inventory system.
+</p><p><br>
+The whole code is available <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8_code&amp;action=edit&amp;redlink=1" class="new" title="Complete Roguelike Tutorial, using python3+libtcod, part 8 code (page does not exist)">here</a>.
+</p><p><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_9" title="Complete Roguelike Tutorial, using python3+libtcod, part 9">Go on to the next part</a>.
+</p>
+<!-- 
+NewPP limit report
+Preprocessor node count: 265/1000000
+Post‐expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key 133099-basin:pcache:idhash:8302-0!*!0!!en!*!* and timestamp 20191216122340 -->
+</div><div class="printfooter">
+Retrieved from "<a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8&amp;oldid=47036">http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8&amp;oldid=47036</a>"</div>
+		<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="http://www.roguebasin.com/index.php?title=Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="http://www.roguebasin.com/index.php?title=Category:Developing" title="Category:Developing">Developing</a></li></ul></div></div>		<!-- end content -->
+				<div class="visualClear"></div>
+	</div>
+</div></div>
+<div id="column-one">
+	<div id="p-cactions" class="portlet">
+		<h5>Views</h5>
+		<div class="pBody">
+			<ul>
+				<li id="ca-nstab-main" class="selected"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8" primary="1" context="subject" title="View the content page [ctrl-option-c]" accesskey="c">Page</a></li>
+				<li id="ca-talk" class="new"><a href="http://www.roguebasin.com/index.php?title=Talk:Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8&amp;action=edit&amp;redlink=1" primary="1" context="talk" title="Discussion about the content page [ctrl-option-t]" accesskey="t">Discussion</a></li>
+				<li id="ca-viewsource"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8&amp;action=edit" primary="1" title="This page is protected.
+You can view its source [ctrl-option-e]" accesskey="e">View source</a></li>
+				<li id="ca-history"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8&amp;action=history" rel="archives" title="Past revisions of this page [ctrl-option-h]" accesskey="h">History</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-personal">
+		<h5>Personal tools</h5>
+		<div class="pBody">
+			<ul>
+				<li id="pt-login"><a href="http://www.roguebasin.com/index.php?title=Special:UserLogin&amp;returnto=Complete+Roguelike+Tutorial%2C+using+python3%2Blibtcod%2C+part+8" title="You are encouraged to log in; however, it is not mandatory [ctrl-option-o]" accesskey="o">Log in / create account</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-logo">
+<a href="http://www.roguebasin.com/index.php?title=Main_Page" style="background-image: url(/skins/roguebasin/RogueBasin_logo.png);" title="Visit the main page"></a>
+	</div>
+	<div class="generated-sidebar portlet" id="p-navigation">
+		<h5>Navigation</h5>
+		<div class="pBody">
+			<ul>
+				<li id="n-mainpage"><a href="http://www.roguebasin.com/index.php?title=Main_Page" title="Visit the main page [ctrl-option-z]" accesskey="z">Main Page</a></li>
+				<li id="n-portal"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li>
+				<li id="n-recentchanges"><a href="http://www.roguebasin.com/index.php?title=Special:RecentChanges" title="A list of recent changes in the wiki [ctrl-option-r]" accesskey="r">Recent changes</a></li>
+				<li id="n-randompage"><a href="http://www.roguebasin.com/index.php?title=Special:Random" title="Load a random page [ctrl-option-x]" accesskey="x">Random page</a></li>
+				<li id="n-help"><a href="http://www.roguebasin.com/index.php?title=Help" title="The place to find out">Help</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="p-search" class="portlet">
+		<h5><label for="searchInput">Search</label></h5>
+		<div id="searchBody" class="pBody">
+			<form action="http://www.roguebasin.com/index.php" id="searchform">
+				<input type="hidden" name="title" value="Special:Search">
+				<input type="search" name="search" title="Search RogueBasin [ctrl-option-f]" accesskey="f" id="searchInput">
+				<input type="submit" name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton">&nbsp;
+				<input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton">
+			</form>
+		</div>
+	</div>
+	<div class="portlet" id="p-tb">
+		<h5>Tools</h5>
+		<div class="pBody">
+			<ul>
+				<li id="t-whatlinkshere"><a href="http://www.roguebasin.com/index.php?title=Special:WhatLinksHere/Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8" title="A list of all wiki pages that link here [ctrl-option-j]" accesskey="j">What links here</a></li>
+				<li id="t-recentchangeslinked"><a href="http://www.roguebasin.com/index.php?title=Special:RecentChangesLinked/Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8" title="Recent changes in pages linked from this page [ctrl-option-k]" accesskey="k">Related changes</a></li>
+				<li id="t-specialpages"><a href="http://www.roguebasin.com/index.php?title=Special:SpecialPages" title="A list of all special pages [ctrl-option-q]" accesskey="q">Special pages</a></li>
+				<li><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8&amp;printable=yes" rel="alternate">Printable version</a></li>
+				<li id="t-permalink"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_8&amp;oldid=47036" title="Permanent link to this revision of the page">Permanent link</a></li>
+			</ul>
+		</div>
+	</div>
+</div><!-- end of the left (by default at least) column -->
+<div class="visualClear"></div>
+<div id="footer">
+	<div id="f-poweredbyico">
+		<a href="http://www.mediawiki.org/"><img src="./Complete Roguelike Tutorial, using python3+libtcod, part 8 - RogueBasin_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31"></a>
+	</div>
+	<ul id="f-list">
+		<li id="lastmod"> This page was last modified on 7 May 2018, at 02:32.</li>
+		<li id="viewcount">This page has been accessed 1,782 times.</li>
+		<li id="privacy"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:Privacy_policy" title="RogueBasin:Privacy policy">Privacy policy</a></li>
+		<li id="about"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:About" title="RogueBasin:About">About RogueBasin</a></li>
+		<li id="disclaimer"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:General_disclaimer" title="RogueBasin:General disclaimer">Disclaimers</a></li>
+	</ul>
+</div>
+</div>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.user","mediawiki.page.ready"], null, true);
+}</script><script src="./Complete Roguelike Tutorial, using python3+libtcod, part 8 - RogueBasin_files/load(5).php" type="text/javascript"></script>
+<script src="./Complete Roguelike Tutorial, using python3+libtcod, part 8 - RogueBasin_files/load(6).php"></script>
+<!-- Served in 0.169 secs. --></body></html>
