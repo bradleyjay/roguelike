@@ -168,6 +168,13 @@ class Object:
             tcod.console_set_default_foreground(con, self.color)
             tcod.console_put_char(con, self.x, self.y, self.char, tcod.BKGND_NONE)
 
+    def animate(self):
+        # set color, draw char at this position (but only if player can see it in FOV)
+        if tcod.map_is_in_fov(fov_grid, self.x, self.y):
+            tcod.console_set_default_foreground(con, self.color)
+            # tcod.console_put_char(con, self.x, self.y, self.char, tcod.BKGND_NONE)
+            tcod.console_put_char(con, self.x, self.y, self.char)
+
     def clear(self):
         # erase this character that represents this obj
         tcod.console_put_char(con, self.x, self.y, ' ', tcod.BKGND_NONE)
@@ -270,6 +277,7 @@ class Ability:
         #     message('Item used...ish')
 
 class Fighter:
+
     # combat related properties and methods (monster, player, NPC)
     def __init__(self, hp, defense, power, xp, death_function=None):
         self.max_hp = hp
@@ -293,6 +301,9 @@ class Fighter:
                     player.fighter.xp += self.xp
 
     def attack(self, target):
+
+        # global animation_list
+
         # a simple formula for attack damage
         damage = self.power - target.fighter.defense
 
@@ -307,6 +318,13 @@ class Fighter:
             # make target take some damage
             message(str(self.owner.name.capitalize()) + ' attacks ' + str(target.name) + ' for ' + str(damage) + ' HP!', text_color)
             target.fighter.take_damage(damage)
+
+            # add to animation list
+            # animation_component = None
+            slash_graphic = Object(target.x, target.y, '/', 'Slash!', tcod.red)
+            # simple red slash on draw
+            animations_list.append(slash_graphic)
+
         else:
             message(str(self.owner.name.capitalize()) + 'attacks ' + str(target.name) + ' but it has no effect!', tcod.white)
 
@@ -316,6 +334,7 @@ class Fighter:
         self.hp += amount
         if self.hp > self.max_hp:
             self.hp = self.max_hp
+
 class BasicMonster:
     # AI for a basic monster
     def take_turn(self):
@@ -692,7 +711,29 @@ def render_all():
     tcod.console_blit(panel, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, PANEL_Y)
 
 
+def render_animations():
 
+    global animations_list
+    """
+    need global list for queued animations, loop over list til complete. ALl actions that need animations should add things to that list
+    """
+
+    # # draw all animations in the list
+    # single turn animations for now - later, can either 1) have this list iterate, pause, iterate, pause -> longer spell effects and so on
+    # 2) draw things that persist
+    # could have a frames attribute, and a turns attribute - iteration is -= 1 frame, turns is once at end - objects check and remove themselves if turns = 0?
+
+    for animation in animations_list:
+        animation.animate()
+        # note, no objects.append(). I don't want these cluttering the objects list - possible memory leak if that doesn't work
+
+    #blit the contents of "con" to the root console and present it
+    tcod.console_blit(con, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0)
+    tcod.console_flush()
+
+    # print("I drew it")
+    # input()
+    animations_list = []
 
 def place_objects(room):
     # choose a random number of monsters
@@ -1414,11 +1455,11 @@ def new_game():
 
     # handle inventory
     inventory = []
-    # ability_list = []
+    ability_list = []
 
     # ability_component = Ability(use_function=cast_gaurd)
     # ability = Object(x,y, '!', 'cast_gaurd', tcod.blue, ability=ability_component, always_visible=True)
-    ability_list.append(ability)
+    # ability_list.append(ability) # for now, comment. No implimentation for abilities
 
     # message console
     game_msgs = []
@@ -1440,10 +1481,11 @@ def initialize_fov():
 
 def play_game():
 
-    global key, mouse
+    global key, mouse, animations_list
     player_action = None
     mouse = tcod.Mouse()
     key = tcod.Key()
+    animations_list = [] # list holding any and all animations to do at End of Turn
 
     while not tcod.console_is_window_closed():
 
@@ -1471,11 +1513,15 @@ def play_game():
                 if object.ai:
                     object.ai.take_turn()
 
+        # render animations - End of Turn animations
+        if animations_list:
+            # print(animations_list)
+            render_animations()
+            # print(animations_list)
+
 
 def main_menu():
     img = tcod.image_load('skeletonSplash2.png')
-
-
 
     while not tcod.console_is_window_closed():
 
