@@ -118,7 +118,7 @@ class Rect:
 class Object:
     # catch-all object class. Player, monsters, item, everything will be a character on-screen.
 
-    def __init__(self, x, y, char, name, color, blocks=False, always_visible=False, fighter=None, ai=None, item=None): #, ability=None):
+    def __init__(self, x, y, char, name, color, blocks=False, always_visible=False, fighter=None, ai=None, item=None, animation=None): #, ability=None):
         self.always_visible = always_visible
 
         self.x = x
@@ -151,6 +151,11 @@ class Object:
         if self.item: # let item component know who owns it
             self.item.owner = self
 
+        # Animation
+        self.animation = animation
+        if self.animation: # let animation component know who owns it
+            self.animation.owner = self
+
         # Ability
         # self.ability = ability
         # if self.ability:
@@ -168,12 +173,12 @@ class Object:
             tcod.console_set_default_foreground(con, self.color)
             tcod.console_put_char(con, self.x, self.y, self.char, tcod.BKGND_NONE)
 
-    def animate(self):
-        # set color, draw char at this position (but only if player can see it in FOV)
-        if tcod.map_is_in_fov(fov_grid, self.x, self.y):
-            tcod.console_set_default_foreground(con, self.color)
-            # tcod.console_put_char(con, self.x, self.y, self.char, tcod.BKGND_NONE)
-            tcod.console_put_char(con, self.x, self.y, self.char)
+    # def animate(self):
+    #     # set color, draw char at this position (but only if player can see it in FOV)
+    #     if tcod.map_is_in_fov(fov_grid, self.x, self.y):
+    #         tcod.console_set_default_foreground(con, self.color)
+    #         # tcod.console_put_char(con, self.x, self.y, self.char, tcod.BKGND_NONE)
+    #         tcod.console_put_char(con, self.x, self.y, self.char)
 
     def clear(self):
         # erase this character that represents this obj
@@ -276,14 +281,58 @@ class Ability:
         # else:
         #     message('Item used...ish')
 
+# slash_graphic = Object(target.x, target.y, '/', 'Slash!', tcod.red)
+## Animation component
+
+# def __init__(self, x, y, char, name, color, blocks=False, always_visible=False, fighter=None, ai=None, item=None, animation=None): #,
+
+class Animation:
+
+    # combat related properties and methods (monster, player, NPC)
+    def __init__(self, char, color, frames, duration=1):
+        self.char = char
+        self.color = color
+        self.frames = frames
+        self.duration = duration
+
+
+        # don't worry about framed animations yet - get componenet working first, with removal from list.
+
+
+    def animate(self):
+        # set color, draw char at this position (but only if player can see it in FOV)
+        if tcod.map_is_in_fov(fov_grid, self.owner.x, self.owner.y):
+            tcod.console_set_default_foreground(con, self.color)
+            # tcod.console_put_char(con, self.x, self.y, self.char, tcod.BKGND_NONE)
+            tcod.console_put_char(con, self.owner.x, self.owner.y, self.char)
+
+        if self.duration >= 1:
+            self.duration -= 1
+            print(self.duration)
+        if self.duration == 0:
+            print('REMOVING MYSELF OK')
+            # input()
+            animations_list.remove(self.owner) # potential #FIXME
+
+
+
+
+    # def remove(self):
+    #     pass
+
+    #     # remove this from the animation list
+
+
+
 class Fighter:
 
     # combat related properties and methods (monster, player, NPC)
-    def __init__(self, hp, defense, power, xp, death_function=None):
+    def __init__(self, hp, defense, power, xp, power_var=.1, death_function=None):
         self.max_hp = hp
         self.hp = hp
         self.defense = defense
         self.power = power
+        self.power_var = power_var
         self.xp = xp
         self.death_function = death_function
 
@@ -302,10 +351,14 @@ class Fighter:
 
     def attack(self, target):
 
-        # global animation_list
-
         # a simple formula for attack damage
-        damage = self.power - target.fighter.defense
+        # return integer max of power formula and 1. Account for variance, then % DR from armor.
+
+        raw_damage = self.power * ( 1 + random.uniform(-self.power_var,self.power_var)) * ( 10 / (10 + target.fighter.defense))
+
+        # print(raw_damage)
+
+        damage = max(int(raw_damage), 1)
 
         # lazy random damage
         # damage = int(self.power * (tcod.random_get_int(0,75,125) / 100)) - target.fighter.defense
@@ -320,8 +373,8 @@ class Fighter:
             target.fighter.take_damage(damage)
 
             # add to animation list
-            # animation_component = None
-            slash_graphic = Object(target.x, target.y, '/', 'Slash!', tcod.red)
+            animation_component = Animation('/', tcod.red, frames=0, duration=1)
+            slash_graphic = Object(target.x, target.y, '', 'Slash!', tcod.red, animation=animation_component)
             # simple red slash on draw
             animations_list.append(slash_graphic)
 
@@ -334,6 +387,8 @@ class Fighter:
         self.hp += amount
         if self.hp > self.max_hp:
             self.hp = self.max_hp
+
+#### AI Components
 
 class BasicMonster:
     # AI for a basic monster
@@ -395,11 +450,12 @@ class RangedMonster:
 
     def stockpile(self):
         self.ammo += 1
-        message('The ' + self.owner.name + ' is loads its weapon!', tcod.red)
+        message('The ' + self.owner.name + ' loads its weapon!', tcod.red)
 
     def ranged_attack(self):
         self.owner.fighter.attack(player)
         self.ammo -= 1
+        # animations_list.append(missle_graphic) # FIXME
 
 class ConfusedMonster:
     # AI for a confused monster
@@ -723,17 +779,18 @@ def render_animations():
     # 2) draw things that persist
     # could have a frames attribute, and a turns attribute - iteration is -= 1 frame, turns is once at end - objects check and remove themselves if turns = 0?
 
-    for animation in animations_list:
-        animation.animate()
+    for instance in animations_list:
+        instance.animation.animate()
         # note, no objects.append(). I don't want these cluttering the objects list - possible memory leak if that doesn't work
 
     #blit the contents of "con" to the root console and present it
     tcod.console_blit(con, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0)
     tcod.console_flush()
 
-    # print("I drew it")
+    print("I drew it")
+    print(animations_list)
     # input()
-    animations_list = []
+    # animations_list = [] # some animations are longer than 1 turn. should update to use self.owner.x and y though
 
 def place_objects(room):
     # choose a random number of monsters
