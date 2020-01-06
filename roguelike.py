@@ -306,13 +306,13 @@ class Animation:
             # tcod.console_put_char(con, self.x, self.y, self.char, tcod.BKGND_NONE)
             tcod.console_put_char(con, self.owner.x, self.owner.y, self.char)
 
-        if self.duration >= 1:
+        if self.duration > 0:
             self.duration -= 1
             print(self.duration)
         if self.duration == 0:
             print('REMOVING MYSELF OK')
             # input()
-            animations_list.remove(self.owner) # potential #FIXME
+            animations_list.remove(self.owner)
 
 
 
@@ -455,7 +455,7 @@ class RangedMonster:
     def ranged_attack(self):
         self.owner.fighter.attack(player)
         self.ammo -= 1
-        # animations_list.append(missle_graphic) # FIXME
+        # animations_list.append(missle_graphic) # FIXME - requires implimenting frames in animatoins, so missle moves 1/3 distance, say, to player per frame, then animation removes itself at frame and duration 0.
 
 class ConfusedMonster:
     # AI for a confused monster

@@ -23,3 +23,10 @@ http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_pyt
 STOPPED: Testing random choice function in monster, item population. About to start: "Monster and item progression"
 
 http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12
+
+
+Next up:
+
+- animations with multiple frames (missles, in ranged_attack specifically)
+- fireball and such as multi-frame animations
+- Abilities and abilities menu
