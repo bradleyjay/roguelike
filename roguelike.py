@@ -289,22 +289,54 @@ class Ability:
 class Animation:
 
     # combat related properties and methods (monster, player, NPC)
-    def __init__(self, char, color, frames, duration=1):
+    def __init__(self, start, end, char, color, frames=1, duration=1):
+        self.start = (start[0], start[1])
+        self.end = (end[0], end[1]) 
         self.char = char
         self.color = color
         self.frames = frames
         self.duration = duration
 
 
-        # don't worry about framed animations yet - get componenet working first, with removal from list.
+
+        # don't worry about framed animations yet - get component working first, with removal from list.
 
 
     def animate(self):
         # set color, draw char at this position (but only if player can see it in FOV)
-        if tcod.map_is_in_fov(fov_grid, self.owner.x, self.owner.y):
+        print("OWNER:" + str(self.owner))
+        print(self.owner.x)
+        # (Frames should be the "this is flying through the air", bit)
+        missle_speed_x =  (self.end[0] - self.start[0]) / self.frames
+        missle_speed_y =  (self.end[1] - self.start[1]) / self.frames
+        
+        new_x = self.start[0]
+        new_y = self.start[1]
+
+        frames = self.frames
+
+        while frames > 1 or (new_x == self.end[0] and new_y == self.end[1]):
+            # this both doesn't draw the in between frames, AND doesn't land the shot...
+            input()
+            
+            new_x = int(new_x + missle_speed_x)
+            new_y = int(new_y - missle_speed_y)
+
+            print("Start:" + str(self.start[0]), str(self.start[1]))
+            print("End:" + str(self.end[0]), str(self.end[1]))
+            print("New:" + str(new_x), str(new_y))
+            
+            if tcod.map_is_in_fov(fov_grid, new_x, new_y):
+                # tcod.console_set_default_foreground(con, self.color)
+                tcod.console_put_char(con, new_x, new_y, self.char)
+
+            frames -= 1
+            
+        # now, draw the "on-hit" animation blink (slash, arrow x, 
+        # whatever on target)
+        if tcod.map_is_in_fov(fov_grid, self.end[0], self.end[1]):
             tcod.console_set_default_foreground(con, self.color)
-            # tcod.console_put_char(con, self.x, self.y, self.char, tcod.BKGND_NONE)
-            tcod.console_put_char(con, self.owner.x, self.owner.y, self.char)
+            tcod.console_put_char(con, self.end[0], self.end[1], self.char)
 
         if self.duration > 0:
             self.duration -= 1
@@ -373,8 +405,11 @@ class Fighter:
             target.fighter.take_damage(damage)
 
             # add to animation list
-            animation_component = Animation('/', tcod.red, frames=0, duration=1)
-            slash_graphic = Object(target.x, target.y, '', 'Slash!', tcod.red, animation=animation_component)
+            # print((self.owner.x, self.owner.y))
+            animation_component = Animation((self.owner.x, self.owner.y), (target.x, target.y), '/', tcod.red, frames=1, duration=1)
+
+            slash_graphic = Object(target.x, target.y, '/', 'Slash!', tcod.red, animation=animation_component)
+
             # simple red slash on draw
             animations_list.append(slash_graphic)
 
@@ -455,6 +490,14 @@ class RangedMonster:
     def ranged_attack(self):
         self.owner.fighter.attack(player)
         self.ammo -= 1
+
+        # add to animation list
+        animation_component = Animation((self.owner.x, self.owner.y), (player.x, player.y), "-", tcod.blue, frames=4, duration=1)  #start with just a bolt on the player
+        
+        missle_graphic = Object(player.x, player.y, 'x', 'Arrow!', tcod.red, animation=animation_component)
+
+        # simple red slash on draw
+        animations_list.append(missle_graphic)
         # animations_list.append(missle_graphic) # FIXME - requires implimenting frames in animatoins, so missle moves 1/3 distance, say, to player per frame, then animation removes itself at frame and duration 0.
 
 class ConfusedMonster:
@@ -815,7 +858,7 @@ def place_objects(room):
         if not is_blocked(x,y):
             # monster_roll = tcod.random_get_int(0,0,100)
             choice = random_choice(monster_chances, MAX_ODDS)
-
+            choice = 'archer'  # DEBUG
             if choice == 'orc':
 
                 fighter_component = Fighter(hp=10, defense=0,power=3, xp=35, death_function=monster_death)

@@ -24,9 +24,13 @@ STOPPED: Testing random choice function in monster, item population. About to st
 
 http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_12
 
+Next steps google doc: https://docs.google.com/document/d/1aqwiX_d9JmYfrtmHeO3DMiPN1PLNOPN_K3d74eDKfkU/edit
+
 
 Next up:
 
 - animations with multiple frames (missles, in ranged_attack specifically)
 - fireball and such as multi-frame animations
 - Abilities and abilities menu
+
+(Line 319 - doesn't show animation correctly. The bolt doesnt...go the right way, doesn't get drawn)
